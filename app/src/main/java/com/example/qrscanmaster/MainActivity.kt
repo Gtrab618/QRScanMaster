@@ -26,7 +26,7 @@ import org.jetbrains.annotations.NotNull
 class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener,
     Communicator {
     private lateinit var drawerLayout:DrawerLayout
-//
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
