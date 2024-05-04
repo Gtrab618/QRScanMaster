@@ -22,18 +22,32 @@ import com.example.qrscanmaster.ui.home.Home
 import com.example.qrscanmaster.ui.setting.Setting
 import com.example.qrscanmaster.ui.share.Share
 import com.example.qrscanmaster.util.PermissionRequester
+import com.example.qrscanmaster.util.openAppSettings
+import com.example.qrscanmaster.util.showSnackbar
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
 
-class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener,
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     Communicator {
-    private lateinit var drawerLayout:DrawerLayout
-
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var toggle:ActionBarDrawerToggle
+    private var savedInstance:Bundle?=null
+    private var isAppOpenedForSettings = false
     //request permission camera
-    private  val coarsePermission= PermissionRequester(this,Manifest.permission.CAMERA, onRational = {
-        Toast.makeText(this, "Denegado 1 vez", Toast.LENGTH_SHORT).show()
-    }, onDenied = {
-        Toast.makeText(this, "denenago 2 veces", Toast.LENGTH_SHORT).show()
-    })
+    private val coarsePermission =
+        PermissionRequester(this, Manifest.permission.CAMERA, onRational = {
+            drawerLayout.showSnackbar("acceso requerido",Snackbar.LENGTH_INDEFINITE,"Ok"){
+                checkPermissionCamera()
+            }
+
+        }, onDenied = {
+            drawerLayout.showSnackbar("acceso requerido",Snackbar.LENGTH_INDEFINITE,"Ok"){
+                openAppSettings()
+                isAppOpenedForSettings=true
+            }
+
+        })
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -43,31 +57,44 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        coarsePermission.runWithPermission {
-            val toolBar= findViewById<Toolbar>(R.id.toolbar)
-            setSupportActionBar(toolBar)
-            drawerLayout=findViewById(R.id.drawer_layout)
 
-            val navigationView= findViewById<NavigationView>(R.id.nav_view)
-            //acciones para los botones
-            navigationView.setNavigationItemSelectedListener(this)
+        val toolBar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolBar)
+        drawerLayout = findViewById(R.id.drawer_layout)
 
-            val toggle= ActionBarDrawerToggle(this,drawerLayout,toolBar,R.string.open_nav,R.string.close_nav)
-            drawerLayout.addDrawerListener(toggle)
-            toggle.syncState()
-            //init whit instance home editar esto para despues de que se conceda el permiso de camara
-            if(savedInstanceState==null){
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, Home()).commit()
-            }
+        val navigationView = findViewById<NavigationView>(R.id.nav_view)
+        //acciones para los botones
+        navigationView.setNavigationItemSelectedListener(this)
 
-        }
+        toggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            toolBar,
+            R.string.open_nav,
+            R.string.close_nav
+        )
+        drawerLayout.addDrawerListener(toggle)
+        //init whit instance home editar esto para despues de que se conceda el permiso de camara
+        savedInstance=savedInstanceState
 
+        //iniciar el toggle y pintar el home
+        checkPermissionCamera()
         //close y open drawerLayout
         btnRegresar()
 
     }
 
-    private  fun btnRegresar(){
+    override fun onResume() {
+        super.onResume()
+        if (isAppOpenedForSettings) {
+            checkPermissionCamera()
+            isAppOpenedForSettings = false
+        }
+
+    }
+
+
+    private fun btnRegresar() {
 
         if (Build.VERSION.SDK_INT >= 33) {
             onBackInvokedDispatcher.registerOnBackInvokedCallback(
@@ -90,11 +117,11 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     }
 
     fun exitOnBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
 
             drawerLayout.closeDrawer(GravityCompat.START)
 
-        }else{
+        } else {
             finish()
         }
     }
@@ -103,19 +130,25 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         when (p0.itemId) {
             R.id.nav_home -> {
 
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, Home()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, Home())
+                    .commit()
                 true // Retorna true para indicar que se ha manejado el evento de clic
             }
+
             R.id.nav_setting -> {
 
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, Setting()).commit()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, Setting()).commit()
                 true // Retorna true para indicar que se ha manejado el evento de clic
             }
+
             R.id.nav_share -> {
 
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, Share()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, Share())
+                    .commit()
                 true // Retorna true para indicar que se ha manejado el evento de clic
             }
+
             R.id.nav_logout -> {
 
                 Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show()
@@ -138,4 +171,14 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     }
 
 
+    private fun checkPermissionCamera() {
+        coarsePermission.runWithPermission {
+            if (savedInstance == null) {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, Home())
+                    .commit()
+            }
+            toggle.syncState()
+
+        }
+    }
 }
