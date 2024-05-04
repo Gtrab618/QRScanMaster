@@ -19,8 +19,8 @@ private const val ARG_PARAM2 = "param2"
 
 class Home : Fragment() {
 
-    private lateinit var comm: Communicator
-    private lateinit var btn:Button
+    //private lateinit var comm: Communicator
+    //private lateinit var btn:Button
 
 
     override fun onCreateView(
@@ -29,8 +29,8 @@ class Home : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val viewHome= inflater.inflate(R.layout.fragment_home, container, false)
-        comm = requireActivity() as Communicator
-        btn=viewHome.findViewById(R.id.button2)
+        //comm = requireActivity() as Communicator
+        //btn=viewHome.findViewById(R.id.button2)
        /* val txt= viewHome.findViewById<EditText>(R.id.editTextText)
         val enterBtn=viewHome.findViewById<Button>(R.id.button)
         enterBtn.setOnClickListener{

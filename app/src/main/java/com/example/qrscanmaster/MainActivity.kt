@@ -2,7 +2,8 @@ package com.example.qrscanmaster
 
 import android.os.Build
 import android.os.Bundle
-import android.view.Gravity
+import android.Manifest
+import android.content.pm.PackageManager
 import android.view.MenuItem
 import android.widget.Toast
 import android.window.OnBackInvokedDispatcher
@@ -20,13 +21,19 @@ import com.example.qrscanmaster.comunication.Communicator
 import com.example.qrscanmaster.ui.home.Home
 import com.example.qrscanmaster.ui.setting.Setting
 import com.example.qrscanmaster.ui.share.Share
+import com.example.qrscanmaster.util.PermissionRequester
 import com.google.android.material.navigation.NavigationView
-import org.jetbrains.annotations.NotNull
 
 class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener,
     Communicator {
     private lateinit var drawerLayout:DrawerLayout
 
+    //request permission camera
+    private  val coarsePermission= PermissionRequester(this,Manifest.permission.CAMERA, onRational = {
+        Toast.makeText(this, "Denegado 1 vez", Toast.LENGTH_SHORT).show()
+    }, onDenied = {
+        Toast.makeText(this, "denenago 2 veces", Toast.LENGTH_SHORT).show()
+    })
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -36,26 +43,27 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val toolBar= findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolBar)
-        drawerLayout=findViewById(R.id.drawer_layout)
+        coarsePermission.runWithPermission {
+            val toolBar= findViewById<Toolbar>(R.id.toolbar)
+            setSupportActionBar(toolBar)
+            drawerLayout=findViewById(R.id.drawer_layout)
 
-        val navigationView= findViewById<NavigationView>(R.id.nav_view)
-        //acciones para los botones
-        navigationView.setNavigationItemSelectedListener(this)
+            val navigationView= findViewById<NavigationView>(R.id.nav_view)
+            //acciones para los botones
+            navigationView.setNavigationItemSelectedListener(this)
 
-        btnRegresar()
+            val toggle= ActionBarDrawerToggle(this,drawerLayout,toolBar,R.string.open_nav,R.string.close_nav)
+            drawerLayout.addDrawerListener(toggle)
+            toggle.syncState()
+            //init whit instance home editar esto para despues de que se conceda el permiso de camara
+            if(savedInstanceState==null){
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, Home()).commit()
+            }
 
-        val toggle= ActionBarDrawerToggle(this,drawerLayout,toolBar,R.string.open_nav,R.string.close_nav)
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        if(savedInstanceState==null){
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, Home()).commit()
         }
 
-
-
+        //close y open drawerLayout
+        btnRegresar()
 
     }
 
@@ -124,8 +132,10 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         }
     }
 
+    //arreglar despues el el comunicador
     override fun passInfoQr(data: String) {
         Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
     }
+
 
 }
