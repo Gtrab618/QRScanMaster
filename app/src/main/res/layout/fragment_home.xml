@@ -10,16 +10,51 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:autoFocusButtonColor="@android:color/white"
-        app:autoFocusButtonVisible="true"
+        app:autoFocusButtonVisible="false"
+        app:autoFocusButtonPaddingVertical="80dp"
         app:flashButtonColor="@android:color/white"
         app:flashButtonVisible="true"
+        app:flashButtonPaddingVertical="50dp"
+
         app:frameColor="@android:color/white"
         app:frameCornersSize="50dp"
-        app:frameCornersRadius="0dp"
+        app:frameCornersRadius="20dp"
         app:frameAspectRatioWidth="1"
         app:frameAspectRatioHeight="1"
         app:frameSize="0.75"
         app:frameThickness="2dp"
         app:frameVerticalBias="0.5"
-        app:maskColor="#77000000"/>
+        app:maskColor="#77000000">
+
+    </com.budiyev.android.codescanner.CodeScannerView>
+
+    <androidx.appcompat.widget.AppCompatSeekBar
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center|bottom"
+        android:progressBackgroundTint="@color/white"
+        android:thumbTint="@color/white" />
+
+    <ImageButton
+        android:id="@+id/btnZoomOut"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="right|bottom"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="@color/zxing_transparent"
+        app:srcCompat="@drawable/zoom_out"
+        app:tint="@color/white" />
+
+    <ImageButton
+        android:id="@+id/btnZoomIn"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_gravity="bottom"
+        android:background="@android:color/transparent"
+        app:srcCompat="@drawable/zoom_in"
+        app:tint="@color/white" />
 </FrameLayout>

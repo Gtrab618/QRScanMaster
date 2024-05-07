@@ -8,7 +8,6 @@ import android.view.MenuItem
 import android.widget.Toast
 import android.window.OnBackInvokedDispatcher
 import androidx.activity.OnBackPressedCallback
-
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -73,8 +72,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.string.open_nav,
             R.string.close_nav
         )
+        //asignacion de 2 variables para despues inicializarlas
         drawerLayout.addDrawerListener(toggle)
-        //init whit instance home editar esto para despues de que se conceda el permiso de camara
         savedInstance=savedInstanceState
 
         //iniciar el toggle y pintar el home
@@ -108,7 +107,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 this,
                 object : OnBackPressedCallback(true) {
                     override fun handleOnBackPressed() {
-
 
                         exitOnBackPressed()
                     }

@@ -7,6 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
+import com.budiyev.android.codescanner.AutoFocusMode
+import com.budiyev.android.codescanner.CodeScanner
+import com.budiyev.android.codescanner.CodeScannerView
+import com.budiyev.android.codescanner.DecodeCallback
+import com.budiyev.android.codescanner.ScanMode
 import com.example.qrscanmaster.R
 import com.example.qrscanmaster.comunication.Communicator
 
@@ -21,7 +27,8 @@ class Home : Fragment() {
 
     //private lateinit var comm: Communicator
     //private lateinit var btn:Button
-
+    private lateinit var codeScanner: CodeScanner
+    private lateinit var scannerView:CodeScannerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,6 +49,46 @@ class Home : Fragment() {
         }*/
         return viewHome
     }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        scannerView = view.findViewById<CodeScannerView>(R.id.scanner_view)
+        initScanner()
+    }
 
+    override fun onResume() {
+        super.onResume()
+        codeScanner.startPreview()
+    }
+
+    override fun onPause() {
+        codeScanner.releaseResources()
+        super.onPause()
+    }
+
+    private fun initScanner(){
+        //inicialziar el lector
+
+        codeScanner = CodeScanner(requireActivity(), scannerView).apply {
+            //escaneo mas suave en vez de cada rato
+            autoFocusMode=AutoFocusMode.CONTINUOUS
+            //escanear solo 1 qr
+            scanMode=ScanMode.SINGLE
+            //se auto ajuste la camara
+            isAutoFocusEnabled = true
+            //tocar para ajustar
+            isTouchFocusEnabled = true
+
+        }
+
+        //que se hace con el codigo
+        codeScanner.decodeCallback = DecodeCallback {
+            activity?.runOnUiThread {
+                Toast.makeText(activity, it.text, Toast.LENGTH_LONG).show()
+            }
+        }
+        //aberiguar que hace esto
+        scannerView.setOnClickListener {
+            codeScanner.startPreview()
+        }
+    }
 
 }
