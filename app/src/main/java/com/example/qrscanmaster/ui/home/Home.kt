@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import com.budiyev.android.codescanner.AutoFocusMode
 import com.budiyev.android.codescanner.CodeScanner
@@ -29,13 +30,15 @@ class Home : Fragment() {
     //private lateinit var btn:Button
     private lateinit var codeScanner: CodeScanner
     private lateinit var scannerView:CodeScannerView
-
+    private lateinit var btnGalery:ImageButton
+    private lateinit var btnCameraFront:ImageButton
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val viewHome= inflater.inflate(R.layout.fragment_home, container, false)
+
         //comm = requireActivity() as Communicator
         //btn=viewHome.findViewById(R.id.button2)
        /* val txt= viewHome.findViewById<EditText>(R.id.editTextText)
@@ -52,6 +55,7 @@ class Home : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         scannerView = view.findViewById<CodeScannerView>(R.id.scanner_view)
         initScanner()
+
     }
 
     override fun onResume() {
@@ -90,5 +94,15 @@ class Home : Fragment() {
             codeScanner.startPreview()
         }
     }
+
+    private fun btn(){
+        btnGalery.setOnClickListener {
+            Toast.makeText(requireContext(), "galery", Toast.LENGTH_SHORT).show()
+        }
+        
+    }
+
+
+
 
 }

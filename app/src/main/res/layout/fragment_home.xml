@@ -14,9 +14,8 @@
         app:autoFocusButtonPaddingVertical="80dp"
         app:autoFocusButtonVisible="false"
         app:flashButtonColor="@android:color/white"
-        app:flashButtonPaddingVertical="50dp"
-        app:flashButtonPaddingHorizontal="50dp"
-        app:flashButtonVisible="true"
+        app:flashButtonPaddingVertical="20dp"
+        app:flashButtonVisible="false"
         app:frameAspectRatioHeight="1"
         app:frameAspectRatioWidth="1"
         app:frameColor="@android:color/white"
@@ -31,11 +30,36 @@
 
     </com.budiyev.android.codescanner.CodeScannerView>
 
+    <ImageButton
+        android:id="@+id/btnGalery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="50dp"
+        android:background="@color/zxing_transparent"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnCameraFront"
+        app:srcCompat="@drawable/galery"
+        app:tint="@color/white" />
+
+    <ImageButton
+        android:id="@+id/btnCameraFront"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="70dp"
+        android:layout_marginEnd="50dp"
+        android:background="@color/zxing_transparent"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/cameraswitch"
+        app:tint="@color/white" />
+
     <androidx.appcompat.widget.AppCompatSeekBar
         android:id="@+id/appCompatSeekBar2"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:layout_gravity="center|bottom"
         android:layout_marginBottom="10dp"
         android:progressBackgroundTint="@color/white"
         android:thumbTint="@color/white"
@@ -47,10 +71,10 @@
         android:id="@+id/btnZoomOut"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_gravity="right|bottom"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="15dp"
         android:background="@color/zxing_transparent"
+        android:contentDescription="@string/app_name"
         app:layout_constraintBottom_toBottomOf="@+id/scanner_view"
         app:layout_constraintEnd_toStartOf="@+id/appCompatSeekBar2"
         app:srcCompat="@drawable/zoom_out"
@@ -60,22 +84,13 @@
         android:id="@+id/btnZoomIn"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_gravity="bottom"
         android:layout_marginStart="5dp"
         android:layout_marginBottom="15dp"
         android:background="@android:color/transparent"
+        android:contentDescription="@string/app_name"
         app:layout_constraintBottom_toBottomOf="@+id/scanner_view"
         app:layout_constraintStart_toEndOf="@+id/appCompatSeekBar2"
         app:srcCompat="@drawable/zoom_in"
         app:tint="@color/white" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="95dp"
-        android:layout_marginEnd="20dp"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
