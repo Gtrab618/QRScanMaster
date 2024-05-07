@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -10,40 +11,48 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:autoFocusButtonColor="@android:color/white"
-        app:autoFocusButtonVisible="false"
         app:autoFocusButtonPaddingVertical="80dp"
+        app:autoFocusButtonVisible="false"
         app:flashButtonColor="@android:color/white"
-        app:flashButtonVisible="true"
         app:flashButtonPaddingVertical="50dp"
-
-        app:frameColor="@android:color/white"
-        app:frameCornersSize="50dp"
-        app:frameCornersRadius="20dp"
-        app:frameAspectRatioWidth="1"
+        app:flashButtonPaddingHorizontal="50dp"
+        app:flashButtonVisible="true"
         app:frameAspectRatioHeight="1"
+        app:frameAspectRatioWidth="1"
+        app:frameColor="@android:color/white"
+        app:frameCornersRadius="20dp"
+        app:frameCornersSize="50dp"
         app:frameSize="0.75"
         app:frameThickness="2dp"
         app:frameVerticalBias="0.5"
-        app:maskColor="#77000000">
+        app:maskColor="#77000000"
+        tools:layout_editor_absoluteX="-56dp"
+        tools:layout_editor_absoluteY="0dp">
 
     </com.budiyev.android.codescanner.CodeScannerView>
 
     <androidx.appcompat.widget.AppCompatSeekBar
+        android:id="@+id/appCompatSeekBar2"
         android:layout_width="300dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="10dp"
         android:layout_gravity="center|bottom"
+        android:layout_marginBottom="10dp"
         android:progressBackgroundTint="@color/white"
-        android:thumbTint="@color/white" />
+        android:thumbTint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/btnZoomOut"
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_gravity="right|bottom"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="15dp"
-        android:layout_marginEnd="15dp"
         android:background="@color/zxing_transparent"
+        app:layout_constraintBottom_toBottomOf="@+id/scanner_view"
+        app:layout_constraintEnd_toStartOf="@+id/appCompatSeekBar2"
         app:srcCompat="@drawable/zoom_out"
         app:tint="@color/white" />
 
@@ -51,10 +60,22 @@
         android:id="@+id/btnZoomIn"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginBottom="15dp"
         android:layout_gravity="bottom"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="15dp"
         android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="@+id/scanner_view"
+        app:layout_constraintStart_toEndOf="@+id/appCompatSeekBar2"
         app:srcCompat="@drawable/zoom_in"
         app:tint="@color/white" />
-</FrameLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="95dp"
+        android:layout_marginEnd="20dp"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
