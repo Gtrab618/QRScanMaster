@@ -29,4 +29,11 @@
         </activity>
     </application>
 
+    <queries>
+        <!-- Consulta para obtener información qr sobre la aplicación de la galería -->
+        <intent>
+            <action android:name="android.intent.action.PICK" />
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent>
+    </queries>
 </manifest>

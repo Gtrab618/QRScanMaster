@@ -1,6 +1,10 @@
 package com.example.qrscanmaster.ui.home
 
+import android.content.Intent
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +13,8 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.budiyev.android.codescanner.AutoFocusMode
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.CodeScannerView
@@ -16,6 +22,10 @@ import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ScanMode
 import com.example.qrscanmaster.R
 import com.example.qrscanmaster.comunication.Communicator
+import com.example.qrscanmaster.util.decodeQRCode
+import java.io.File
+import java.io.FileInputStream
+import java.io.IOException
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -32,13 +42,78 @@ class Home : Fragment() {
     private lateinit var scannerView:CodeScannerView
     private lateinit var btnGalery:ImageButton
     private lateinit var btnCameraFront:ImageButton
+    private lateinit var btnFlash:ImageButton
+
+    //capturar imagen para ser guardada y procesada ver si puedo separar en otra clase a futuro
+    private val galeryQrResult=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result->
+        if (result.resultCode == AppCompatActivity.RESULT_OK) {
+            //selecciono la uri para procesar la imagen
+            val selectedImageUri= result.data?.data
+            //let si no esta vacio
+            selectedImageUri?.let { uri ->
+                try {
+                    //leo un stream del archivo
+                    val inputStream = requireActivity().contentResolver.openInputStream(uri)
+                    inputStream?.use { stream ->
+                        //convierte el flujo en un bitmap
+                        val bitmap = BitmapFactory.decodeStream(stream)
+                        val result = decodeQRCode(bitmap)
+                        if (result != null) {
+                            // Se ha encontrado un código QR, hacer algo con el resultado
+                            Toast.makeText(requireActivity(), "Contenido del QR: $result", Toast.LENGTH_LONG).show()
+                        } else {
+                            // No se encontró ningún código QR en la imagen
+                            Toast.makeText(requireActivity(), "No se encontró ningún código QR en la imagen", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                    // Manejar cualquier error de E/S
+                    Toast.makeText(requireActivity(), "Error al cargar la imagen", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        } else {
+            // El usuario canceló o hubo un error
+            Toast.makeText(requireActivity(), "Imagen no seleccionada", Toast.LENGTH_SHORT).show()
+        }
+
+        /*
+        sacar el nombre de la imagen mediante la uri
+        if (result.resultCode == AppCompatActivity.RESULT_OK) {
+        val data: Intent? = result.data
+        val uri: Uri? = data?.data
+        // Aquí puedes usar el URI para acceder a la información de la imagen
+        // Por ejemplo, si quieres obtener el nombre del archivo:
+        val displayName: String? = uri?.let { uri ->
+            requireActivity().contentResolver.query(uri, null, null, null, null)?.use { cursor ->
+                val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                cursor.moveToFirst()
+                cursor.getString(nameIndex)
+            }
+        }
+        displayName?.let {
+            Toast.makeText(requireActivity(), "Imagen seleccionada: $it", Toast.LENGTH_SHORT).show()
+        } ?: run {
+            Toast.makeText(requireActivity(), "No se pudo obtener el nombre de la imagen", Toast.LENGTH_SHORT).show()
+        }
+    } else {
+        // El usuario canceló o hubo un error
+        Toast.makeText(requireActivity(), "Galería cancelada", Toast.LENGTH_SHORT).show()
+    }
+         */
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val viewHome= inflater.inflate(R.layout.fragment_home, container, false)
-
+        btnGalery=viewHome.findViewById(R.id.btnGalery)
+        btnCameraFront=viewHome.findViewById(R.id.btnCameraFront)
+        btnFlash=viewHome.findViewById(R.id.btnFlash)
+        initBtnCameraFlashGalery()
         //comm = requireActivity() as Communicator
         //btn=viewHome.findViewById(R.id.button2)
        /* val txt= viewHome.findViewById<EditText>(R.id.editTextText)
@@ -95,9 +170,31 @@ class Home : Fragment() {
         }
     }
 
-    private fun btn(){
+    private fun initBtnCameraFlashGalery(){
         btnGalery.setOnClickListener {
-            Toast.makeText(requireContext(), "galery", Toast.LENGTH_SHORT).show()
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            intent.resolveActivity(requireActivity().packageManager)?.also {
+                galeryQrResult.launch(intent)
+            }
+
+        }
+        btnCameraFront.setOnClickListener {
+
+            val bande=codeScanner.camera==CodeScanner.CAMERA_BACK
+
+            //0 camera back 1 camera front  error -1 back -2front codeScanner
+            if(codeScanner.camera==0||codeScanner.camera==CodeScanner.CAMERA_BACK){
+
+                codeScanner.camera=CodeScanner.CAMERA_FRONT
+            }else{
+                codeScanner.camera=CodeScanner.CAMERA_BACK
+            }
+
+        }
+
+
+        btnFlash.setOnClickListener {
+            codeScanner.isFlashEnabled=codeScanner.isFlashEnabled.not()
         }
         
     }

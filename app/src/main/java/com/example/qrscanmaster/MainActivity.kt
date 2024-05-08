@@ -16,6 +16,7 @@ import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
 import com.example.qrscanmaster.comunication.Communicator
 import com.example.qrscanmaster.ui.home.Home
 import com.example.qrscanmaster.ui.setting.Setting
@@ -127,9 +128,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
         when (p0.itemId) {
             R.id.nav_home -> {
+                //verificar si el fragmento es diferente al mismo y actulizar si los es
+                val fragment: Fragment? = supportFragmentManager.findFragmentById(R.id.fragment_container)
 
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, Home())
-                    .commit()
+                if(fragment !is Home){
+                    supportFragmentManager.beginTransaction().replace(R.id.fragment_container, Home())
+                        .commit()
+                }
                 true // Retorna true para indicar que se ha manejado el evento de clic
             }
 
