@@ -22,6 +22,8 @@ import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ScanMode
 import com.example.qrscanmaster.R
 import com.example.qrscanmaster.comunication.Communicator
+import com.example.qrscanmaster.dependencies.settingGen
+import com.example.qrscanmaster.usecase.SettingsGeneral
 import com.example.qrscanmaster.util.decodeQRCode
 import java.io.File
 import java.io.FileInputStream
@@ -43,6 +45,10 @@ class Home : Fragment() {
     private lateinit var btnGalery:ImageButton
     private lateinit var btnCameraFront:ImageButton
     private lateinit var btnFlash:ImageButton
+    private lateinit var btnZoomIncrease:ImageButton
+    private lateinit var btnZoomDecrease:ImageButton
+    private var maxZoom:Int=0
+    private val zoomStep=5
 
     //capturar imagen para ser guardada y procesada ver si puedo separar en otra clase a futuro
     private val galeryQrResult=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result->
@@ -113,7 +119,10 @@ class Home : Fragment() {
         btnGalery=viewHome.findViewById(R.id.btnGalery)
         btnCameraFront=viewHome.findViewById(R.id.btnCameraFront)
         btnFlash=viewHome.findViewById(R.id.btnFlash)
+        btnZoomIncrease=viewHome.findViewById(R.id.btnZoomIn)
         initBtnCameraFlashGalery()
+        initZoomSeekBar()
+        initBtnZoom()
         //comm = requireActivity() as Communicator
         //btn=viewHome.findViewById(R.id.button2)
        /* val txt= viewHome.findViewById<EditText>(R.id.editTextText)
@@ -183,11 +192,12 @@ class Home : Fragment() {
             val bande=codeScanner.camera==CodeScanner.CAMERA_BACK
 
             //0 camera back 1 camera front  error -1 back -2front codeScanner
-            if(codeScanner.camera==0||codeScanner.camera==CodeScanner.CAMERA_BACK){
-
-                codeScanner.camera=CodeScanner.CAMERA_FRONT
+            /*codeScanner.camera=*/if(settingGen.isBackCamera){
+            codeScanner.camera=CodeScanner.CAMERA_FRONT
+            settingGen.isBackCamera=false
             }else{
-                codeScanner.camera=CodeScanner.CAMERA_BACK
+            codeScanner.camera=CodeScanner.CAMERA_BACK
+            settingGen.isBackCamera=true
             }
 
         }
@@ -196,10 +206,33 @@ class Home : Fragment() {
         btnFlash.setOnClickListener {
             codeScanner.isFlashEnabled=codeScanner.isFlashEnabled.not()
         }
-        
+
+
     }
 
+    private fun initZoomSeekBar(){
 
+    }
+
+    private fun initBtnZoom(){
+        btnZoomIncrease.setOnClickListener {
+            increaseZoom()
+        }
+    }
+    //zoom
+    private fun increaseZoom(){
+        Toast.makeText(requireActivity(), "zoom", Toast.LENGTH_SHORT).show()
+        codeScanner.apply {
+            if(zoom<maxZoom-zoomStep){
+                zoom +=zoomStep
+                Toast.makeText(requireActivity(), "min", Toast.LENGTH_SHORT).show()
+            }else{
+                zoom=maxZoom
+                Toast.makeText(requireActivity(), "max", Toast.LENGTH_SHORT).show()
+            }
+
+        }
+    }
 
 
 }
