@@ -2,15 +2,13 @@ package com.example.qrscanmaster.ui.home
 
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.net.Uri
+import android.hardware.camera2.CameraCharacteristics
 import android.os.Bundle
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -21,12 +19,9 @@ import com.budiyev.android.codescanner.CodeScannerView
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ScanMode
 import com.example.qrscanmaster.R
-import com.example.qrscanmaster.comunication.Communicator
+import com.example.qrscanmaster.dependencies.scannerCameraHelper
 import com.example.qrscanmaster.dependencies.settingGen
-import com.example.qrscanmaster.usecase.SettingsGeneral
 import com.example.qrscanmaster.util.decodeQRCode
-import java.io.File
-import java.io.FileInputStream
 import java.io.IOException
 
 
@@ -47,8 +42,8 @@ class Home : Fragment() {
     private lateinit var btnFlash:ImageButton
     private lateinit var btnZoomIncrease:ImageButton
     private lateinit var btnZoomDecrease:ImageButton
-    private var maxZoom:Int=0
-    private val zoomStep=5
+    private var maxZoom:Float=0f
+    private val zoomStep=1f
 
     //capturar imagen para ser guardada y procesada ver si puedo separar en otra clase a futuro
     private val galeryQrResult=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result->
@@ -212,6 +207,15 @@ class Home : Fragment() {
 
     private fun initZoomSeekBar(){
 
+        val info=scannerCameraHelper.getBackCameraProperties(settingGen.isBackCamera,requireContext())?.apply {
+            val maxZoom=get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM)
+            if (maxZoom != null) {
+                this@Home.maxZoom=maxZoom
+            }
+        }
+        //val sensorSize = info?.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM)
+
+
     }
 
     private fun initBtnZoom(){
@@ -224,10 +228,10 @@ class Home : Fragment() {
         Toast.makeText(requireActivity(), "zoom", Toast.LENGTH_SHORT).show()
         codeScanner.apply {
             if(zoom<maxZoom-zoomStep){
-                zoom +=zoomStep
+                zoom +=zoomStep.toInt()
                 Toast.makeText(requireActivity(), "min", Toast.LENGTH_SHORT).show()
             }else{
-                zoom=maxZoom
+                zoom=maxZoom.toInt()
                 Toast.makeText(requireActivity(), "max", Toast.LENGTH_SHORT).show()
             }
 
