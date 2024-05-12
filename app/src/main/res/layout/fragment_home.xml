@@ -70,7 +70,7 @@
         app:tint="@color/white" />
 
     <androidx.appcompat.widget.AppCompatSeekBar
-        android:id="@+id/appCompatSeekBar2"
+        android:id="@+id/skbZoom"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginBottom="10dp"
@@ -89,7 +89,7 @@
         android:background="@color/zxing_transparent"
         android:contentDescription="@string/app_name"
         app:layout_constraintBottom_toBottomOf="@+id/scanner_view"
-        app:layout_constraintEnd_toStartOf="@+id/appCompatSeekBar2"
+        app:layout_constraintEnd_toStartOf="@+id/skbZoom"
         app:srcCompat="@drawable/zoom_out"
         app:tint="@color/white" />
 
@@ -102,7 +102,7 @@
         android:background="@android:color/transparent"
         android:contentDescription="@string/app_name"
         app:layout_constraintBottom_toBottomOf="@+id/scanner_view"
-        app:layout_constraintStart_toEndOf="@+id/appCompatSeekBar2"
+        app:layout_constraintStart_toEndOf="@+id/skbZoom"
         app:srcCompat="@drawable/zoom_in"
         app:tint="@color/white" />
 

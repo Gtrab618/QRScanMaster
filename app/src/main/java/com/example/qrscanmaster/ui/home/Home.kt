@@ -10,9 +10,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.SeekBar
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatSeekBar
 import com.budiyev.android.codescanner.AutoFocusMode
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.CodeScannerView
@@ -42,8 +44,9 @@ class Home : Fragment() {
     private lateinit var btnFlash:ImageButton
     private lateinit var btnZoomIncrease:ImageButton
     private lateinit var btnZoomDecrease:ImageButton
+    private lateinit var skbZoom: AppCompatSeekBar
     private var maxZoom:Float=0f
-    private val zoomStep=1f
+    private val zoomStep=5f
 
     //capturar imagen para ser guardada y procesada ver si puedo separar en otra clase a futuro
     private val galeryQrResult=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result->
@@ -111,13 +114,7 @@ class Home : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val viewHome= inflater.inflate(R.layout.fragment_home, container, false)
-        btnGalery=viewHome.findViewById(R.id.btnGalery)
-        btnCameraFront=viewHome.findViewById(R.id.btnCameraFront)
-        btnFlash=viewHome.findViewById(R.id.btnFlash)
-        btnZoomIncrease=viewHome.findViewById(R.id.btnZoomIn)
-        initBtnCameraFlashGalery()
-        initZoomSeekBar()
-        initBtnZoom()
+
         //comm = requireActivity() as Communicator
         //btn=viewHome.findViewById(R.id.button2)
        /* val txt= viewHome.findViewById<EditText>(R.id.editTextText)
@@ -133,8 +130,16 @@ class Home : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         scannerView = view.findViewById<CodeScannerView>(R.id.scanner_view)
+        btnGalery=view.findViewById(R.id.btnGalery)
+        btnCameraFront=view.findViewById(R.id.btnCameraFront)
+        btnFlash=view.findViewById(R.id.btnFlash)
+        btnZoomIncrease=view.findViewById(R.id.btnZoomIn)
+        skbZoom=view.findViewById(R.id.skbZoom)
+        initBtnCameraFlashGalery()
+        initZoomSeekBar()
+        initBtnZoom()
+        handleZoomChanged()
         initScanner()
-
     }
 
     override fun onResume() {
@@ -208,16 +213,36 @@ class Home : Fragment() {
     private fun initZoomSeekBar(){
 
         val info=scannerCameraHelper.getBackCameraProperties(settingGen.isBackCamera,requireContext())?.apply {
-            val maxZoom=get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM)
+            var maxZoom=get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM)
+
             if (maxZoom != null) {
+                maxZoom *= 6
                 this@Home.maxZoom=maxZoom
+                skbZoom.max=maxZoom.toInt()
             }
         }
         //val sensorSize = info?.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM)
 
-
     }
 
+
+    private fun handleZoomChanged(){
+        skbZoom.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                if (fromUser) {
+                    codeScanner.zoom = progress
+                }
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+
+            }
+
+        })
+    }
     private fun initBtnZoom(){
         btnZoomIncrease.setOnClickListener {
             increaseZoom()
@@ -225,16 +250,15 @@ class Home : Fragment() {
     }
     //zoom
     private fun increaseZoom(){
-        Toast.makeText(requireActivity(), "zoom", Toast.LENGTH_SHORT).show()
         codeScanner.apply {
             if(zoom<maxZoom-zoomStep){
                 zoom +=zoomStep.toInt()
-                Toast.makeText(requireActivity(), "min", Toast.LENGTH_SHORT).show()
+
             }else{
                 zoom=maxZoom.toInt()
-                Toast.makeText(requireActivity(), "max", Toast.LENGTH_SHORT).show()
-            }
 
+            }
+            skbZoom.progress=zoom
         }
     }
 
