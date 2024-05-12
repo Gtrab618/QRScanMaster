@@ -46,7 +46,7 @@ class Home : Fragment() {
     private lateinit var btnZoomDecrease:ImageButton
     private lateinit var skbZoom: AppCompatSeekBar
     private var maxZoom:Float=0f
-    private val zoomStep=5f
+    private val zoomStep=5
 
     //capturar imagen para ser guardada y procesada ver si puedo separar en otra clase a futuro
     private val galeryQrResult=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result->
@@ -252,7 +252,7 @@ class Home : Fragment() {
     private fun increaseZoom(){
         codeScanner.apply {
             if(zoom<maxZoom-zoomStep){
-                zoom +=zoomStep.toInt()
+                zoom +=zoomStep
 
             }else{
                 zoom=maxZoom.toInt()
@@ -262,5 +262,16 @@ class Home : Fragment() {
         }
     }
 
+    private fun decreaseZoom(){
+        codeScanner.apply {
+            if(zoom>zoomStep){
+                zoom-=zoomStep
+            }else{
+                zoom=0
+
+            }
+            skbZoom.progress=zoom
+        }
+    }
 
 }
