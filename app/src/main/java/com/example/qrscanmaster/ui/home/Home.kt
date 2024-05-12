@@ -23,6 +23,7 @@ import com.budiyev.android.codescanner.ScanMode
 import com.example.qrscanmaster.R
 import com.example.qrscanmaster.dependencies.scannerCameraHelper
 import com.example.qrscanmaster.dependencies.settingGen
+import com.example.qrscanmaster.services.SqliteService
 import com.example.qrscanmaster.util.decodeQRCode
 import java.io.IOException
 
@@ -134,6 +135,7 @@ class Home : Fragment() {
         btnCameraFront=view.findViewById(R.id.btnCameraFront)
         btnFlash=view.findViewById(R.id.btnFlash)
         btnZoomIncrease=view.findViewById(R.id.btnZoomIn)
+        btnZoomDecrease=view.findViewById(R.id.btnZoomOut)
         skbZoom=view.findViewById(R.id.skbZoom)
         initBtnCameraFlashGalery()
         initZoomSeekBar()
@@ -274,6 +276,18 @@ class Home : Fragment() {
 
             }
             skbZoom.progress=zoom
+        }
+    }
+
+    private fun zoomData(){
+        val admin = SqliteService(requireContext(),"qrDataBase",null,1)
+        val dataBase=admin.writableDatabase
+        val filas= dataBase.rawQuery("SELECT maxZoom,typeCamera FROM zoom",null)
+
+        if(filas.){
+
+        }else{
+
         }
     }
 
