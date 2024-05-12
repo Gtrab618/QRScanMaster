@@ -247,6 +247,9 @@ class Home : Fragment() {
         btnZoomIncrease.setOnClickListener {
             increaseZoom()
         }
+        btnZoomDecrease.setOnClickListener {
+            decreaseZoom()
+        }
     }
     //zoom
     private fun increaseZoom(){
