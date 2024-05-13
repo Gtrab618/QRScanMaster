@@ -8,7 +8,7 @@ class SqliteService(
     context: Context?, name: String?, factory: SQLiteDatabase.CursorFactory?, version: Int) :
     SQLiteOpenHelper(context, name, factory, version) {
     override fun onCreate(db: SQLiteDatabase) {
-        val queryCameraZoom="create table zoom(id INTEGER primary key, maxZoom real, typeCamera INTEGER)"
+        val queryCameraZoom="create table zoom(id INTEGER primary key, percentZoom real, typeCamera INTEGER)"
         db.execSQL(queryCameraZoom)
     }
 

@@ -1,5 +1,6 @@
 package com.example.qrscanmaster.ui.home
 
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.hardware.camera2.CameraCharacteristics
@@ -23,6 +24,7 @@ import com.budiyev.android.codescanner.ScanMode
 import com.example.qrscanmaster.R
 import com.example.qrscanmaster.dependencies.scannerCameraHelper
 import com.example.qrscanmaster.dependencies.settingGen
+import com.example.qrscanmaster.model.ZoomModelMax
 import com.example.qrscanmaster.services.SqliteService
 import com.example.qrscanmaster.util.decodeQRCode
 import java.io.IOException
@@ -47,6 +49,9 @@ class Home : Fragment() {
     private lateinit var btnZoomDecrease:ImageButton
     private lateinit var skbZoom: AppCompatSeekBar
     private var maxZoom:Float=0f
+    private var typeCamera=1
+    private var maxZoomFront=0f
+    private var maxZoomBack=0f
     private val zoomStep=5
 
     //capturar imagen para ser guardada y procesada ver si puedo separar en otra clase a futuro
@@ -191,15 +196,22 @@ class Home : Fragment() {
         }
         btnCameraFront.setOnClickListener {
 
-            val bande=codeScanner.camera==CodeScanner.CAMERA_BACK
-
-            //0 camera back 1 camera front  error -1 back -2front codeScanner
-            /*codeScanner.camera=*/if(settingGen.isBackCamera){
-            codeScanner.camera=CodeScanner.CAMERA_FRONT
-            settingGen.isBackCamera=false
-            }else{
-            codeScanner.camera=CodeScanner.CAMERA_BACK
-            settingGen.isBackCamera=true
+            try {
+                //0 camera back 1 camera front  error -1 back -2front codeScanner
+                /*codeScanner.camera=*/if(settingGen.isBackCamera){
+                    codeScanner.camera=CodeScanner.CAMERA_FRONT
+                    settingGen.isBackCamera=false
+                    maxZoom=maxZoomFront
+                    skbZoom.max=maxZoom.toInt()
+                }else{
+                    codeScanner.camera=CodeScanner.CAMERA_BACK
+                    settingGen.isBackCamera=true
+                    maxZoom=maxZoomBack
+                    skbZoom.max=maxZoom.toInt()
+                }
+                resetZoom()
+            }catch (e:IOException){
+                Toast.makeText(requireContext(), "Error Camara cod=0", Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -213,17 +225,67 @@ class Home : Fragment() {
     }
 
     private fun initZoomSeekBar(){
+        val admin = SqliteService(requireContext(),"qrDataBase",null,1)
+        val dataBase= admin.writableDatabase
+        dataBase.use {
+            val filas= dataBase.rawQuery("SELECT percentZoom,typeCamera FROM zoom",null)
+            filas.use {
+                //data zoom found
+                if (filas.moveToFirst()){
 
-        val info=scannerCameraHelper.getBackCameraProperties(settingGen.isBackCamera,requireContext())?.apply {
-            var maxZoom=get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM)
+                    do {
+                        typeCamera=filas.getString(1).toInt()
 
-            if (maxZoom != null) {
-                maxZoom *= 6
-                this@Home.maxZoom=maxZoom
-                skbZoom.max=maxZoom.toInt()
+                        //1 camera back 0 camera front
+                        if(typeCamera==1){
+                            maxZoomBack=filas.getString(0).toFloat()
+                        }else {
+                            maxZoomFront=filas.getString(0).toFloat()
+                        }
+
+                    }while (filas.moveToNext())
+                    Toast.makeText(requireContext(), maxZoomBack.toString(), Toast.LENGTH_SHORT).show()
+                    maxZoom=maxZoomBack
+                    skbZoom.max=maxZoom.toInt()
+
+                    //data zoom not found
+                }else{
+
+                    val infoBack=scannerCameraHelper.getBackCameraProperties(settingGen.isBackCamera,requireContext())?.apply {
+                        val maxZoom=get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM)
+
+                        if(maxZoom!=null){
+
+                            maxZoomBack=maxZoom
+                            maxZoomBack*=6
+                            val insertBack= ContentValues()
+                            insertBack.put("percentZoom",maxZoomBack)
+                            insertBack.put("typeCamera",1)
+                            dataBase.insert("zoom",null,insertBack)
+                            this@Home.maxZoom=maxZoomBack
+                            skbZoom.max=maxZoomBack.toInt()
+                        }
+
+                    }
+
+                    val infoFront=scannerCameraHelper.getBackCameraProperties(!settingGen.isBackCamera,requireContext())?.apply {
+                        val maxZoom=get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM)
+
+                        if(maxZoom!=null){
+                            maxZoomFront=maxZoom
+                            maxZoomFront*=6
+                            val insertFront=ContentValues()
+                            insertFront.put("percentZoom",maxZoomFront)
+                            insertFront.put("typeCamera",0)
+                            dataBase.insert("zoom",null,insertFront)
+                        }
+
+                    }
+
+                }
             }
         }
-        //val sensorSize = info?.get(CameraCharacteristics.SCALER_AVAILABLE_MAX_DIGITAL_ZOOM)
+
 
     }
 
@@ -279,16 +341,12 @@ class Home : Fragment() {
         }
     }
 
-    private fun zoomData(){
-        val admin = SqliteService(requireContext(),"qrDataBase",null,1)
-        val dataBase=admin.writableDatabase
-        val filas= dataBase.rawQuery("SELECT maxZoom,typeCamera FROM zoom",null)
-
-        if(filas.){
-
-        }else{
-
+    private fun resetZoom(){
+        codeScanner.apply {
+            zoom=0
+            skbZoom.progress=0
         }
     }
+
 
 }

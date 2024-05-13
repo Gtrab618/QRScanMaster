@@ -6,7 +6,7 @@ import android.hardware.camera2.CameraManager
 
 
 
-object ScannerCameraHelper {
+object  ScannerCameraHelper {
     // Método para obtener las propiedades de la cámara trasera
     fun getBackCameraProperties(isBackCamera: Boolean,context: Context): CameraCharacteristics? {
         val cameraManager = context.getSystemService(Context.CAMERA_SERVICE) as CameraManager
