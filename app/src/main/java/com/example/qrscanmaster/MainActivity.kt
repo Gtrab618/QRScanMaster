@@ -3,7 +3,6 @@ package com.example.qrscanmaster
 import android.os.Build
 import android.os.Bundle
 import android.Manifest
-import android.content.pm.PackageManager
 import android.view.MenuItem
 import android.widget.Toast
 import android.window.OnBackInvokedDispatcher
@@ -19,6 +18,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.example.qrscanmaster.comunication.Communicator
 import com.example.qrscanmaster.ui.home.Home
+import com.example.qrscanmaster.ui.infoqr.InfoQr
 import com.example.qrscanmaster.ui.setting.Setting
 import com.example.qrscanmaster.ui.share.Share
 import com.example.qrscanmaster.util.PermissionRequester
@@ -170,7 +170,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     //arreglar despues el el comunicador
     override fun passInfoQr(data: String) {
-        Toast.makeText(this, data, Toast.LENGTH_SHORT).show()
+        val infoQrFragment = InfoQr.newInstance(data)
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, infoQrFragment)
+            .commit()
     }
 
 

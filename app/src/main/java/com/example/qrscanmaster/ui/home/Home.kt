@@ -1,11 +1,15 @@
 package com.example.qrscanmaster.ui.home
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import android.content.ContentValues
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.hardware.camera2.CameraCharacteristics
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.style.BackgroundColorSpan
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +26,7 @@ import com.budiyev.android.codescanner.CodeScannerView
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ScanMode
 import com.example.qrscanmaster.R
+import com.example.qrscanmaster.comunication.Communicator
 import com.example.qrscanmaster.dependencies.scannerCameraHelper
 import com.example.qrscanmaster.dependencies.settingGen
 import com.example.qrscanmaster.model.ZoomModelMax
@@ -38,7 +43,7 @@ private const val ARG_PARAM2 = "param2"
 
 class Home : Fragment() {
 
-    //private lateinit var comm: Communicator
+    private lateinit var comm: Communicator
     //private lateinit var btn:Button
     private lateinit var codeScanner: CodeScanner
     private lateinit var scannerView:CodeScannerView
@@ -54,8 +59,10 @@ class Home : Fragment() {
     private var maxZoomBack=0f
     private val zoomStep=5
 
+
     //capturar imagen para ser guardada y procesada ver si puedo separar en otra clase a futuro
     private val galeryQrResult=registerForActivityResult(ActivityResultContracts.StartActivityForResult()){result->
+
         if (result.resultCode == AppCompatActivity.RESULT_OK) {
             //selecciono la uri para procesar la imagen
             val selectedImageUri= result.data?.data
@@ -70,7 +77,8 @@ class Home : Fragment() {
                         val result = decodeQRCode(bitmap)
                         if (result != null) {
                             // Se ha encontrado un código QR, hacer algo con el resultado
-                            Toast.makeText(requireActivity(), "Contenido del QR: $result", Toast.LENGTH_LONG).show()
+
+                            comm.passInfoQr(result)
                         } else {
                             // No se encontró ningún código QR en la imagen
                             Toast.makeText(requireActivity(), "No se encontró ningún código QR en la imagen", Toast.LENGTH_SHORT).show()
@@ -121,7 +129,9 @@ class Home : Fragment() {
         // Inflate the layout for this fragment
         val viewHome= inflater.inflate(R.layout.fragment_home, container, false)
 
-        //comm = requireActivity() as Communicator
+        //importante inicialziar el comunicator
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        comm = requireActivity() as Communicator
         //btn=viewHome.findViewById(R.id.button2)
        /* val txt= viewHome.findViewById<EditText>(R.id.editTextText)
         val enterBtn=viewHome.findViewById<Button>(R.id.button)
@@ -173,6 +183,7 @@ class Home : Fragment() {
             isTouchFocusEnabled = true
 
         }
+        //averiguar que hace esto
 
         //que se hace con el codigo
         codeScanner.decodeCallback = DecodeCallback {
@@ -188,6 +199,17 @@ class Home : Fragment() {
 
     private fun initBtnCameraFlashGalery(){
         btnGalery.setOnClickListener {
+            it.animate().apply {
+                duration = 1000
+                scaleX(1.5f)  // Cambia el tamaño horizontalmente
+                scaleY(1.5f)
+            }.withEndAction {
+               it.animate().apply {
+                   duration = 1000
+                   scaleX(1f)  // Cambia el tamaño horizontalmente
+                   scaleY(1f)
+               }
+            }
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             intent.resolveActivity(requireActivity().packageManager)?.also {
                 galeryQrResult.launch(intent)
@@ -195,7 +217,11 @@ class Home : Fragment() {
 
         }
         btnCameraFront.setOnClickListener {
-
+            // mejorar animated1
+            it.animate().apply {
+                duration=1000
+                rotationYBy(360f)
+            }
             try {
                 //0 camera back 1 camera front  error -1 back -2front codeScanner
                 /*codeScanner.camera=*/if(settingGen.isBackCamera){
@@ -219,6 +245,18 @@ class Home : Fragment() {
 
         btnFlash.setOnClickListener {
             codeScanner.isFlashEnabled=codeScanner.isFlashEnabled.not()
+            // mejorar animated1
+            it.animate().apply {
+                duration=980
+                rotationYBy(360f)
+            }.withEndAction {
+                if(codeScanner.isFlashEnabled){
+                    btnFlash.setImageResource(R.drawable.flash_on)
+                }else{
+                    btnFlash.setImageResource(R.drawable.flash_off)
+                }
+            }
+
         }
 
 
@@ -244,7 +282,6 @@ class Home : Fragment() {
                         }
 
                     }while (filas.moveToNext())
-                    Toast.makeText(requireContext(), maxZoomBack.toString(), Toast.LENGTH_SHORT).show()
                     maxZoom=maxZoomBack
                     skbZoom.max=maxZoom.toInt()
 

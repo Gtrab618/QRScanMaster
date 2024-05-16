@@ -40,7 +40,7 @@
         android:contentDescription="@string/app_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/flash_on"
+        app:srcCompat="@drawable/flash_off"
         app:tint="@color/white" />
 
     <ImageButton
