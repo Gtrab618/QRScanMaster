@@ -1,15 +1,11 @@
 package com.example.qrscanmaster.ui.home
 
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
 import android.content.ContentValues
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.hardware.camera2.CameraCharacteristics
 import android.os.Bundle
 import android.provider.MediaStore
-import android.text.style.BackgroundColorSpan
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -29,17 +25,9 @@ import com.example.qrscanmaster.R
 import com.example.qrscanmaster.comunication.Communicator
 import com.example.qrscanmaster.dependencies.scannerCameraHelper
 import com.example.qrscanmaster.dependencies.settingGen
-import com.example.qrscanmaster.model.ZoomModelMax
 import com.example.qrscanmaster.services.SqliteService
 import com.example.qrscanmaster.util.decodeQRCode
 import java.io.IOException
-
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
 
 class Home : Fragment() {
 
