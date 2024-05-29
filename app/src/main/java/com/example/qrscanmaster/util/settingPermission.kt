@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.Settings
+import com.example.qrscanmaster.model.QRCodeResult
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.BinaryBitmap
 import com.google.zxing.DecodeHintType
@@ -12,6 +13,8 @@ import com.google.zxing.MultiFormatReader
 import com.google.zxing.NotFoundException
 import com.google.zxing.RGBLuminanceSource
 import com.google.zxing.common.HybridBinarizer
+import com.google.zxing.qrcode.detector.Detector
+import kotlin.math.min
 
 fun Context.openAppSettings(){
     Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
@@ -21,7 +24,7 @@ fun Context.openAppSettings(){
     }.let(::startActivity)
 }
 
-fun decodeQRCode(bitmap: Bitmap): String? {
+fun decodeQRCode(bitmap: Bitmap): QRCodeResult? {
     //leer codigo en varios formatos
     val multiFormatReader = MultiFormatReader()
     //paso la lista de que codigo qr deberia buscar
@@ -34,12 +37,27 @@ fun decodeQRCode(bitmap: Bitmap): String? {
     })
     //imagen binaria que el lector puede procesar
     val binaryBitmap = BinaryBitmap(HybridBinarizer(source))
-    try {
+    return try {
         val result = multiFormatReader.decode(binaryBitmap, hints)
-        return result.text
+        // Si se decodifica, intenta encontrar el área del QR para recortarlo
+        val detectorResult = Detector(binaryBitmap.blackMatrix).detect(hints)
+        // Encuentra los límites del QR en la imagen
+        val points=detectorResult.points
+
+        val minX=points.minOf { it.x.toInt() }
+        val minY = points.minOf { it.y.toInt() }
+        val maxX = points.maxOf { it.x.toInt() }
+        val maxY = points.maxOf { it.y.toInt() }
+        // recortar el area de QR
+        val widthQrCut= min(maxX-minX,bitmap.width)
+        val heightQrCut= min(maxY-minY,bitmap.height)
+        val croppedBitmap = Bitmap.createBitmap(bitmap, minX, minY, widthQrCut, heightQrCut)
+
+
+         QRCodeResult(result.text,croppedBitmap)
     } catch (e: NotFoundException) {
         // No se encontró ningún código QR en la imagen
-        return null
+        null
     }
 }
 

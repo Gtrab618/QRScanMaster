@@ -62,7 +62,10 @@ class InfoQr : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-
+        btnEditName=view.findViewById(R.id.btnEditName)
+        btnDelete=view.findViewById(R.id.btnDelete)
+        btnFavorito=view.findViewById(R.id.btnFavorite)
+        initMenuBar()
 
     }
     private fun initMenuBar() {

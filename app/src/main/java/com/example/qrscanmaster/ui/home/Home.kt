@@ -217,6 +217,9 @@ class Home : Fragment() {
                     settingGen.isBackCamera=false
                     maxZoom=maxZoomFront
                     skbZoom.max=maxZoom.toInt()
+                    if(codeScanner.isFlashEnabled){
+                        btnFlash.setImageResource(R.drawable.flash_off)
+                    }
                 }else{
                     codeScanner.camera=CodeScanner.CAMERA_BACK
                     settingGen.isBackCamera=true
