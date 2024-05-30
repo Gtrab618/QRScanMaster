@@ -43,11 +43,14 @@ fun decodeQRCode(bitmap: Bitmap): QRCodeResult? {
         val detectorResult = Detector(binaryBitmap.blackMatrix).detect(hints)
         // Encuentra los límites del QR en la imagen
         val points=detectorResult.points
-
-        val minX=points.minOf { it.x.toInt() }
-        val minY = points.minOf { it.y.toInt() }
-        val maxX = points.maxOf { it.x.toInt() }
-        val maxY = points.maxOf { it.y.toInt() }
+        for ((index, point) in points.withIndex()) {
+            println("Punto $index: (${point.x}, ${point.y})")
+        }
+        println("test")
+        val minX = points.minOf { it.x.toInt()-68 }
+        val minY = points.minOf { it.y.toInt()-68 }
+        val maxX = points.maxOf { it.x.toInt()+68 }
+        val maxY = points.maxOf { it.y.toInt()+68 }
         // recortar el area de QR
         val widthQrCut= min(maxX-minX,bitmap.width)
         val heightQrCut= min(maxY-minY,bitmap.height)
