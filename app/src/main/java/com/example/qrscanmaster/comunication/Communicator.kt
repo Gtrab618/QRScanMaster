@@ -1,7 +1,7 @@
 package com.example.qrscanmaster.comunication
 
-import com.example.qrscanmaster.model.QRCodeResult
+import com.google.zxing.Result
 
 interface Communicator {
-    fun passInfoQr(data : QRCodeResult?)
+    fun passInfoQr(data : Result)
 }

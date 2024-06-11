@@ -20,6 +20,7 @@ import com.budiyev.android.codescanner.AutoFocusMode
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.CodeScannerView
 import com.budiyev.android.codescanner.DecodeCallback
+import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
 import com.example.qrscanmaster.R
 import com.example.qrscanmaster.comunication.Communicator
@@ -27,6 +28,7 @@ import com.example.qrscanmaster.dependencies.scannerCameraHelper
 import com.example.qrscanmaster.dependencies.settingGen
 import com.example.qrscanmaster.services.SqliteService
 import com.example.qrscanmaster.util.decodeQRCode
+import com.google.zxing.Result
 import java.io.IOException
 
 class Home : Fragment() {
@@ -65,7 +67,6 @@ class Home : Fragment() {
                         val result = decodeQRCode(bitmap)
                         if (result != null) {
                             // Se ha encontrado un código QR, hacer algo con el resultado
-
                             comm.passInfoQr(result)
                         } else {
                             // No se encontró ningún código QR en la imagen
@@ -169,16 +170,17 @@ class Home : Fragment() {
             isAutoFocusEnabled = true
             //tocar para ajustar
             isTouchFocusEnabled = true
+            decodeCallback = DecodeCallback(::handleScannedBarcode)
 
         }
         //averiguar que hace esto
 
-        //que se hace con el codigo
-        codeScanner.decodeCallback = DecodeCallback {
+        // sirve para decodificar directamente el codigo qr
+        /*codeScanner.decodeCallback = DecodeCallback {
             activity?.runOnUiThread {
                 Toast.makeText(activity, it.text, Toast.LENGTH_LONG).show()
             }
-        }
+        }*/
         //aberiguar que hace esto
         scannerView.setOnClickListener {
             codeScanner.startPreview()
@@ -376,5 +378,8 @@ class Home : Fragment() {
         }
     }
 
+    private fun handleScannedBarcode(result: Result){
+        comm.passInfoQr(result)
+    }
 
 }

@@ -17,7 +17,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.example.qrscanmaster.comunication.Communicator
-import com.example.qrscanmaster.model.QRCodeResult
+import com.example.qrscanmaster.dependencies.barcodeParser
 import com.example.qrscanmaster.ui.home.Home
 import com.example.qrscanmaster.ui.infoqr.InfoQr
 import com.example.qrscanmaster.ui.setting.Setting
@@ -27,6 +27,7 @@ import com.example.qrscanmaster.util.openAppSettings
 import com.example.qrscanmaster.util.showSnackbar
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.google.zxing.Result
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     Communicator {
@@ -170,8 +171,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     //arreglar despues el el comunicador
-    override fun passInfoQr(data : QRCodeResult?) {
-        val infoQrFragment = InfoQr.newInstance(data)
+    override fun passInfoQr(data : Result) {
+        val barcode= barcodeParser.parseResult(data)
+        val infoQrFragment = InfoQr.newInstance(barcode)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, infoQrFragment)
             .commit()
