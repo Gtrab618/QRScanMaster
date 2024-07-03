@@ -120,6 +120,7 @@ class Home : Fragment() {
 
         //importante inicialziar el comunicator
         //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        // al hacer esto lo inicializo con el main por eso llama al main
         comm = requireActivity() as Communicator
         //btn=viewHome.findViewById(R.id.button2)
        /* val txt= viewHome.findViewById<EditText>(R.id.editTextText)
