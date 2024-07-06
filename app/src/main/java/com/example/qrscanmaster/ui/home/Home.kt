@@ -380,6 +380,7 @@ class Home : Fragment() {
     }
 
     private fun handleScannedBarcode(result: Result){
+
         comm.passInfoQr(result)
     }
 

@@ -48,5 +48,6 @@ dependencies {
     implementation(libs.zxing.core)
     implementation(libs.zxing.android.embedded)
     implementation (libs.yuriy.budiyev.code.scanner)
+    implementation(libs.androidx.room.compiler)
 
 }
