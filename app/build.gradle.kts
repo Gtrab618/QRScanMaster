@@ -37,7 +37,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -49,8 +48,8 @@ dependencies {
     implementation(libs.zxing.core)
     implementation(libs.zxing.android.embedded)
     implementation (libs.yuriy.budiyev.code.scanner)
-    //implementation (libs.annotations)
-    //implementation(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.runtime)
+    annotationProcessor(libs.androidx.room.compiler)
     //implementation(libs.androidx.room.runtime)
     //implementation(libs.androidx.room.rxjava2)
     //implementation(libs.runtime)
