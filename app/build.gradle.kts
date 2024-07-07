@@ -49,5 +49,9 @@ dependencies {
     implementation(libs.zxing.android.embedded)
     implementation (libs.yuriy.budiyev.code.scanner)
     implementation(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.rxjava2)
+    implementation(libs.runtime)
+    implementation(libs.rxjava2)
 
 }
