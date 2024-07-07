@@ -33,6 +33,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
 }
 
 dependencies {
@@ -48,10 +49,11 @@ dependencies {
     implementation(libs.zxing.core)
     implementation(libs.zxing.android.embedded)
     implementation (libs.yuriy.budiyev.code.scanner)
-    implementation(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.rxjava2)
-    implementation(libs.runtime)
-    implementation(libs.rxjava2)
+    //implementation (libs.annotations)
+    //implementation(libs.androidx.room.compiler)
+    //implementation(libs.androidx.room.runtime)
+    //implementation(libs.androidx.room.rxjava2)
+    //implementation(libs.runtime)
+    //implementation(libs.rxjava2)
 
 }

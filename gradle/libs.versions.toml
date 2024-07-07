@@ -11,28 +11,21 @@ material = "1.11.0"
 activity = "1.8.0"
 constraintlayout = "2.1.4"
 core="3.5.3"
-roomCompiler = "2.6.1"
-rxjava2 = "1.0.1"
 zxingAndroidEmbedded="4.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
-androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomCompiler" }
-androidx-room-rxjava2 = { module = "androidx.room:room-rxjava2", version.ref = "roomCompiler" }
+
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.goorgle.android.material", name = "material", version.ref = "material" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
-runtime = { module = "android.arch.paging:runtime", version.ref = "rxjava2" }
-rxjava2 = { module = "android.arch.paging:rxjava2", version.ref = "rxjava2" }
 yuriy-budiyev-code-scanner = { module = "com.github.yuriy-budiyev:code-scanner", version.ref = "codeScannerVersion" }
 zxing-core = { module = "com.google.zxing:core", version.ref = "core" }
 zxing-android-embedded = { module = "com.journeyapps:zxing-android-embedded", version.ref = "zxingAndroidEmbedded" }
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-
