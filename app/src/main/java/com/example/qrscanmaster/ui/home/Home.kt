@@ -24,11 +24,16 @@ import com.budiyev.android.codescanner.ErrorCallback
 import com.budiyev.android.codescanner.ScanMode
 import com.example.qrscanmaster.R
 import com.example.qrscanmaster.comunication.Communicator
+import com.example.qrscanmaster.dependencies.barcodeDatabase
+import com.example.qrscanmaster.dependencies.barcodeParser
 import com.example.qrscanmaster.dependencies.scannerCameraHelper
 import com.example.qrscanmaster.dependencies.settingGen
+import com.example.qrscanmaster.model.Barcode
 import com.example.qrscanmaster.services.SqliteService
 import com.example.qrscanmaster.util.decodeQRCode
 import com.google.zxing.Result
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import java.io.IOException
 
 class Home : Fragment() {
@@ -43,6 +48,7 @@ class Home : Fragment() {
     private lateinit var btnZoomIncrease:ImageButton
     private lateinit var btnZoomDecrease:ImageButton
     private lateinit var skbZoom: AppCompatSeekBar
+    private var lastResult: Barcode? = null
     private var maxZoom:Float=0f
     private var typeCamera=1
     private var maxZoomFront=0f
@@ -257,7 +263,7 @@ class Home : Fragment() {
     }
 
     private fun initZoomSeekBar(){
-        val admin = SqliteService(requireContext(),"qrDataBase",null,1)
+        val admin = SqliteService(requireContext(),"qr_serv_init",null,1)
         val dataBase= admin.writableDatabase
         dataBase.use {
             val filas= dataBase.rawQuery("SELECT percentZoom,typeCamera FROM zoom",null)
@@ -381,7 +387,28 @@ class Home : Fragment() {
 
     private fun handleScannedBarcode(result: Result){
 
-        comm.passInfoQr(result)
+        val barcode= barcodeParser.parseResult(result)
+        saveScannedBarcodeScreen(barcode)
+
+        //revisar esto 02
+        //comm.passInfoQr(result)
+    }
+
+    private fun saveScannedBarcodeScreen(barcode:Barcode) {
+        println("entra en el save")
+        barcodeDatabase.save(barcode)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { id ->
+                    lastResult= barcode
+                    println("print del id del barcode")
+                    println(barcode.copy(id=id))
+                }
+            )
+            .also {
+                println("termina dispose")
+            }
     }
 
 }
