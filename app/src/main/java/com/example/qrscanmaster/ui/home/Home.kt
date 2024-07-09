@@ -25,11 +25,13 @@ import com.budiyev.android.codescanner.ScanMode
 import com.example.qrscanmaster.R
 import com.example.qrscanmaster.comunication.Communicator
 import com.example.qrscanmaster.dependencies.barcodeDatabase
+
 import com.example.qrscanmaster.dependencies.barcodeParser
 import com.example.qrscanmaster.dependencies.scannerCameraHelper
 import com.example.qrscanmaster.dependencies.settingGen
 import com.example.qrscanmaster.model.Barcode
 import com.example.qrscanmaster.services.SqliteService
+import com.example.qrscanmaster.usecase.saveIfNotPresent
 import com.example.qrscanmaster.util.decodeQRCode
 import com.google.zxing.Result
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -396,7 +398,7 @@ class Home : Fragment() {
 
     private fun saveScannedBarcodeScreen(barcode:Barcode) {
         println("entra en el save")
-        barcodeDatabase.save(barcode)
+        barcodeDatabase.saveIfNotPresent(barcode)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(

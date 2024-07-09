@@ -40,14 +40,21 @@ interface BarcodeDatabase {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(barcode: Barcode): Single<Long>
-    //falta de completar 01
+    //revisar la opcion de guardar duplicados que parece incesesaria primeramente 02
+    @Query("SELECT * FROM codes WHERE format= :format AND text =:text LIMIT 1")
+    fun find(format:String, text:String):Single<List<Barcode>>
 }
 
-fun BarcodeDatabase.save(barcode:Barcode): Single<Long> {
-    // 01 realizar comprobacion de duplicidad
-    return save(barcode)
+fun BarcodeDatabase.saveIfNotPresent(barcode:Barcode): Single<Long> {
+    // 02 realizar comprobacion de duplicidad
+    return find(barcode.format.name,barcode.text)
+        .flatMap { found ->
+            if (found.isEmpty()){
+                save(barcode)
+            }else{
+                Single.just(found[0].id)
+            }
+
+        }
 }
 
-/*fun BarcodeDataBase.saveIfNotPresent():Single<Long>{
-
-}*/
