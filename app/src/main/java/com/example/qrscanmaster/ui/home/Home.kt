@@ -390,10 +390,11 @@ class Home : Fragment() {
     private fun handleScannedBarcode(result: Result){
 
         val barcode= barcodeParser.parseResult(result)
-        saveScannedBarcodeScreen(barcode)
+
+        //saveScannedBarcodeScreen(barcode)
 
         //revisar esto 02
-        //comm.passInfoQr(result)
+        comm.passInfoQr(result)
     }
 
     private fun saveScannedBarcodeScreen(barcode:Barcode) {
@@ -406,6 +407,7 @@ class Home : Fragment() {
                     lastResult= barcode
                     println("print del id del barcode")
                     println(barcode.copy(id=id))
+
                 }
             )
             .also {

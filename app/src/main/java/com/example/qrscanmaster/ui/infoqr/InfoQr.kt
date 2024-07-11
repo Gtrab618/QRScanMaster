@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import com.example.qrscanmaster.R
 import com.example.qrscanmaster.model.Barcode
+import com.example.qrscanmaster.model.ParsedBarcode
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,6 +28,9 @@ class InfoQr : Fragment() {
     private lateinit var btnEditName: ImageButton
     private lateinit var btnFavorito: ImageButton
     private lateinit var btnDelete: ImageButton
+    private lateinit var txtSchemaName:TextView
+    private lateinit var txtContent:TextView
+    private  var barcode:ParsedBarcode? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,12 +71,20 @@ class InfoQr : Fragment() {
         btnEditName=view.findViewById(R.id.btnEditName)
         btnDelete=view.findViewById(R.id.btnDelete)
         btnFavorito=view.findViewById(R.id.btnFavorite)
+        txtSchemaName=view.findViewById(R.id.txtSchemaType)
+        txtContent=view.findViewById(R.id.txtContent)
+        parseBarcodeInfo()
         initMenuBar()
 
     }
+
+
     private fun initMenuBar() {
+
+        txtSchemaName.text= param1?.schema.toString()
+        txtContent.text= barcode?.formattedText
         btnEditName.setOnClickListener {
-            Toast.makeText(requireContext(), param1?.text ?: "vacio", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "test", Toast.LENGTH_SHORT).show()
         }
 
         btnDelete.setOnClickListener {
@@ -82,4 +95,11 @@ class InfoQr : Fragment() {
             Toast.makeText(requireContext(), "favovito", Toast.LENGTH_SHORT).show()
         }
     }
+
+
+    private fun parseBarcodeInfo(){
+        barcode= param1?.let { ParsedBarcode(it) }
+    }
+
+
 }
