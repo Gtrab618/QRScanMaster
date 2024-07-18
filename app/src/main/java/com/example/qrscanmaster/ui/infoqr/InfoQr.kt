@@ -1,16 +1,22 @@
 package com.example.qrscanmaster.ui.infoqr
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import com.example.qrscanmaster.R
+import com.example.qrscanmaster.extension.unsafeLazy
 import com.example.qrscanmaster.model.Barcode
 import com.example.qrscanmaster.model.ParsedBarcode
+import com.google.android.material.snackbar.Snackbar
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,8 +36,12 @@ class InfoQr : Fragment() {
     private lateinit var btnDelete: ImageButton
     private lateinit var txtSchemaName:TextView
     private lateinit var txtContent:TextView
+    private lateinit var btnCopyPassWifi:Button
     private  var barcode:ParsedBarcode? = null
 
+    private val clipboardManager by unsafeLazy {
+        requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,9 +83,10 @@ class InfoQr : Fragment() {
         btnFavorito=view.findViewById(R.id.btnFavorite)
         txtSchemaName=view.findViewById(R.id.txtSchemaType)
         txtContent=view.findViewById(R.id.txtContent)
+        btnCopyPassWifi=view.findViewById(R.id.btnCopyPassWifi)
         parseBarcodeInfo()
         initMenuBar()
-
+        handleButtonsClicked()
     }
 
 
@@ -96,10 +107,28 @@ class InfoQr : Fragment() {
         }
     }
 
+    private fun handleButtonsClicked(){
+        btnCopyPassWifi.setOnClickListener {
+            snackBar(1)
+        }
+    }
 
     private fun parseBarcodeInfo(){
         barcode= param1?.let { ParsedBarcode(it) }
     }
 
+    private fun copyNetworkPasswordToClipboard(){
+        copyToClipboard(barcode?.networkPassword.orEmpty())
+    }
 
+    private fun copyToClipboard(text:String){
+        val clipData=ClipData.newPlainText("",text)
+        clipboardManager.setPrimaryClip(clipData)
+    }
+
+     private fun snackBar(stringId:Int){
+
+        Snackbar.make(requireView(), "Copied to clipboard! \uD83D\uDCCB", Snackbar.LENGTH_LONG).show()
+
+    }
 }

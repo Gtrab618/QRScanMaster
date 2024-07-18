@@ -10,7 +10,9 @@
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textView2"
@@ -164,7 +166,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/cardview_shadow_end_color"
+                    android:background="@drawable/btn_personalizado"
                     android:drawableTop="@drawable/qr_code"
                     android:gravity="center"
                     android:lineSpacingExtra="10sp"
@@ -180,7 +182,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/cardview_shadow_end_color"
+                    android:background="@drawable/btn_personalizado"
                     android:drawableTop="@drawable/share"
                     android:gravity="center"
                     android:lineSpacingExtra="10sp"
@@ -196,7 +198,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/cardview_shadow_end_color"
+                    android:background="@drawable/btn_personalizado"
                     android:drawableTop="@drawable/copy"
                     android:gravity="center"
                     android:lineSpacingExtra="10sp"
@@ -216,7 +218,7 @@
                 android:background="?attr/colorControlHighlight" />
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/btnCopyPassWifi"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:backgroundTint="@color/cardview_shadow_end_color"
@@ -225,7 +227,7 @@
                 android:text="Copiar Pass"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
 
         </LinearLayout>
