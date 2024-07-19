@@ -5,6 +5,7 @@ import com.example.qrscanmaster.model.Wifi
 import com.example.qrscanmaster.model.schema.Schema
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.Result
+import com.google.zxing.ResultMetadataType
 
 object BarcodeParse {
 
@@ -16,6 +17,7 @@ object BarcodeParse {
             format = result.barcodeFormat,
             schema = schema.schema,
             date=result.timestamp,
+            errorCorrectionLevel = result.resultMetadata?.get(ResultMetadataType.ERROR_CORRECTION_LEVEL) as? String
         )
     }
 

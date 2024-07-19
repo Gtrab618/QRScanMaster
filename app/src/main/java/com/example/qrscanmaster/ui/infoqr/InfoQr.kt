@@ -3,6 +3,7 @@ package com.example.qrscanmaster.ui.infoqr
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,13 +11,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.example.qrscanmaster.R
+import com.example.qrscanmaster.dependencies.barcodeImageGenerator
 import com.example.qrscanmaster.extension.unsafeLazy
 import com.example.qrscanmaster.model.Barcode
 import com.example.qrscanmaster.model.ParsedBarcode
 import com.google.android.material.snackbar.Snackbar
+import com.google.zxing.qrcode.decoder.Version.ECB
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,6 +42,7 @@ class InfoQr : Fragment() {
     private lateinit var txtContent:TextView
     private lateinit var btnCopyPassWifi:Button
     private  var barcode:ParsedBarcode? = null
+    private lateinit var imageQr:ImageView
 
     private val clipboardManager by unsafeLazy {
         requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -84,11 +89,23 @@ class InfoQr : Fragment() {
         txtSchemaName=view.findViewById(R.id.txtSchemaType)
         txtContent=view.findViewById(R.id.txtContent)
         btnCopyPassWifi=view.findViewById(R.id.btnCopyPassWifi)
+        //01 reviar el redibujado desactivado en gradle el qr al girar se hace mas  grande modificar atributos de imageview xml
+        imageQr=view.findViewById(R.id.mwQr)
         parseBarcodeInfo()
         initMenuBar()
         handleButtonsClicked()
+        showBarcodeImage()
     }
 
+    private fun showBarcodeImage(){
+        try {
+            // 01 revisar el color y setting creo que es configurable
+            val bitmap = param1?.let { barcodeImageGenerator.generateBitmap(it,2000,2000,0, Color.BLACK,Color.WHITE)}
+            imageQr.setImageBitmap(bitmap)
+        }catch (ex:Exception){
+
+        }
+    }
 
     private fun initMenuBar() {
 
@@ -109,7 +126,7 @@ class InfoQr : Fragment() {
 
     private fun handleButtonsClicked(){
         btnCopyPassWifi.setOnClickListener {
-            snackBar(1)
+            copyNetworkPasswordToClipboard()
         }
     }
 
@@ -119,6 +136,7 @@ class InfoQr : Fragment() {
 
     private fun copyNetworkPasswordToClipboard(){
         copyToClipboard(barcode?.networkPassword.orEmpty())
+        snackBar(1)
     }
 
     private fun copyToClipboard(text:String){
@@ -128,6 +146,7 @@ class InfoQr : Fragment() {
 
      private fun snackBar(stringId:Int){
 
+         //01 completar con los string para que sea multilenguaje
         Snackbar.make(requireView(), "Copied to clipboard! \uD83D\uDCCB", Snackbar.LENGTH_LONG).show()
 
     }

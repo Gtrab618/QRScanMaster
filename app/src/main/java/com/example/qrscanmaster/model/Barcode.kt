@@ -14,5 +14,7 @@ data class Barcode(
     val formattedText:String,
     val format:BarcodeFormat,
     val schema: BarcodeSchema,
-    val date: Long
+    val date: Long,
+    val errorCorrectionLevel:String? =null
+
 ):Serializable
