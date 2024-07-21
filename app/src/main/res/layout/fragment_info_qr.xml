@@ -161,7 +161,7 @@
                 android:orientation="horizontal">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnLookQr"
+                    android:id="@+id/btnSaveQr"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
@@ -220,7 +220,7 @@
             <Button
                 android:id="@+id/btnCopyPassWifi"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="60dp"
                 android:backgroundTint="@color/cardview_shadow_end_color"
                 android:drawableLeft="@drawable/copy_pass_wifi"
                 android:drawablePadding="15dp"

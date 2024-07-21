@@ -14,6 +14,7 @@ core="3.5.3"
 roomCompiler = "2.6.1"
 runtime = "3.3.0"
 rxandroid = "3.0.2"
+rxjava = "3.1.8"
 zxingAndroidEmbedded="4.3.0"
 
 [libraries]
@@ -30,6 +31,7 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 runtime = { module = "androidx.paging:paging-runtime", version.ref = "runtime" }
 rxandroid = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxandroid" }
+rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
 rxjava2 = { module = "androidx.paging:paging-rxjava2", version.ref = "runtime" }
 yuriy-budiyev-code-scanner = { module = "com.github.yuriy-budiyev:code-scanner", version.ref = "codeScannerVersion" }
 zxing-core = { module = "com.google.zxing:core", version.ref = "core" }

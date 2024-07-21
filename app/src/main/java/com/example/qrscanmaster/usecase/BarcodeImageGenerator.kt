@@ -6,9 +6,29 @@ import com.example.qrscanmaster.model.Barcode
 import com.google.zxing.EncodeHintType
 import com.google.zxing.common.BitMatrix
 import com.journeyapps.barcodescanner.BarcodeEncoder
+import io.reactivex.rxjava3.core.Single
+
 
 object BarcodeImageGenerator {
     private val encoder= BarcodeEncoder()
+
+    fun generateBitmapAsync(
+        barcode: Barcode,
+        width: Int,
+        height: Int,
+        margin: Int=0,
+        codeColor: Int=Color.BLACK,
+        backgroundColor: Int=Color.WHITE
+    ): Single<Bitmap> {
+        return Single.create { emitter ->
+            try {
+                emitter.onSuccess(generateBitmap(barcode, width, height, margin, codeColor, backgroundColor))
+            } catch (ex: Exception) {
+                emitter.onError(ex)
+            }
+        }
+
+    }
 
     fun generateBitmap(
         barcode: Barcode,

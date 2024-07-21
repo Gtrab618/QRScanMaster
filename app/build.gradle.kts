@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.rxandroid)
     implementation(libs.runtime)
     implementation(libs.rxjava2)
+    implementation(libs.rxjava)
 
 
 }
