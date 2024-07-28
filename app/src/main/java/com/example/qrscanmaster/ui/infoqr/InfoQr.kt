@@ -27,6 +27,7 @@ import com.example.qrscanmaster.util.showSnackbar
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
@@ -43,28 +44,38 @@ private const val ARG_PARAM2 = "param2"
 class InfoQr : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: Barcode? = null
+
     // 01 revisar esto para inicializar solo cuando doy click en descargar atravez de lazy
     //private lateinit var drawerLayout: DrawerLayout
     private lateinit var btnEditName: ImageButton
     private lateinit var btnFavorito: ImageButton
     private lateinit var btnDelete: ImageButton
-    private lateinit var txtSchemaName:TextView
-    private lateinit var txtContent:TextView
-    private lateinit var btnCopyPassWifi:Button
-    private  var barcode:ParsedBarcode? = null
-    private lateinit var imageQr:ImageView
-    private lateinit var btnQrSaveImage:Button
+    private lateinit var txtSchemaName: TextView
+    private lateinit var txtContent: TextView
+    private lateinit var btnCopyPassWifi: Button
+    private var barcode: ParsedBarcode? = null
+    private lateinit var imageQr: ImageView
+    private lateinit var btnQrSaveImage: Button
+
     //request Permission storage
     private lateinit var drawerView: View
     private val disposable = CompositeDisposable()
     private val coarsePermission =
         ParmissionRequestFragment(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, onRational = {
-            drawerView.showSnackbar("Requere acceso para guardar",Snackbar.LENGTH_INDEFINITE,"Ok"){
+            drawerView.showSnackbar(
+                "Requere acceso para guardar",
+                Snackbar.LENGTH_INDEFINITE,
+                "Ok"
+            ) {
                 checkPermissionStorage()
             }
         }, onDenied = {
 
-            drawerView.showSnackbar("Redireccion a configuracion proximo",Snackbar.LENGTH_INDEFINITE,"Ok"){
+            drawerView.showSnackbar(
+                "Redireccion a configuracion proximo",
+                Snackbar.LENGTH_INDEFINITE,
+                "Ok"
+            ) {
 
             }
         })
@@ -107,18 +118,19 @@ class InfoQr : Fragment() {
                 }
             }
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        btnEditName=view.findViewById(R.id.btnEditName)
-        btnDelete=view.findViewById(R.id.btnDelete)
-        btnFavorito=view.findViewById(R.id.btnFavorite)
-        txtSchemaName=view.findViewById(R.id.txtSchemaType)
-        txtContent=view.findViewById(R.id.txtContent)
-        btnCopyPassWifi=view.findViewById(R.id.btnCopyPassWifi)
-        btnQrSaveImage= view.findViewById(R.id.btnSaveQr)
-        drawerView= view
+        btnEditName = view.findViewById(R.id.btnEditName)
+        btnDelete = view.findViewById(R.id.btnDelete)
+        btnFavorito = view.findViewById(R.id.btnFavorite)
+        txtSchemaName = view.findViewById(R.id.txtSchemaType)
+        txtContent = view.findViewById(R.id.txtContent)
+        btnCopyPassWifi = view.findViewById(R.id.btnCopyPassWifi)
+        btnQrSaveImage = view.findViewById(R.id.btnSaveQr)
+        drawerView = view
         //01 reviar el redibujado desactivado en gradle el qr al girar se hace mas  grande modificar atributos de imageview xml
-        imageQr=view.findViewById(R.id.mwQr)
+        imageQr = view.findViewById(R.id.mwQr)
         parseBarcodeInfo()
         initMenuBar()
         handleButtonsClicked()
@@ -126,20 +138,29 @@ class InfoQr : Fragment() {
 
     }
 
-    private fun showBarcodeImage(){
+    private fun showBarcodeImage() {
         try {
             // 01 revisar el color y setting creo que es configurable
-            val bitmap = param1?.let { barcodeImageGenerator.generateBitmap(it,2000,2000,0, Color.BLACK,Color.WHITE)}
+            val bitmap = param1?.let {
+                barcodeImageGenerator.generateBitmap(
+                    it,
+                    2000,
+                    2000,
+                    0,
+                    Color.BLACK,
+                    Color.WHITE
+                )
+            }
             imageQr.setImageBitmap(bitmap)
-        }catch (ex:Exception){
+        } catch (ex: Exception) {
 
         }
     }
 
     private fun initMenuBar() {
 
-        txtSchemaName.text= param1?.schema.toString()
-        txtContent.text= barcode?.formattedText
+        txtSchemaName.text = param1?.schema.toString()
+        txtContent.text = barcode?.formattedText
         btnEditName.setOnClickListener {
             Toast.makeText(requireContext(), "test", Toast.LENGTH_SHORT).show()
         }
@@ -154,80 +175,112 @@ class InfoQr : Fragment() {
 
     }
 
-    private fun handleButtonsClicked(){
+    private fun handleButtonsClicked() {
         btnCopyPassWifi.setOnClickListener {
             copyNetworkPasswordToClipboard()
         }
 
-        btnQrSaveImage.setOnClickListener{
+        btnQrSaveImage.setOnClickListener {
             checkPermissionStorage()
         }
 
     }
 
-    private fun parseBarcodeInfo(){
-        barcode= param1?.let { ParsedBarcode(it) }
+    private fun parseBarcodeInfo() {
+        barcode = param1?.let { ParsedBarcode(it) }
     }
 
-    private fun copyNetworkPasswordToClipboard(){
+    private fun copyNetworkPasswordToClipboard() {
         copyToClipboard(barcode?.networkPassword.orEmpty())
         snackBar(1)
     }
 
-    private fun copyToClipboard(text:String){
-        val clipData=ClipData.newPlainText("",text)
+    private fun copyToClipboard(text: String) {
+        val clipData = ClipData.newPlainText("", text)
         clipboardManager.setPrimaryClip(clipData)
     }
 
-     private fun snackBar(stringId:Int){
-         //01 completar con los string para que sea multilenguaje
-         Snackbar.make(requireView(), "Copied to clipboard! \uD83D\uDCCB", Snackbar.LENGTH_LONG).show()
+    private fun snackBar(stringId: Int) {
+        //01 completar con los string para que sea multilenguaje
+        Snackbar.make(requireView(), "Copied to clipboard! \uD83D\uDCCB", Snackbar.LENGTH_LONG)
+            .show()
 
-         //personalizado
-         /*val snackbar = Snackbar.make(requireView(), "Replace with your own action",
-             Snackbar.LENGTH_LONG).setAction("Action", null)
-         snackbar.setActionTextColor(Color.BLUE)
-         val snackbarView = snackbar.view
-         snackbarView.setBackgroundColor(Color.LTGRAY)
-         val textView =
-             snackbarView.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
-         textView.setTextColor(Color.BLUE)
-         textView.textSize = 28f
-         snackbar.show()*/
+        //personalizado
+        /*val snackbar = Snackbar.make(requireView(), "Replace with your own action",
+            Snackbar.LENGTH_LONG).setAction("Action", null)
+        snackbar.setActionTextColor(Color.BLUE)
+        val snackbarView = snackbar.view
+        snackbarView.setBackgroundColor(Color.LTGRAY)
+        val textView =
+            snackbarView.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
+        textView.setTextColor(Color.BLUE)
+        textView.textSize = 28f
+        snackbar.show()*/
     }
 
 
-
-    private fun checkPermissionStorage(){
+    private fun checkPermissionStorage() {
         coarsePermission.runWithPermission {
-            val bottomSheetDialog=BottomSheetDialog(requireContext())
-            val bottomSheetView= layoutInflater.inflate(R.layout.bottom_save_qr_options, null)
+
+            val bottomSheetDialog = BottomSheetDialog(requireContext())
+            val bottomSheetView = layoutInflater.inflate(R.layout.bottom_save_qr_options, null)
             bottomSheetDialog.setContentView(bottomSheetView)
             bottomSheetDialog.show()
 
-            val btnOptionSavePng:Button= bottomSheetView.findViewById(R.id.btnPngFormatQr)
-            val btnOptionSaveSvg:Button= bottomSheetView.findViewById(R.id.btnSvgFormatQr)
+            val btnOptionSavePng: Button = bottomSheetView.findViewById(R.id.btnPngFormatQr)
+            val btnOptionSaveSvg: Button = bottomSheetView.findViewById(R.id.btnSvgFormatQr)
 
-            btnOptionSavePng.setOnClickListener {
+            if (param1 != null) {
 
-                if(param1 != null){
+                btnOptionSavePng.setOnClickListener {
                     //falta almacenar el resultado sino no funciona el complete
-                   val saveFun= barcodeImageGenerator.generateBitmapAsync(param1!!,640,640,2)
-                       .flatMapCompletable { barcodeImageSaved.savePngImageToPublicDirectory(requireContext(),it,param1!!) }
-                    val disposable = saveFun
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                            { Toast.makeText(requireContext(), "guardado", Toast.LENGTH_SHORT).show() },
-                            { Toast.makeText(requireContext(), "error guardar", Toast.LENGTH_SHORT).show() }
-                        ).addTo(disposable)
-
-                    // Añade el disposable al CompositeDisposable
+                    val saveFun = barcodeImageGenerator.generateBitmapAsync(param1!!, 640, 640, 2)
+                        .flatMapCompletable {
+                            barcodeImageSaved.savePngImageToPublicDirectory(
+                                requireContext(),
+                                it,
+                                param1!!
+                            )
+                        }
+                    saveFunComplement(saveFun)
 
                 }
 
+                btnOptionSaveSvg.setOnClickListener {
+                    val saveFun = barcodeImageGenerator
+                        .generateSvgAsync(param1!!, 640, 640, 2)
+                        .flatMapCompletable {
+                            barcodeImageSaved.saveSvgImageToPublicDirectory(
+                                requireContext(),
+                                it,
+                                param1!!
+                            )
+                        }
+                    saveFunComplement(saveFun)
+                }
+
+
             }
+
         }
     }
 
+    private fun saveFunComplement(saveFun:Completable){
+        //01 revisar como mostrar el guardado sobre la pantalla
+        saveFun.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {showBarcodeSaved()},
+                {
+                    Toast.makeText(requireContext(), "error guardar", Toast.LENGTH_SHORT).show()
+                }
+            ).addTo(disposable)
+    }
+
+    private fun showBarcodeSaved() {
+        //01 completar con los string para que sea multilenguaje
+        Snackbar.make(requireView(), "qr Guardado! \uD83D\uDCCB", Snackbar.LENGTH_LONG)
+            .show()
+
+    }
 }

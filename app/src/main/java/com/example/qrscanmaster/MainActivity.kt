@@ -20,7 +20,7 @@ import com.example.qrscanmaster.comunication.Communicator
 import com.example.qrscanmaster.dependencies.barcodeParser
 import com.example.qrscanmaster.ui.home.Home
 import com.example.qrscanmaster.ui.infoqr.InfoQr
-import com.example.qrscanmaster.ui.setting.Setting
+import com.example.qrscanmaster.ui.history.History
 import com.example.qrscanmaster.ui.share.Share
 import com.example.qrscanmaster.util.PermissionRequester
 import com.example.qrscanmaster.util.openAppSettings
@@ -143,7 +143,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_setting -> {
 
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, Setting()).commit()
+                    .replace(R.id.fragment_container, History()).commit()
                 true // Retorna true para indicar que se ha manejado el evento de clic
             }
 

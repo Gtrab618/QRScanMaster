@@ -24,6 +24,22 @@ object BarcodeImageSaved {
         }
     }
 
+
+    fun saveSvgImageToPublicDirectory(context: Context,image: String,barcode: Barcode):CompletableSource{
+        return CompletableSource { emitter ->
+            try {
+                saveToPublicDirectory(context,barcode,"image/svg+xml"){outputStream ->
+                    outputStream.write(image.toByteArray())
+                }
+                emitter.onComplete()
+
+            }catch (ex:Exception){
+                emitter.onError(ex)
+            }
+
+        }
+    }
+
     private fun saveToPublicDirectory(context: Context, barcode: Barcode, mimeType:String, action:(OutputStream)-> Unit){
         val contentResolver= context.contentResolver ?: return
         val imageTitle = "${barcode.format}_${barcode.schema}_${barcode.date}"

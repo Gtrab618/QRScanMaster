@@ -1,4 +1,4 @@
-package com.example.qrscanmaster.ui.setting
+package com.example.qrscanmaster.ui.history
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -13,14 +13,14 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 
-class Setting : Fragment() {
+class History : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_setting, container, false)
+        return inflater.inflate(R.layout.fragment_history, container, false)
     }
 
 }
