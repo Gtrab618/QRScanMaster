@@ -36,6 +36,7 @@ interface BarcodeDatabase {
 
     }
     @Query("SELECT * FROM  codes ORDER BY date DESC")
+    //fun getAll():DataSource<Int,Barcode>
     fun getAll(): DataSource.Factory<Int,Barcode>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

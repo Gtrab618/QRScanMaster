@@ -34,6 +34,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures{
+        viewBinding= true
+    }
 
 }
 
@@ -54,8 +57,7 @@ dependencies {
     implementation(libs.androidx.room.rxjava3)
     implementation(libs.rxandroid)
     implementation(libs.runtime)
-    implementation(libs.rxjava2)
-    implementation(libs.rxjava)
+
 
 
 }

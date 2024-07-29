@@ -142,6 +142,8 @@ class Home : Fragment() {
         }*/
         return viewHome
     }
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         scannerView = view.findViewById<CodeScannerView>(R.id.scanner_view)
         btnGalery=view.findViewById(R.id.btnGalery)
@@ -391,7 +393,7 @@ class Home : Fragment() {
 
         val barcode= barcodeParser.parseResult(result)
 
-        //saveScannedBarcodeScreen(barcode)
+        saveScannedBarcodeScreen(barcode)
 
         //revisar esto 02
         comm.passInfoQr(result)

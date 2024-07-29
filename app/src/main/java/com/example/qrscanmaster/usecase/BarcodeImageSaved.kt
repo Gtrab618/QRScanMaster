@@ -6,7 +6,6 @@ import android.graphics.Bitmap
 import android.provider.MediaStore
 import android.provider.MediaStore.Images
 import com.example.qrscanmaster.model.Barcode
-import io.reactivex.Completable
 import io.reactivex.rxjava3.core.CompletableSource
 import java.io.OutputStream
 
