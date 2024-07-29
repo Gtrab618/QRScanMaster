@@ -2,7 +2,7 @@ package com.example.qrscanmaster.usecase
 
 
 import android.content.Context
-import androidx.paging.DataSource
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Database
 import androidx.room.Insert
@@ -36,8 +36,8 @@ interface BarcodeDatabase {
 
     }
     @Query("SELECT * FROM  codes ORDER BY date DESC")
-    //fun getAll():DataSource<Int,Barcode>
-    fun getAll(): DataSource.Factory<Int,Barcode>
+    fun getAll(): PagingSource<Int, Barcode>
+    //fun getAll(): DataSource.Factory<Int,Barcode>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(barcode: Barcode): Single<Long>

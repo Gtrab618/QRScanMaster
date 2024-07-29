@@ -18,14 +18,18 @@ class BarcodeHistoryAdapter: PagingDataAdapter<Barcode,BarcodeHistoryAdapter.Vie
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        getItem(position)?.also {
+            holder.show(it,position== itemCount.dec())
+        }
     }
 
     inner class ViewHolder(private val binding:ItemBarcodeHistoryBinding):RecyclerView.ViewHolder(binding.root){
 
         fun show(barcode: Barcode, isLastItem:Boolean){
             showText(barcode)
+            println("entra en show")
         }
+
 
         private fun showText(barcode: Barcode){
             binding.txtQrText.text=barcode.text

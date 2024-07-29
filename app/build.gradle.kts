@@ -54,10 +54,9 @@ dependencies {
     implementation (libs.yuriy.budiyev.code.scanner)
     implementation(libs.androidx.room.runtime)
     ksp(libs.androidx.room.compiler)
-    implementation(libs.androidx.room.rxjava3)
     implementation(libs.rxandroid)
     implementation(libs.runtime)
-
-
+    implementation(libs.androidx.room.paging)
+    implementation(libs.androidx.room.rxjava3)
 
 }

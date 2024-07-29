@@ -78,10 +78,13 @@
     </ScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="409dp"
+        android:id="@+id/rcyView"
+        android:layout_width="match_parent"
         android:layout_height="636dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2"
+        tools:listitem="@layout/item_barcode_history" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

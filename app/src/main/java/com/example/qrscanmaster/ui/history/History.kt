@@ -5,11 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagedList
 import androidx.paging.Pager
 
 import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
+import androidx.recyclerview.widget.RecyclerView
 import com.example.qrscanmaster.R
 import com.example.qrscanmaster.dependencies.barcodeDatabase
 import kotlinx.coroutines.flow.collectLatest
@@ -23,7 +26,7 @@ private const val PAGE_SIZE = 20
 
 class History : Fragment() {
     private val scanHistoryAdapter=BarcodeHistoryAdapter()
-
+    private lateinit var recycler: RecyclerView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,18 +37,24 @@ class History : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        recycler= view.findViewById(R.id.rcyView)
+        initRecycleView()
         loadHistory()
+    }
+
+    private fun initRecycleView(){
+        recycler.adapter=scanHistoryAdapter
     }
 
     private fun loadHistory(){
 
-        /*val pager = Pager(
+        val pager = Pager(
             config= PagingConfig(pageSize = PAGE_SIZE, enablePlaceholders = false),
             pagingSourceFactory = {
                 barcodeDatabase.getAll()
+
             }
         )
-
         lifecycleScope.launch {
             try {
 
@@ -57,7 +66,7 @@ class History : Fragment() {
             }catch (e: Exception){
                 println("error history 47 $e")
             }
-        }*/
+        }
 
 
     }
