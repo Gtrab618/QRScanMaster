@@ -122,7 +122,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             drawerLayout.closeDrawer(GravityCompat.START)
 
         } else {
-            finish()
+            if(supportFragmentManager.backStackEntryCount>0){
+                supportFragmentManager.popBackStack()
+            }else{
+                finish()
+            }
         }
     }
 
@@ -139,7 +143,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 true // Retorna true para indicar que se ha manejado el evento de clic
             }
 
-            R.id.nav_setting -> {
+            R.id.nav_history -> {
 
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, History()).commit()
@@ -173,7 +177,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun passInfoQr(barcode : Barcode) {
         val infoQrFragment = InfoQr.newInstance(barcode)
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, infoQrFragment)
+            .replace(R.id.fragment_container, infoQrFragment).addToBackStack(null)
             .commit()
     }
 
