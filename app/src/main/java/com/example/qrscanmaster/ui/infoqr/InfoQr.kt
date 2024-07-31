@@ -16,6 +16,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.example.qrscanmaster.R
+import com.example.qrscanmaster.dependencies.barcodeDatabase
 import com.example.qrscanmaster.dependencies.barcodeImageGenerator
 import com.example.qrscanmaster.dependencies.barcodeImageSaved
 import com.example.qrscanmaster.extension.unsafeLazy
@@ -53,7 +54,7 @@ class InfoQr : Fragment() {
     private lateinit var txtSchemaName: TextView
     private lateinit var txtContent: TextView
     private lateinit var btnCopyPassWifi: Button
-    private var barcode: ParsedBarcode? = null
+    private var barcodeParsed: ParsedBarcode? = null
     private lateinit var imageQr: ImageView
     private lateinit var btnQrSaveImage: Button
 
@@ -160,7 +161,7 @@ class InfoQr : Fragment() {
     private fun initMenuBar() {
 
         txtSchemaName.text = param1?.schema.toString()
-        txtContent.text = barcode?.formattedText
+        txtContent.text = barcodeParsed?.formattedText
         btnEditName.setOnClickListener {
             Toast.makeText(requireContext(), "test", Toast.LENGTH_SHORT).show()
         }
@@ -170,7 +171,7 @@ class InfoQr : Fragment() {
         }
 
         btnFavorito.setOnClickListener {
-            Toast.makeText(requireContext(), "favovito", Toast.LENGTH_SHORT).show()
+            selectedIsFavorite()
         }
 
     }
@@ -187,11 +188,11 @@ class InfoQr : Fragment() {
     }
 
     private fun parseBarcodeInfo() {
-        barcode = param1?.let { ParsedBarcode(it) }
+        barcodeParsed = param1?.let { ParsedBarcode(it) }
     }
 
     private fun copyNetworkPasswordToClipboard() {
-        copyToClipboard(barcode?.networkPassword.orEmpty())
+        copyToClipboard(barcodeParsed?.networkPassword.orEmpty())
         snackBar(1)
     }
 
@@ -218,7 +219,7 @@ class InfoQr : Fragment() {
         snackbar.show()*/
     }
 
-
+    //save png or svg
     private fun checkPermissionStorage() {
         coarsePermission.runWithPermission {
 
@@ -265,6 +266,22 @@ class InfoQr : Fragment() {
         }
     }
 
+    //accinones de btn
+    private fun selectedIsFavorite(){
+
+        val temBarcode= barcodeParsed?.let { param1?.copy(isFavorite = it.isFavorite.not()) }
+        if (temBarcode != null) {
+            barcodeDatabase.save(temBarcode).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
+                {
+                    barcodeParsed?.isFavorite=temBarcode.isFavorite
+                    showBarcodeIsFavorite(temBarcode.isFavorite)
+                },{
+                    //error
+                }
+            ).addTo(disposable)
+        }
+    }
+
     private fun saveFunComplement(saveFun:Completable){
         //01 revisar como mostrar el guardado sobre la pantalla
         saveFun.subscribeOn(Schedulers.io())
@@ -277,6 +294,18 @@ class InfoQr : Fragment() {
             ).addTo(disposable)
     }
 
+
+    //cambio de iconos
+    private fun showBarcodeIsFavorite(isFavorite:Boolean){
+       val iconid= if(isFavorite){
+            R.drawable.favorite_on
+        }else{
+            R.drawable.favorite_off
+       }
+        btnFavorito.setImageResource(iconid)
+    }
+
+    //muestra de mensajes
     private fun showBarcodeSaved() {
         //01 completar con los string para que sea multilenguaje
         Snackbar.make(requireView(), "qr Guardado! \uD83D\uDCCB", Snackbar.LENGTH_LONG)

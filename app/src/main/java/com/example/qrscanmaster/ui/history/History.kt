@@ -25,7 +25,9 @@ private const val ARG_PARAM2 = "param2"
 private const val PAGE_SIZE = 20
 
 class History : Fragment() {
-    private val scanHistoryAdapter=BarcodeHistoryAdapter()
+    private val scanHistoryAdapter=BarcodeHistoryAdapter{
+        Toast.makeText(requireContext(), it.text, Toast.LENGTH_SHORT).show()
+    }
     private lateinit var recycler: RecyclerView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -56,6 +56,7 @@ class Home : Fragment() {
     private var maxZoomFront=0f
     private var maxZoomBack=0f
     private val zoomStep=5
+    private var bandera =35
 
 
     //capturar imagen para ser guardada y procesada ver si puedo separar en otra clase a futuro
@@ -72,10 +73,10 @@ class Home : Fragment() {
                     inputStream?.use { stream ->
                         //convierte el flujo en un bitmap
                         val bitmap = BitmapFactory.decodeStream(stream)
-                        val result = decodeQRCode(bitmap)
-                        if (result != null) {
+                        val resultQr = decodeQRCode(bitmap)
+                        if (resultQr != null) {
                             // Se ha encontrado un código QR, hacer algo con el resultado
-                            comm.passInfoQr(result)
+                            handleScannedBarcode(resultQr)
                         } else {
                             // No se encontró ningún código QR en la imagen
                             Toast.makeText(requireActivity(), "No se encontró ningún código QR en la imagen", Toast.LENGTH_SHORT).show()
@@ -391,12 +392,12 @@ class Home : Fragment() {
 
     private fun handleScannedBarcode(result: Result){
 
-        val barcode= barcodeParser.parseResult(result)
+        var barcode= barcodeParser.parseResult(result)
+
 
         saveScannedBarcodeScreen(barcode)
 
-        //revisar esto 02
-        comm.passInfoQr(result)
+
     }
 
     private fun saveScannedBarcodeScreen(barcode:Barcode) {
@@ -405,11 +406,19 @@ class Home : Fragment() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { id ->
+                { id->
                     lastResult= barcode
-                    println("print del id del barcode")
-                    println(barcode.copy(id=id))
-
+                    //revisar esto 02
+                    comm.passInfoQr(barcode.copy(id=id))
+                    //realizar pruebas de carga recicleview
+                   /* if(bandera>0){ 03
+                        barcode.text=bandera.toString()
+                        saveScannedBarcodeScreen(barcode)
+                        bandera--
+                    }*/
+                },
+                {
+                    //error 02
                 }
             )
             .also {

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.qrscanmaster.databinding.ItemBarcodeHistoryBinding
 import com.example.qrscanmaster.model.Barcode
 
-class BarcodeHistoryAdapter: PagingDataAdapter<Barcode,BarcodeHistoryAdapter.ViewHolder>(DiffUtilCallback){
+class BarcodeHistoryAdapter (private val onBarcodeClicked: (Barcode)->Unit): PagingDataAdapter<Barcode,BarcodeHistoryAdapter.ViewHolder>(DiffUtilCallback){
     private lateinit var binding : ItemBarcodeHistoryBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -18,6 +18,7 @@ class BarcodeHistoryAdapter: PagingDataAdapter<Barcode,BarcodeHistoryAdapter.Vie
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        //ver que hace esto
         getItem(position)?.also {
             holder.show(it,position== itemCount.dec())
         }
@@ -27,13 +28,17 @@ class BarcodeHistoryAdapter: PagingDataAdapter<Barcode,BarcodeHistoryAdapter.Vie
 
         fun show(barcode: Barcode, isLastItem:Boolean){
             showText(barcode)
-            println("entra en show")
+            itemView.setOnClickListener {
+                onBarcodeClicked(barcode)
+            }
         }
 
 
         private fun showText(barcode: Barcode){
             binding.txtQrText.text=barcode.text
         }
+
+
     }
 
     private object DiffUtilCallback : DiffUtil.ItemCallback<Barcode>(){

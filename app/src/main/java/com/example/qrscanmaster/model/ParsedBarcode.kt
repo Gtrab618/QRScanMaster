@@ -8,6 +8,7 @@ class ParsedBarcode (barcode:Barcode){
     val format= barcode.format
     val  schema= barcode.schema
     val date= barcode.date
+    var isFavorite=barcode.isFavorite
     //wifi data
     var networkAuthType:String? =null
     var networkName:String? =null
