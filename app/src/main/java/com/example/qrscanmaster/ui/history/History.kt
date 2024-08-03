@@ -14,7 +14,9 @@ import androidx.paging.PagingConfig
 import androidx.paging.cachedIn
 import androidx.recyclerview.widget.RecyclerView
 import com.example.qrscanmaster.R
+import com.example.qrscanmaster.comunication.Communicator
 import com.example.qrscanmaster.dependencies.barcodeDatabase
+import com.example.qrscanmaster.extension.unsafeLazy
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -23,16 +25,18 @@ import kotlinx.coroutines.launch
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 private const val PAGE_SIZE = 20
+private lateinit var comm: Communicator
 
 class History : Fragment() {
     private val scanHistoryAdapter=BarcodeHistoryAdapter{
-        Toast.makeText(requireContext(), it.text, Toast.LENGTH_SHORT).show()
+        comm.passInfoQr(it)
     }
     private lateinit var recycler: RecyclerView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        comm= context as Communicator
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_history, container, false)
     }

@@ -2,7 +2,6 @@ package com.example.qrscanmaster.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
 import com.example.qrscanmaster.model.schema.BarcodeSchema
 import com.google.zxing.BarcodeFormat
 import java.io.Serializable

@@ -11,6 +11,7 @@ import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.qrscanmaster.model.Barcode
+import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 
 
@@ -44,6 +45,9 @@ interface BarcodeDatabase {
     //revisar la opcion de guardar duplicados que parece incesesaria primeramente 02
     @Query("SELECT * FROM codes WHERE format= :format AND text =:text LIMIT 1")
     fun find(format:String, text:String):Single<List<Barcode>>
+
+    @Query("DELETE FROM codes WHERE id = :id")
+    fun delete(id:Long):Completable
 }
 
 fun BarcodeDatabase.saveIfNotPresent(barcode:Barcode): Single<Long> {

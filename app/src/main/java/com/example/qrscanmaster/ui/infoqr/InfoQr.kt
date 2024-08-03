@@ -1,20 +1,24 @@
 package com.example.qrscanmaster.ui.infoqr
 
 import android.Manifest
+import android.app.AlertDialog
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.text.InputFilter
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import com.example.qrscanmaster.R
 import com.example.qrscanmaster.dependencies.barcodeDatabase
 import com.example.qrscanmaster.dependencies.barcodeImageGenerator
@@ -31,6 +35,8 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -46,6 +52,7 @@ class InfoQr : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: Barcode? = null
 
+    private val dateFormatter= SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.ENGLISH)
     // 01 revisar esto para inicializar solo cuando doy click en descargar atravez de lazy
     //private lateinit var drawerLayout: DrawerLayout
     private lateinit var btnEditName: ImageButton
@@ -53,6 +60,8 @@ class InfoQr : Fragment() {
     private lateinit var btnDelete: ImageButton
     private lateinit var txtSchemaName: TextView
     private lateinit var txtContent: TextView
+    private lateinit var txtNameQr: TextView
+    private lateinit var txtDate: TextView
     private lateinit var btnCopyPassWifi: Button
     private var barcodeParsed: ParsedBarcode? = null
     private lateinit var imageQr: ImageView
@@ -121,22 +130,27 @@ class InfoQr : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        //02 completar la carga es decir que carge el name si el barcode ya a sido guardado no solo al editar
         btnEditName = view.findViewById(R.id.btnEditName)
         btnDelete = view.findViewById(R.id.btnDelete)
         btnFavorito = view.findViewById(R.id.btnFavorite)
         txtSchemaName = view.findViewById(R.id.txtSchemaType)
         txtContent = view.findViewById(R.id.txtContent)
+        txtNameQr = view.findViewById(R.id.txtNameQr)
+        txtDate= view.findViewById(R.id.txtDate)
         btnCopyPassWifi = view.findViewById(R.id.btnCopyPassWifi)
         btnQrSaveImage = view.findViewById(R.id.btnSaveQr)
         drawerView = view
-        //01 reviar el redibujado desactivado en gradle el qr al girar se hace mas  grande modificar atributos de imageview xml
         imageQr = view.findViewById(R.id.mwQr)
         parseBarcodeInfo()
         initMenuBar()
         handleButtonsClicked()
         showBarcodeImage()
-
+        showDataBarcode()
+    }
+    //precargar datos para iniciar la interfaz
+    private fun parseBarcodeInfo() {
+        barcodeParsed = param1?.let { ParsedBarcode(it) }
     }
 
     private fun showBarcodeImage() {
@@ -160,14 +174,12 @@ class InfoQr : Fragment() {
 
     private fun initMenuBar() {
 
-        txtSchemaName.text = param1?.schema.toString()
-        txtContent.text = barcodeParsed?.formattedText
         btnEditName.setOnClickListener {
-            Toast.makeText(requireContext(), "test", Toast.LENGTH_SHORT).show()
+            showEditBarcodeNameDialog()
         }
 
         btnDelete.setOnClickListener {
-            Toast.makeText(requireContext(), "Delete", Toast.LENGTH_SHORT).show()
+            deleteBarcode()
         }
 
         btnFavorito.setOnClickListener {
@@ -175,6 +187,33 @@ class InfoQr : Fragment() {
         }
 
     }
+
+    private fun showDataBarcode(){
+        showBarcodeDate()
+        showBarcodeSchema()
+        showBarcodeContent()
+        showBarcodeNameInit()
+        showBarcodeSchema()
+    }
+
+    private fun showBarcodeDate(){
+
+        txtDate.text=dateFormatter.format(barcodeParsed?.date)
+
+    }
+
+    private fun showBarcodeSchema(){
+        txtSchemaName.text=barcodeParsed?.schema.toString()
+    }
+
+    private fun showBarcodeContent(){
+        txtContent.text=barcodeParsed?.text
+    }
+
+    private fun showBarcodeNameInit(){
+        showBarcodeName(barcodeParsed?.name ?: "")
+    }
+
 
     private fun handleButtonsClicked() {
         btnCopyPassWifi.setOnClickListener {
@@ -187,9 +226,6 @@ class InfoQr : Fragment() {
 
     }
 
-    private fun parseBarcodeInfo() {
-        barcodeParsed = param1?.let { ParsedBarcode(it) }
-    }
 
     private fun copyNetworkPasswordToClipboard() {
         copyToClipboard(barcodeParsed?.networkPassword.orEmpty())
@@ -227,7 +263,6 @@ class InfoQr : Fragment() {
             val bottomSheetView = layoutInflater.inflate(R.layout.bottom_save_qr_options, null)
             bottomSheetDialog.setContentView(bottomSheetView)
             bottomSheetDialog.show()
-
             val btnOptionSavePng: Button = bottomSheetView.findViewById(R.id.btnPngFormatQr)
             val btnOptionSaveSvg: Button = bottomSheetView.findViewById(R.id.btnSvgFormatQr)
 
@@ -243,6 +278,8 @@ class InfoQr : Fragment() {
                                 param1!!
                             )
                         }
+                    //01 revisar si esta forma esta bien
+                    bottomSheetDialog.dismiss()
                     saveFunComplement(saveFun)
 
                 }
@@ -257,6 +294,8 @@ class InfoQr : Fragment() {
                                 param1!!
                             )
                         }
+                    //01 revisar si esta forma esta bien
+                    bottomSheetDialog.dismiss()
                     saveFunComplement(saveFun)
                 }
 
@@ -266,28 +305,12 @@ class InfoQr : Fragment() {
         }
     }
 
-    //accinones de btn
-    private fun selectedIsFavorite(){
-
-        val temBarcode= barcodeParsed?.let { param1?.copy(isFavorite = it.isFavorite.not()) }
-        if (temBarcode != null) {
-            barcodeDatabase.save(temBarcode).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(
-                {
-                    barcodeParsed?.isFavorite=temBarcode.isFavorite
-                    showBarcodeIsFavorite(temBarcode.isFavorite)
-                },{
-                    //error
-                }
-            ).addTo(disposable)
-        }
-    }
-
-    private fun saveFunComplement(saveFun:Completable){
+    private fun saveFunComplement(saveFun: Completable) {
         //01 revisar como mostrar el guardado sobre la pantalla
         saveFun.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {showBarcodeSaved()},
+                { showBarcodeSaved() },
                 {
                     Toast.makeText(requireContext(), "error guardar", Toast.LENGTH_SHORT).show()
                 }
@@ -295,14 +318,109 @@ class InfoQr : Fragment() {
     }
 
 
-    //cambio de iconos
-    private fun showBarcodeIsFavorite(isFavorite:Boolean){
-       val iconid= if(isFavorite){
+    //accinones de btn
+    private fun selectedIsFavorite() {
+
+        val temBarcode = barcodeParsed?.let { param1?.copy(isFavorite = it.isFavorite.not()) }
+        if (temBarcode != null) {
+            barcodeDatabase.save(temBarcode).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(
+                {
+                    barcodeParsed?.isFavorite = temBarcode.isFavorite
+                    showBarcodeIsFavorite(temBarcode.isFavorite)
+                }, {
+                    //error
+                }
+            ).addTo(disposable)
+        }
+    }
+
+    private fun showEditBarcodeNameDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        //01 al poner diferentes idiomas
+        builder.setTitle("Edit Barcode Name")
+
+        // Configura el campo de entrada
+        val input = EditText(requireContext())
+        input.filters = arrayOf(InputFilter.LengthFilter(30))
+        builder.setView(input)
+
+        // Configura los botones del diálogo
+        builder.setPositiveButton("Save") { dialog, _ ->
+            val newBarcodeName = input.text.toString()
+            // Haz algo con el nuevo nombre del código de barras
+            onNameConfirmed(newBarcodeName)
+            dialog.dismiss()
+        }
+        builder.setNegativeButton("Cancel") { dialog, _ ->
+            dialog.cancel()
+        }
+
+        builder.show()
+    }
+
+    private fun deleteBarcode() {
+        val builder = AlertDialog.Builder(requireContext())
+        //01 al poner diferentes idiomas
+        builder.setTitle("Eliminar")
+
+
+        // Configura los botones del diálogo
+        builder.setPositiveButton("Confirmar") { dialog, _ ->
+            // eliminar
+
+            param1?.id?.let {
+                barcodeDatabase.delete(it).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread()).subscribe(
+                        {
+                            Toast.makeText(requireContext(), "eliminar", Toast.LENGTH_SHORT).show()
+                            requireActivity().supportFragmentManager.popBackStack()
+                        },{
+                            //error delete
+                        }
+                    ).addTo(disposable)
+            }
+
+        }
+        builder.setNegativeButton("Cancelar") { dialog, _ ->
+            dialog.cancel()
+        }
+
+        builder.show()
+    }
+
+    private fun onNameConfirmed(name: String) {
+
+        if (name.isBlank()) return
+
+        val temBarcode = param1?.id?.let { param1?.copy(id = it, name = name) }
+
+        if (temBarcode != null) {
+            barcodeDatabase.save(temBarcode).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(
+                {
+                    param1?.name = name
+                    showBarcodeName(name)
+                }, {
+                    //error
+                }
+            ).addTo(disposable)
+        }
+    }
+
+    //cambio de iconos e datos en interfaz
+    private fun showBarcodeIsFavorite(isFavorite: Boolean) {
+        val iconid = if (isFavorite) {
             R.drawable.favorite_on
-        }else{
+        } else {
             R.drawable.favorite_off
-       }
+        }
         btnFavorito.setImageResource(iconid)
+    }
+
+    private fun showBarcodeName(name: String) {
+        txtNameQr.isVisible = name.isNullOrBlank().not()
+        txtNameQr.text = name.orEmpty()
     }
 
     //muestra de mensajes
