@@ -29,6 +29,9 @@ import com.example.qrscanmaster.model.ParsedBarcode
 import com.example.qrscanmaster.util.ParmissionRequestFragment
 import com.example.qrscanmaster.util.addTo
 import com.example.qrscanmaster.util.showSnackbar
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
+import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -55,6 +58,7 @@ class InfoQr : Fragment() {
     private val dateFormatter= SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.ENGLISH)
     // 01 revisar esto para inicializar solo cuando doy click en descargar atravez de lazy
     //private lateinit var drawerLayout: DrawerLayout
+    private lateinit var adView:AdView
     private lateinit var btnEditName: ImageButton
     private lateinit var btnFavorito: ImageButton
     private lateinit var btnDelete: ImageButton
@@ -130,6 +134,8 @@ class InfoQr : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        MobileAds.initialize(requireContext()){}
+        adView= view.findViewById(R.id.adView)
         //02 completar la carga es decir que carge el name si el barcode ya a sido guardado no solo al editar
         btnEditName = view.findViewById(R.id.btnEditName)
         btnDelete = view.findViewById(R.id.btnDelete)
@@ -147,6 +153,10 @@ class InfoQr : Fragment() {
         handleButtonsClicked()
         showBarcodeImage()
         showDataBarcode()
+
+        //01 temporal anuncios
+        val adRequest = AdRequest.Builder().build()
+        adView.loadAd(adRequest)
     }
     //precargar datos para iniciar la interfaz
     private fun parseBarcodeInfo() {

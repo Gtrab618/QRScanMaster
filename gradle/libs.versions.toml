@@ -11,6 +11,7 @@ material = "1.11.0"
 activity = "1.8.0"
 constraintlayout = "2.1.4"
 core="3.5.3"
+playServicesAds = "23.2.0"
 roomCompiler = "2.6.1"
 runtime = "3.3.0"
 rxandroid = "3.0.2"
@@ -24,6 +25,7 @@ androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "ro
 
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomCompiler" }
 androidx-room-rxjava3 = { module = "androidx.room:room-rxjava3", version.ref = "roomCompiler" }
+play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "playServicesAds" }
 runtime = { module = "androidx.paging:paging-runtime", version.ref = "runtime" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
