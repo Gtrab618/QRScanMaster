@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.qrscanmaster"
+    namespace = "com.gtrab.qrscanmaster"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.qrscanmaster"
+        applicationId = "com.gtrab.qrscanmaster"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
