@@ -15,3 +15,15 @@ fun List<String?>.joinToStringNotNullOrBlank(separator:String):String{
 fun String.startsWithIgnoreCase(prefix:String):Boolean{
     return startsWith(prefix,true)
 }
+
+fun String.startsWithAnyIgnoreCase(prefixes: List<String>):Boolean{
+    var startsWith= false
+
+    prefixes.forEach{prefix->
+        if (startsWith(prefix,true)){
+            startsWith=true
+        }
+
+    }
+    return startsWith
+}

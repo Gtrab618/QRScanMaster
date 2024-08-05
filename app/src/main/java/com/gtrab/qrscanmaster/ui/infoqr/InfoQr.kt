@@ -204,6 +204,7 @@ class InfoQr : Fragment() {
         showBarcodeContent()
         showBarcodeNameInit()
         showBarcodeSchema()
+        showBarcodeIsFavorite()
     }
 
     private fun showBarcodeDate(){
@@ -217,6 +218,7 @@ class InfoQr : Fragment() {
     }
 
     private fun showBarcodeContent(){
+        //01 revisar en el futuro al momento de crear
         txtContent.text=barcodeParsed?.text
     }
 
@@ -224,6 +226,9 @@ class InfoQr : Fragment() {
         showBarcodeName(barcodeParsed?.name ?: "")
     }
 
+    private fun showBarcodeIsFavorite(){
+        showBarcodeIsFavorite(barcodeParsed?.isFavorite ?:false)
+    }
 
     private fun handleButtonsClicked() {
         btnCopyPassWifi.setOnClickListener {
