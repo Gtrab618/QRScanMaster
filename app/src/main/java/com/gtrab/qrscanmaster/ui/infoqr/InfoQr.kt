@@ -5,7 +5,9 @@ import android.app.AlertDialog
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.text.InputFilter
 import androidx.fragment.app.Fragment
@@ -67,6 +69,7 @@ class InfoQr : Fragment() {
     private lateinit var txtNameQr: TextView
     private lateinit var txtDate: TextView
     private lateinit var btnCopyPassWifi: Button
+    private lateinit var btnUrl:Button
     private var barcodeParsed: ParsedBarcode? = null
     private lateinit var imageQr: ImageView
     private lateinit var btnQrSaveImage: Button
@@ -140,6 +143,7 @@ class InfoQr : Fragment() {
         btnEditName = view.findViewById(R.id.btnEditName)
         btnDelete = view.findViewById(R.id.btnDelete)
         btnFavorito = view.findViewById(R.id.btnFavorite)
+        btnUrl= view.findViewById(R.id.btnOpenUrl)
         txtSchemaName = view.findViewById(R.id.txtSchemaType)
         txtContent = view.findViewById(R.id.txtContent)
         txtNameQr = view.findViewById(R.id.txtNameQr)
@@ -153,7 +157,7 @@ class InfoQr : Fragment() {
         handleButtonsClicked()
         showBarcodeImage()
         showDataBarcode()
-
+        showOrHideButtons()
         //01 temporal anuncios
         val adRequest = AdRequest.Builder().build()
         adView.loadAd(adRequest)
@@ -230,13 +234,25 @@ class InfoQr : Fragment() {
         showBarcodeIsFavorite(barcodeParsed?.isFavorite ?:false)
     }
 
+    //utilizando el barcode schema ver si asigno el onlistener solo a algunos botones o no
+    private fun showOrHideButtons(){
+        btnCopyPassWifi.isVisible=barcodeParsed?.networkPassword.isNullOrBlank().not()
+        btnUrl.isVisible=barcodeParsed?.url.isNullOrBlank().not()
+
+    }
+
     private fun handleButtonsClicked() {
-        btnCopyPassWifi.setOnClickListener {
-            copyNetworkPasswordToClipboard()
-        }
 
         btnQrSaveImage.setOnClickListener {
             checkPermissionStorage()
+        }
+
+        btnCopyPassWifi.setOnClickListener {
+            copyNetworkPasswordToClipboard()
+        }
+        
+        btnUrl.setOnClickListener{
+            openLink()
         }
 
     }
@@ -423,6 +439,10 @@ class InfoQr : Fragment() {
         }
     }
 
+    private fun openLink(){
+        startActivityIfExists(Intent.ACTION_VIEW,barcodeParsed?.url.orEmpty())
+    }
+
     //cambio de iconos e datos en interfaz
     private fun showBarcodeIsFavorite(isFavorite: Boolean) {
         val iconid = if (isFavorite) {
@@ -438,6 +458,10 @@ class InfoQr : Fragment() {
         txtNameQr.text = name.orEmpty()
     }
 
+    private fun startActivityIfExists(action: String,uri: String){
+        val intent= Intent(action, Uri.parse(uri))
+        startActivity(intent)
+    }
     //muestra de mensajes
     private fun showBarcodeSaved() {
         //01 completar con los string para que sea multilenguaje

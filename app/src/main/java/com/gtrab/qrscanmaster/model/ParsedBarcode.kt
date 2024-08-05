@@ -1,5 +1,7 @@
 package com.gtrab.qrscanmaster.model
 
+import com.gtrab.qrscanmaster.model.schema.BarcodeSchema
+
 class ParsedBarcode (barcode:Barcode){
     var id= barcode.id
     var name=barcode.name
@@ -18,10 +20,16 @@ class ParsedBarcode (barcode:Barcode){
     var identity:String?=null
     var eapMethod:String?=null
     var phase2Method:String?=null
+    //url
+    var url:String?=null
 
     init {
 
-        parseWifi()
+        when(schema){
+            BarcodeSchema.WIFI -> parseWifi()
+            BarcodeSchema.URL -> parseUrl()
+            else ->{}
+        }
 
     }
 
@@ -36,5 +44,9 @@ class ParsedBarcode (barcode:Barcode){
         eapMethod = wifi.eapMethod
         phase2Method = wifi.phase2Method
 
+    }
+
+    private fun parseUrl(){
+        url= text
     }
 }

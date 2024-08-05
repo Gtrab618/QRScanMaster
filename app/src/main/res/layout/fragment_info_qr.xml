@@ -225,13 +225,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:backgroundTint="@color/cardview_shadow_end_color"
-                android:drawableLeft="@drawable/copy_pass_wifi"
+                android:drawableLeft="@drawable/in_copy_pass_wifi"
                 android:drawablePadding="15dp"
                 android:text="Copiar Pass"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
-
+            <Button
+                android:id="@+id/btnOpenUrl"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:backgroundTint="@color/cardview_shadow_end_color"
+                android:drawableLeft="@drawable/in_browser"
+                android:drawablePadding="15dp"
+                android:text="Abrir Url"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
 
         </LinearLayout>
 
