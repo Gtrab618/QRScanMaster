@@ -70,6 +70,7 @@ class InfoQr : Fragment() {
     private lateinit var txtDate: TextView
     private lateinit var btnCopyPassWifi: Button
     private lateinit var btnUrl:Button
+    private lateinit var btnPlayStore:Button
     private var barcodeParsed: ParsedBarcode? = null
     private lateinit var imageQr: ImageView
     private lateinit var btnQrSaveImage: Button
@@ -150,6 +151,7 @@ class InfoQr : Fragment() {
         txtDate= view.findViewById(R.id.txtDate)
         btnCopyPassWifi = view.findViewById(R.id.btnCopyPassWifi)
         btnQrSaveImage = view.findViewById(R.id.btnSaveQr)
+        btnPlayStore= view.findViewById(R.id.btnPlayStore)
         drawerView = view
         imageQr = view.findViewById(R.id.mwQr)
         parseBarcodeInfo()
@@ -238,6 +240,7 @@ class InfoQr : Fragment() {
     private fun showOrHideButtons(){
         btnCopyPassWifi.isVisible=barcodeParsed?.networkPassword.isNullOrBlank().not()
         btnUrl.isVisible=barcodeParsed?.url.isNullOrBlank().not()
+        btnPlayStore.isVisible=barcodeParsed?.appMarketUrl.isNullOrBlank().not()
 
     }
 

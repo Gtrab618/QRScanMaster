@@ -22,15 +22,26 @@ class ParsedBarcode (barcode:Barcode){
     var phase2Method:String?=null
     //url
     var url:String?=null
+    //app
+    var appMarketUrl:String? = null
+    var appPackage:String? = null
 
     init {
 
         when(schema){
+            BarcodeSchema.APP -> parseApp()
             BarcodeSchema.WIFI -> parseWifi()
             BarcodeSchema.URL -> parseUrl()
+
             else ->{}
         }
 
+    }
+
+    private fun parseApp(){
+        appMarketUrl=text
+        // sirve para abrir el app en caso de estar instalado
+        appPackage=App.parse(text)?.appPackage
     }
 
     private fun parseWifi(){

@@ -6,6 +6,7 @@ import com.gtrab.qrscanmaster.model.schema.Schema
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.Result
 import com.google.zxing.ResultMetadataType
+import com.gtrab.qrscanmaster.model.App
 import com.gtrab.qrscanmaster.model.Other
 import com.gtrab.qrscanmaster.model.Url
 
@@ -23,11 +24,12 @@ object BarcodeParse {
         )
     }
 
-    fun parseSchema(format: BarcodeFormat, text:String): Schema {
+    private fun parseSchema(format: BarcodeFormat, text:String): Schema {
         if(format != BarcodeFormat.QR_CODE){
 
         }
-        return Wifi.parse(text)
+        return App.parse(text)
+            ?: Wifi.parse(text)
             ?: Url.parse(text)
             ?: Other(text)
 

@@ -125,6 +125,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="13dp"
                         android:layout_marginEnd="5dp"
+                        android:autoLink="all"
                         android:text="Content" />
 
                     <TextView
@@ -237,6 +238,17 @@
                 android:layout_height="60dp"
                 android:backgroundTint="@color/cardview_shadow_end_color"
                 android:drawableLeft="@drawable/in_browser"
+                android:drawablePadding="15dp"
+                android:text="Abrir Url"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+            <Button
+                android:id="@+id/btnPlayStore"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:backgroundTint="@color/cardview_shadow_end_color"
+                android:drawableLeft="@drawable/in_store"
                 android:drawablePadding="15dp"
                 android:text="Abrir Url"
                 android:textAlignment="textStart"

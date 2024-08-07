@@ -27,3 +27,6 @@ fun String.startsWithAnyIgnoreCase(prefixes: List<String>):Boolean{
     }
     return startsWith
 }
+fun String.removePrefixIgnoreCase(prefix: String): String {
+    return substring(prefix.length)
+}
