@@ -8,6 +8,7 @@ fun BarcodeSchema.toImageId(): Int?{
         BarcodeSchema.APP -> R.drawable.hs_store
         BarcodeSchema.WIFI -> R.drawable.hs_wifi
         BarcodeSchema.URL -> R.drawable.hs_link
-        else -> null
+        //arreglar el de otro
+        else -> R.drawable.history
     }
 }

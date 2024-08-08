@@ -1,5 +1,6 @@
 [versions]
 agp = "8.3.1"
+barcodeScanning = "17.3.0"
 codeScannerVersion = "2.3.2"
 kotlin = "1.9.0"
 coreKtx = "1.13.0"
@@ -25,6 +26,7 @@ androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "ro
 
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomCompiler" }
 androidx-room-rxjava3 = { module = "androidx.room:room-rxjava3", version.ref = "roomCompiler" }
+barcode-scanning = { module = "com.google.mlkit:barcode-scanning", version.ref = "barcodeScanning" }
 play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "playServicesAds" }
 runtime = { module = "androidx.paging:paging-runtime", version.ref = "runtime" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

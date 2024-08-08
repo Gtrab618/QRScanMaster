@@ -21,18 +21,20 @@ import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.CodeScannerView
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ScanMode
+import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.google.mlkit.vision.common.InputImage
 import com.gtrab.qrscanmaster.R
 import com.gtrab.qrscanmaster.comunication.Communicator
 import com.gtrab.qrscanmaster.dependencies.barcodeDatabase
-
 import com.gtrab.qrscanmaster.dependencies.barcodeParser
 import com.gtrab.qrscanmaster.dependencies.scannerCameraHelper
 import com.gtrab.qrscanmaster.dependencies.settingGen
-import com.gtrab.qrscanmaster.model.Barcode
 import com.gtrab.qrscanmaster.services.SqliteService
 import com.gtrab.qrscanmaster.usecase.saveIfNotPresent
-import com.gtrab.qrscanmaster.util.decodeQRCode
 import com.google.zxing.Result
+import com.gtrab.qrscanmaster.model.Barcode
+import com.gtrab.qrscanmaster.util.decodeQRCode
+import com.gtrab.qrscanmaster.util.getFormatString
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.io.IOException
@@ -65,6 +67,9 @@ class Home : Fragment() {
             //selecciono la uri para procesar la imagen
             val selectedImageUri= result.data?.data
             //let si no esta vacio
+
+
+
             selectedImageUri?.let { uri ->
                 try {
                     //leo un stream del archivo
@@ -77,8 +82,38 @@ class Home : Fragment() {
                             // Se ha encontrado un código QR, hacer algo con el resultado
                             handleScannedBarcode(resultQr)
                         } else {
-                            // No se encontró ningún código QR en la imagen
-                            Toast.makeText(requireActivity(), "No se encontró ningún código QR en la imagen", Toast.LENGTH_SHORT).show()
+                            // revisar si es un qr personalizado demora mas !!!!!!!!!!!!!!!!!!!!!
+                            //api de google para qr personalizados
+                            val image :InputImage?
+                            try {
+                                image = selectedImageUri?.let { InputImage.fromFilePath(requireContext(), it) }
+
+                                if (image != null){
+                                    val scanner = BarcodeScanning.getClient()
+                                    val result =scanner.process(image).addOnSuccessListener { barcodes->
+
+                                        if(barcodes.size>0){
+                                            val qrcode=barcodes[0]
+                                            val resultQr = Result(
+                                                qrcode.rawValue, // El texto del código QR
+                                                qrcode.rawBytes, // Los datos en bytes del código QR
+                                                null, // Los puntos del resultado
+                                                qrcode.getFormatString(qrcode.format), // El formato del código QR
+                                                System.nanoTime() // El timestamp
+                                            )
+                                            handleScannedBarcode(resultQr)
+                                        }else{
+                                            Toast.makeText(requireContext(), "Qr no encontrado", Toast.LENGTH_SHORT).show()
+                                        }
+
+                                    }.addOnFailureListener{
+                                        Toast.makeText(requireContext(), "Error  94 escaner qr home", Toast.LENGTH_SHORT).show()
+                                    }
+
+                                }
+                            }catch (e:IOException){
+                                e.printStackTrace()
+                            }
                         }
                     }
 

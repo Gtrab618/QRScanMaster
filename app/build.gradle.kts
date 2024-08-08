@@ -59,5 +59,7 @@ dependencies {
     implementation(libs.androidx.room.paging)
     implementation(libs.androidx.room.rxjava3)
     implementation(libs.play.services.ads)
+    implementation (libs.barcode.scanning)
+
 
 }
