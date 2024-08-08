@@ -1,9 +1,7 @@
-package com.gtrab.qrscanmaster.model
+package com.gtrab.qrscanmaster.model.schema
 
 import com.gtrab.qrscanmaster.extension.startsWithAnyIgnoreCase
 import com.gtrab.qrscanmaster.extension.startsWithIgnoreCase
-import com.gtrab.qrscanmaster.model.schema.BarcodeSchema
-import com.gtrab.qrscanmaster.model.schema.Schema
 
 class Url(val url:String):Schema {
     companion object{
@@ -13,7 +11,7 @@ class Url(val url:String):Schema {
         private val PREFIXES= listOf(HTTP_PREFIX, HTTPS_PREFIX, WWW_PREFIX)
 
 
-        fun parse(text:String):Url?{
+        fun parse(text:String): Url?{
             if(text.startsWithAnyIgnoreCase(PREFIXES).not()){
                 return null
             }

@@ -1,11 +1,9 @@
-package com.gtrab.qrscanmaster.model
+package com.gtrab.qrscanmaster.model.schema
 
 import com.gtrab.qrscanmaster.extension.appendIfNotNullOrBlank
 import com.gtrab.qrscanmaster.extension.joinToStringNotNullOrBlankWithLineSeparator
 import com.gtrab.qrscanmaster.extension.startsWithIgnoreCase
 import com.gtrab.qrscanmaster.extension.unescape
-import com.gtrab.qrscanmaster.model.schema.BarcodeSchema
-import com.gtrab.qrscanmaster.model.schema.Schema
 import java.util.Locale
 
 
@@ -32,7 +30,7 @@ class Wifi (val encryption: String? = null,
         private const val PHASE2_PREFIX = "PH2:"
         private const val SEPARATOR = ";"
 
-        fun parse(text:String):Wifi?{
+        fun parse(text:String): Wifi?{
             if(text.startsWithIgnoreCase(SCHEMA_PREFIX).not()){
                 return null
             }

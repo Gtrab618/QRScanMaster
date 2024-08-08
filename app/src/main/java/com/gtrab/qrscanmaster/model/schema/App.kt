@@ -1,10 +1,8 @@
-package com.gtrab.qrscanmaster.model
+package com.gtrab.qrscanmaster.model.schema
 
 import com.gtrab.qrscanmaster.extension.removePrefixIgnoreCase
 import com.gtrab.qrscanmaster.extension.startsWithAnyIgnoreCase
 import com.gtrab.qrscanmaster.extension.unsafeLazy
-import com.gtrab.qrscanmaster.model.schema.BarcodeSchema
-import com.gtrab.qrscanmaster.model.schema.Schema
 
 class App(val url:String): Schema {
 
@@ -12,7 +10,7 @@ class App(val url:String): Schema {
 
         private val PREFIXES = listOf("market://details?id=", "market://search", "http://play.google.com/", "https://play.google.com/")
 
-        fun parse (text:String):App?{
+        fun parse (text:String): App?{
             if (text.startsWithAnyIgnoreCase(PREFIXES).not()){
                 return null
             }

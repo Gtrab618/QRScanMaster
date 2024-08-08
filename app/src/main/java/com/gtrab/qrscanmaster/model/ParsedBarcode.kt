@@ -1,6 +1,8 @@
 package com.gtrab.qrscanmaster.model
 
+import com.gtrab.qrscanmaster.model.schema.App
 import com.gtrab.qrscanmaster.model.schema.BarcodeSchema
+import com.gtrab.qrscanmaster.model.schema.Wifi
 
 class ParsedBarcode (barcode:Barcode){
     var id= barcode.id
@@ -41,7 +43,7 @@ class ParsedBarcode (barcode:Barcode){
     private fun parseApp(){
         appMarketUrl=text
         // sirve para abrir el app en caso de estar instalado
-        appPackage=App.parse(text)?.appPackage
+        appPackage= App.parse(text)?.appPackage
     }
 
     private fun parseWifi(){
