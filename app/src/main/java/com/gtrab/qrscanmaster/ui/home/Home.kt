@@ -86,31 +86,29 @@ class Home : Fragment() {
                             //api de google para qr personalizados
                             val image :InputImage?
                             try {
-                                image = selectedImageUri?.let { InputImage.fromFilePath(requireContext(), it) }
+                                image = selectedImageUri.let { InputImage.fromFilePath(requireContext(), it) }
 
-                                if (image != null){
-                                    val scanner = BarcodeScanning.getClient()
-                                    val result =scanner.process(image).addOnSuccessListener { barcodes->
+                                val scanner = BarcodeScanning.getClient()
+                                val result =scanner.process(image).addOnSuccessListener { barcodes->
 
-                                        if(barcodes.size>0){
-                                            val qrcode=barcodes[0]
-                                            val resultQr = Result(
-                                                qrcode.rawValue, // El texto del código QR
-                                                qrcode.rawBytes, // Los datos en bytes del código QR
-                                                null, // Los puntos del resultado
-                                                qrcode.getFormatString(qrcode.format), // El formato del código QR
-                                                System.nanoTime() // El timestamp
-                                            )
-                                            handleScannedBarcode(resultQr)
-                                        }else{
-                                            Toast.makeText(requireContext(), "Qr no encontrado", Toast.LENGTH_SHORT).show()
-                                        }
-
-                                    }.addOnFailureListener{
-                                        Toast.makeText(requireContext(), "Error  94 escaner qr home", Toast.LENGTH_SHORT).show()
+                                    if(barcodes.size>0){
+                                        val qrcode=barcodes[0]
+                                        val resultQr = Result(
+                                            qrcode.rawValue, // El texto del código QR
+                                            qrcode.rawBytes, // Los datos en bytes del código QR
+                                            null, // Los puntos del resultado
+                                            qrcode.getFormatString(qrcode.format), // El formato del código QR
+                                            System.nanoTime() // El timestamp
+                                        )
+                                        handleScannedBarcode(resultQr)
+                                    }else{
+                                        Toast.makeText(requireContext(), "Qr no encontrado", Toast.LENGTH_SHORT).show()
                                     }
 
+                                }.addOnFailureListener{
+                                    Toast.makeText(requireContext(), "Error  94 escaner qr home", Toast.LENGTH_SHORT).show()
                                 }
+
                             }catch (e:IOException){
                                 e.printStackTrace()
                             }
