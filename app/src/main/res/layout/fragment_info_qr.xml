@@ -256,13 +256,24 @@
                 android:textSize="18sp" />
 
             <Button
-                android:id="@+id/btnOpenSms"
+                android:id="@+id/btnSendSms"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:backgroundTint="@color/cardview_shadow_end_color"
                 android:drawableLeft="@drawable/in_sms"
                 android:drawablePadding="15dp"
                 android:text="Enviar SMS"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+            <Button
+                android:id="@+id/btnLookLocation"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:backgroundTint="@color/cardview_shadow_end_color"
+                android:drawableLeft="@drawable/in_location"
+                android:drawablePadding="15dp"
+                android:text="Mostrar ubicación"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
                 android:textSize="18sp" />

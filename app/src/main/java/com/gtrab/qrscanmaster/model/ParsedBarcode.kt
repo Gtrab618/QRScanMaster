@@ -2,6 +2,7 @@ package com.gtrab.qrscanmaster.model
 
 import com.gtrab.qrscanmaster.model.schema.App
 import com.gtrab.qrscanmaster.model.schema.BarcodeSchema
+import com.gtrab.qrscanmaster.model.schema.Sms
 import com.gtrab.qrscanmaster.model.schema.Wifi
 
 class ParsedBarcode (barcode:Barcode){
@@ -27,14 +28,20 @@ class ParsedBarcode (barcode:Barcode){
     //app
     var appMarketUrl:String? = null
     var appPackage:String? = null
+    //SMS
+    var phone:String? = null
+    var smsBody:String?= null
+    //Geo
+    var geoUri:String? =null
 
     init {
 
         when(schema){
             BarcodeSchema.APP -> parseApp()
+            BarcodeSchema.GEO -> parseGeo()
             BarcodeSchema.WIFI -> parseWifi()
             BarcodeSchema.URL -> parseUrl()
-
+            BarcodeSchema.SMS -> parseSms()
             else ->{}
         }
 
@@ -45,6 +52,12 @@ class ParsedBarcode (barcode:Barcode){
         // sirve para abrir el app en caso de estar instalado
         appPackage= App.parse(text)?.appPackage
     }
+
+    private fun parseGeo(){
+        geoUri=text
+
+    }
+
 
     private fun parseWifi(){
         val wifi = Wifi.parse(text) ?: return
@@ -61,5 +74,11 @@ class ParsedBarcode (barcode:Barcode){
 
     private fun parseUrl(){
         url= text
+    }
+
+    private fun parseSms(){
+        val sms= Sms.parse(text) ?: return
+        phone = sms.phone
+        smsBody= sms.message
     }
 }

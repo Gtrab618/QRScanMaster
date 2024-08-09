@@ -98,7 +98,7 @@ class Home : Fragment() {
                                             qrcode.rawBytes, // Los datos en bytes del código QR
                                             null, // Los puntos del resultado
                                             qrcode.getFormatString(qrcode.format), // El formato del código QR
-                                            System.nanoTime() // El timestamp
+                                            System.currentTimeMillis() // El timestamp
                                         )
                                         handleScannedBarcode(resultQr)
                                     }else{

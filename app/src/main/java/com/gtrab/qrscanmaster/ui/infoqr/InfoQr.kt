@@ -6,6 +6,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -71,6 +72,7 @@ class InfoQr : Fragment() {
     private lateinit var btnCopyPassWifi: Button
     private lateinit var btnUrl:Button
     private lateinit var btnPlayStore:Button
+    private lateinit var btnSendSms:Button
     private var barcodeParsed: ParsedBarcode? = null
     private lateinit var imageQr: ImageView
     private lateinit var btnQrSaveImage: Button
@@ -152,6 +154,7 @@ class InfoQr : Fragment() {
         btnCopyPassWifi = view.findViewById(R.id.btnCopyPassWifi)
         btnQrSaveImage = view.findViewById(R.id.btnSaveQr)
         btnPlayStore= view.findViewById(R.id.btnPlayStore)
+        btnSendSms=view.findViewById(R.id.btnSendSms)
         drawerView = view
         imageQr = view.findViewById(R.id.mwQr)
         parseBarcodeInfo()
@@ -225,7 +228,7 @@ class InfoQr : Fragment() {
 
     private fun showBarcodeContent(){
         //01 revisar en el futuro al momento de crear
-        txtContent.text=barcodeParsed?.text
+        txtContent.text=barcodeParsed?.formattedText
     }
 
     private fun showBarcodeNameInit(){
@@ -241,7 +244,7 @@ class InfoQr : Fragment() {
         btnCopyPassWifi.isVisible=barcodeParsed?.networkPassword.isNullOrBlank().not()
         btnUrl.isVisible=barcodeParsed?.url.isNullOrBlank().not()
         btnPlayStore.isVisible=barcodeParsed?.appMarketUrl.isNullOrBlank().not()
-
+        btnSendSms.isVisible=barcodeParsed?.phone.isNullOrBlank().not() || barcodeParsed?.smsBody.isNullOrBlank().not()
     }
 
     private fun handleButtonsClicked() {
@@ -258,6 +261,9 @@ class InfoQr : Fragment() {
             openLink()
         }
 
+        btnSendSms.setOnClickListener{
+            sendSmsOrMms(barcodeParsed?.phone)
+        }
     }
 
 
@@ -446,6 +452,17 @@ class InfoQr : Fragment() {
         startActivityIfExists(Intent.ACTION_VIEW,barcodeParsed?.url.orEmpty())
     }
 
+    private fun sendSmsOrMms(phone:String?){
+        val uri = Uri.parse("sms:${phone.orEmpty()}")
+
+        val intent =Intent(Intent.ACTION_SENDTO,uri).apply {
+            putExtra("sms_body",barcodeParsed?.smsBody.orEmpty())
+        }
+
+           startActivityIfExists(intent)
+    }
+
+
     //cambio de iconos e datos en interfaz
     private fun showBarcodeIsFavorite(isFavorite: Boolean) {
         val iconid = if (isFavorite) {
@@ -465,6 +482,19 @@ class InfoQr : Fragment() {
         val intent= Intent(action, Uri.parse(uri))
         startActivity(intent)
     }
+    private fun startActivityIfExists(intent: Intent){
+        intent.apply {
+            flags = flags or Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+
+        if(intent.resolveActivity(requireContext().packageManager)!=null){
+            startActivity(intent)
+        }else{
+            Toast.makeText(requireContext(), "01 app no encontrada", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
     //muestra de mensajes
     private fun showBarcodeSaved() {
         //01 completar con los string para que sea multilenguaje
