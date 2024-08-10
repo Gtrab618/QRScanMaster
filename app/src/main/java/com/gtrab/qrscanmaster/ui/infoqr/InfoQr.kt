@@ -73,6 +73,7 @@ class InfoQr : Fragment() {
     private lateinit var btnUrl:Button
     private lateinit var btnPlayStore:Button
     private lateinit var btnSendSms:Button
+    private lateinit var btnLookLocation:Button
     private var barcodeParsed: ParsedBarcode? = null
     private lateinit var imageQr: ImageView
     private lateinit var btnQrSaveImage: Button
@@ -155,6 +156,7 @@ class InfoQr : Fragment() {
         btnQrSaveImage = view.findViewById(R.id.btnSaveQr)
         btnPlayStore= view.findViewById(R.id.btnPlayStore)
         btnSendSms=view.findViewById(R.id.btnSendSms)
+        btnLookLocation= view.findViewById(R.id.btnLookLocation)
         drawerView = view
         imageQr = view.findViewById(R.id.mwQr)
         parseBarcodeInfo()
@@ -245,6 +247,8 @@ class InfoQr : Fragment() {
         btnUrl.isVisible=barcodeParsed?.url.isNullOrBlank().not()
         btnPlayStore.isVisible=barcodeParsed?.appMarketUrl.isNullOrBlank().not()
         btnSendSms.isVisible=barcodeParsed?.phone.isNullOrBlank().not() || barcodeParsed?.smsBody.isNullOrBlank().not()
+        btnLookLocation.isVisible=barcodeParsed?.geoUri.isNullOrBlank().not()
+
     }
 
     private fun handleButtonsClicked() {
@@ -264,6 +268,11 @@ class InfoQr : Fragment() {
         btnSendSms.setOnClickListener{
             sendSmsOrMms(barcodeParsed?.phone)
         }
+
+        btnLookLocation.setOnClickListener {
+            showLocation()
+        }
+
     }
 
 
@@ -459,9 +468,14 @@ class InfoQr : Fragment() {
             putExtra("sms_body",barcodeParsed?.smsBody.orEmpty())
         }
 
-           startActivityIfExists(intent)
+        startActivityIfExists(intent)
     }
 
+    private fun showLocation(){
+        val geoUri= barcodeParsed?.geoUri
+        startActivityIfExists(Intent.ACTION_VIEW, geoUri.orEmpty())
+
+    }
 
     //cambio de iconos e datos en interfaz
     private fun showBarcodeIsFavorite(isFavorite: Boolean) {

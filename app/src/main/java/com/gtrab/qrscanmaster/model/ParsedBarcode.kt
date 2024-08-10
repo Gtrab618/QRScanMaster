@@ -2,6 +2,7 @@ package com.gtrab.qrscanmaster.model
 
 import com.gtrab.qrscanmaster.model.schema.App
 import com.gtrab.qrscanmaster.model.schema.BarcodeSchema
+import com.gtrab.qrscanmaster.model.schema.Geo
 import com.gtrab.qrscanmaster.model.schema.Sms
 import com.gtrab.qrscanmaster.model.schema.Wifi
 
@@ -54,8 +55,8 @@ class ParsedBarcode (barcode:Barcode){
     }
 
     private fun parseGeo(){
-        geoUri=text
-
+        val geo = Geo.parse(text)
+        geoUri=geo?.uri
     }
 
 

@@ -4,7 +4,7 @@ import com.gtrab.qrscanmaster.extension.removePrefixIgnoreCase
 import com.gtrab.qrscanmaster.extension.startsWithIgnoreCase
 
 class Geo :Schema{
-    private val uri:String
+    val uri:String
     private constructor(uri :String){
         this.uri=uri
     }
@@ -17,14 +17,16 @@ class Geo :Schema{
             if (text.startsWithIgnoreCase(PREFIX).not()){
                 return null
             }
-            return Geo(text)
+
+            val uri = "$text?q=${text.removePrefixIgnoreCase(PREFIX)}"
+            return Geo(uri)
         }
     }
 
     //para crear
     constructor(latitude:String, longitude:String, altitude:String?=null){
         uri = if (altitude.isNullOrEmpty()) {
-            "$PREFIX$latitude$SEPARATOR$longitude"
+            "$PREFIX$latitude$SEPARATOR$longitude?q=$latitude$longitude"
         } else {
             "$PREFIX$latitude$SEPARATOR$longitude$SEPARATOR$altitude"
         }
