@@ -35,6 +35,7 @@ object BarcodeParse {
             ?: Url.parse(text)
             ?: Geo.parse(text)
             ?: Sms.parse(text)
+
             ?: Other(text)
 
     }

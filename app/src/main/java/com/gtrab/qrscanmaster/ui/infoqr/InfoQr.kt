@@ -6,7 +6,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -196,7 +195,7 @@ class InfoQr : Fragment() {
     private fun initMenuBar() {
 
         btnEditName.setOnClickListener {
-            showEditBarcodeNameDialog()
+            throw  RuntimeException("Test Crash");
         }
 
         btnDelete.setOnClickListener {
@@ -248,7 +247,7 @@ class InfoQr : Fragment() {
         btnPlayStore.isVisible=barcodeParsed?.appMarketUrl.isNullOrBlank().not()
         btnSendSms.isVisible=barcodeParsed?.phone.isNullOrBlank().not() || barcodeParsed?.smsBody.isNullOrBlank().not()
         btnLookLocation.isVisible=barcodeParsed?.geoUri.isNullOrBlank().not()
-
+        println(barcodeParsed?.text)
     }
 
     private fun handleButtonsClicked() {

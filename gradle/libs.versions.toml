@@ -16,14 +16,13 @@ playServicesAds = "23.2.0"
 roomCompiler = "2.6.1"
 runtime = "3.3.0"
 rxandroid = "3.0.2"
-rxjava = "3.1.8"
 zxingAndroidEmbedded="4.3.0"
+kspVersion="1.9.0-1.0.13"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
 androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "roomCompiler" }
-
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomCompiler" }
 androidx-room-rxjava3 = { module = "androidx.room:room-rxjava3", version.ref = "roomCompiler" }
 barcode-scanning = { module = "com.google.mlkit:barcode-scanning", version.ref = "barcodeScanning" }
@@ -43,3 +42,4 @@ zxing-android-embedded = { module = "com.journeyapps:zxing-android-embedded", ve
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+devKsp={id="com.google.devtools.ksp", version.ref="kspVersion"}
