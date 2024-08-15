@@ -7,6 +7,7 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.Result
 import com.google.zxing.ResultMetadataType
 import com.gtrab.qrscanmaster.model.schema.App
+import com.gtrab.qrscanmaster.model.schema.BoardingPass
 import com.gtrab.qrscanmaster.model.schema.Geo
 import com.gtrab.qrscanmaster.model.schema.Other
 import com.gtrab.qrscanmaster.model.schema.Sms
@@ -35,7 +36,7 @@ object BarcodeParse {
             ?: Url.parse(text)
             ?: Geo.parse(text)
             ?: Sms.parse(text)
-
+            ?: BoardingPass.parse(text)
             ?: Other(text)
 
     }

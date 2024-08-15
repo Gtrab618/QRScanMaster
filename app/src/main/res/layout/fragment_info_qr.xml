@@ -278,6 +278,18 @@
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
+            <Button
+                android:id="@+id/btnSearchFlight"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:backgroundTint="@color/cardview_shadow_end_color"
+                android:drawableLeft="@drawable/in_flight"
+                android:drawablePadding="15dp"
+                android:text="Ver state vuelo"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
         </LinearLayout>
 
     </ScrollView>

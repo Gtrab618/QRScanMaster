@@ -73,6 +73,7 @@ class InfoQr : Fragment() {
     private lateinit var btnPlayStore:Button
     private lateinit var btnSendSms:Button
     private lateinit var btnLookLocation:Button
+    private lateinit var btnSearchFlight:Button
     private var barcodeParsed: ParsedBarcode? = null
     private lateinit var imageQr: ImageView
     private lateinit var btnQrSaveImage: Button
@@ -195,7 +196,7 @@ class InfoQr : Fragment() {
     private fun initMenuBar() {
 
         btnEditName.setOnClickListener {
-            throw  RuntimeException("Test Crash");
+            showEditBarcodeNameDialog()
         }
 
         btnDelete.setOnClickListener {
@@ -247,7 +248,7 @@ class InfoQr : Fragment() {
         btnPlayStore.isVisible=barcodeParsed?.appMarketUrl.isNullOrBlank().not()
         btnSendSms.isVisible=barcodeParsed?.phone.isNullOrBlank().not() || barcodeParsed?.smsBody.isNullOrBlank().not()
         btnLookLocation.isVisible=barcodeParsed?.geoUri.isNullOrBlank().not()
-        println(barcodeParsed?.text)
+
     }
 
     private fun handleButtonsClicked() {
@@ -272,6 +273,9 @@ class InfoQr : Fragment() {
             showLocation()
         }
 
+        btnSearchFlight.setOnClickListener {
+            Toast.makeText(requireContext(), "abrir url de flight", Toast.LENGTH_SHORT).show()
+        }
     }
 
 

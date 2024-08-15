@@ -42,7 +42,9 @@ class ParsedBarcode (barcode:Barcode){
             BarcodeSchema.GEO -> parseGeo()
             BarcodeSchema.WIFI -> parseWifi()
             BarcodeSchema.URL -> parseUrl()
+            BarcodeSchema.BOARDINGPASS,
             BarcodeSchema.SMS -> parseSms()
+
             else ->{}
         }
 
