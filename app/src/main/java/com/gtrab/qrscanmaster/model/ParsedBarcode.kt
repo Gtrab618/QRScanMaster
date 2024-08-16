@@ -2,6 +2,7 @@ package com.gtrab.qrscanmaster.model
 
 import com.gtrab.qrscanmaster.model.schema.App
 import com.gtrab.qrscanmaster.model.schema.BarcodeSchema
+import com.gtrab.qrscanmaster.model.schema.BoardingPass
 import com.gtrab.qrscanmaster.model.schema.Geo
 import com.gtrab.qrscanmaster.model.schema.Sms
 import com.gtrab.qrscanmaster.model.schema.Wifi
@@ -34,7 +35,8 @@ class ParsedBarcode (barcode:Barcode){
     var smsBody:String?= null
     //Geo
     var geoUri:String? =null
-
+    //flight
+    var numberFlight:String? =null
     init {
 
         when(schema){
@@ -83,5 +85,10 @@ class ParsedBarcode (barcode:Barcode){
         val sms= Sms.parse(text) ?: return
         phone = sms.phone
         smsBody= sms.message
+    }
+
+    private fun parseFlight(){
+        val flight= BoardingPass.parse(text)
+        numberFlight=flight?.flight;
     }
 }

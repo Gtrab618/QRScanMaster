@@ -14,7 +14,7 @@ class BoardingPass(
     private val from:String? = null,
     private val to :String? = null,
     private val carrier: String? = null,
-    private val flight: String?= null,
+    val flight: String?= null,
     private val date: String?=null,
     private val cabin: String? = null,
     private val seat: String? = null,

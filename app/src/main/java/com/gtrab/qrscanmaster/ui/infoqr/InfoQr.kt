@@ -157,6 +157,7 @@ class InfoQr : Fragment() {
         btnPlayStore= view.findViewById(R.id.btnPlayStore)
         btnSendSms=view.findViewById(R.id.btnSendSms)
         btnLookLocation= view.findViewById(R.id.btnLookLocation)
+        btnSearchFlight= view.findViewById(R.id.btnSearchFlight)
         drawerView = view
         imageQr = view.findViewById(R.id.mwQr)
         parseBarcodeInfo()
@@ -248,6 +249,7 @@ class InfoQr : Fragment() {
         btnPlayStore.isVisible=barcodeParsed?.appMarketUrl.isNullOrBlank().not()
         btnSendSms.isVisible=barcodeParsed?.phone.isNullOrBlank().not() || barcodeParsed?.smsBody.isNullOrBlank().not()
         btnLookLocation.isVisible=barcodeParsed?.geoUri.isNullOrBlank().not()
+        btnSearchFlight.isVisible=barcodeParsed?.numberFlight.isNullOrBlank().not()
 
     }
 
