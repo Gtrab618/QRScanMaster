@@ -11,6 +11,7 @@ fun BarcodeSchema.toImageId(): Int{
         BarcodeSchema.SMS -> R.drawable.hs_sms
         BarcodeSchema.GEO -> R.drawable.hs_location
         BarcodeSchema.BOARDINGPASS -> R.drawable.hs_flight
+        BarcodeSchema.VCARD -> R.drawable.hs_vcard
         //arreglar el de otro
         else -> R.drawable.history
     }

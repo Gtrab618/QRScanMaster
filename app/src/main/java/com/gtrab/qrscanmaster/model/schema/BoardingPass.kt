@@ -13,7 +13,7 @@ class BoardingPass(
     private val pnr: String? = null,
     private val from:String? = null,
     private val to :String? = null,
-    private val carrier: String? = null,
+    val carrier: String? = null,
     val flight: String?= null,
     private val date: String?=null,
     private val cabin: String? = null,

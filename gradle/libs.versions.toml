@@ -2,9 +2,13 @@
 agp = "8.3.1"
 barcodeScanning = "17.3.0"
 codeScannerVersion = "2.3.2"
+ezVcard = "0.12.1"
 firebaseAds = "23.2.0"
 firebaseCrashlyticsKtx = "19.0.3"
 firebasePerf = "21.0.1"
+ical4j = "4.0.2"
+ical4jVcard = "2.0.0-rc1"
+ical4jVcardVersion = "2.0.0-rc1"
 kotlin = "1.9.0"
 coreKtx = "1.13.0"
 junit = "4.13.2"
@@ -33,6 +37,7 @@ androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "ro
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomCompiler" }
 androidx-room-rxjava3 = { module = "androidx.room:room-rxjava3", version.ref = "roomCompiler" }
 barcode-scanning = { module = "com.google.mlkit:barcode-scanning", version.ref = "barcodeScanning" }
+ez-vcard = { module = "com.googlecode.ez-vcard:ez-vcard", version.ref = "ezVcard" }
 firebase-ads = { module = "com.google.firebase:firebase-ads", version.ref = "firebaseAds" }
 firebase-perf = { module = "com.google.firebase:firebase-perf", version.ref = "firebasePerf" }
 runtime = { module = "androidx.paging:paging-runtime", version.ref = "runtime" }

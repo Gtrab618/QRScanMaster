@@ -9,6 +9,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.text.InputFilter
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -35,7 +36,9 @@ import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.gtrab.qrscanmaster.R
+import com.gtrab.qrscanmaster.model.schema.BarcodeSchema
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -74,6 +77,10 @@ class InfoQr : Fragment() {
     private lateinit var btnSendSms:Button
     private lateinit var btnLookLocation:Button
     private lateinit var btnSearchFlight:Button
+    private lateinit var btnAddContact:Button
+    private lateinit var btnSendEmail:Button
+
+
     private var barcodeParsed: ParsedBarcode? = null
     private lateinit var imageQr: ImageView
     private lateinit var btnQrSaveImage: Button
@@ -158,6 +165,8 @@ class InfoQr : Fragment() {
         btnSendSms=view.findViewById(R.id.btnSendSms)
         btnLookLocation= view.findViewById(R.id.btnLookLocation)
         btnSearchFlight= view.findViewById(R.id.btnSearchFlight)
+        btnAddContact= view.findViewById(R.id.btnAddContact)
+        btnSendEmail=view.findViewById(R.id.btnSendEmail)
         drawerView = view
         imageQr = view.findViewById(R.id.mwQr)
         parseBarcodeInfo()
@@ -250,7 +259,9 @@ class InfoQr : Fragment() {
         btnSendSms.isVisible=barcodeParsed?.phone.isNullOrBlank().not() || barcodeParsed?.smsBody.isNullOrBlank().not()
         btnLookLocation.isVisible=barcodeParsed?.geoUri.isNullOrBlank().not()
         btnSearchFlight.isVisible=barcodeParsed?.numberFlight.isNullOrBlank().not()
-
+        btnAddContact.isVisible=BarcodeSchema.VCARD==barcodeParsed?.schema
+        btnSendEmail.isVisible=barcodeParsed?.email.isNullOrBlank().not()
+        //01 revisar si  se le integra con whassap enviar whatasspp
     }
 
     private fun handleButtonsClicked() {
@@ -264,7 +275,7 @@ class InfoQr : Fragment() {
         }
         
         btnUrl.setOnClickListener{
-            openLink()
+            openLink(barcodeParsed?.url.orEmpty())
         }
 
         btnSendSms.setOnClickListener{
@@ -276,7 +287,15 @@ class InfoQr : Fragment() {
         }
 
         btnSearchFlight.setOnClickListener {
-            Toast.makeText(requireContext(), "abrir url de flight", Toast.LENGTH_SHORT).show()
+            openLink("https://www.flightradar24.com/data/flights/"+barcodeParsed?.numberFlight)
+        }
+
+        btnAddContact.setOnClickListener {
+            addToContacts()
+        }
+
+        btnSendEmail.setOnClickListener {
+            sendEmail(barcodeParsed?.email.orEmpty())
         }
     }
 
@@ -462,8 +481,8 @@ class InfoQr : Fragment() {
         }
     }
 
-    private fun openLink(){
-        startActivityIfExists(Intent.ACTION_VIEW,barcodeParsed?.url.orEmpty())
+    private fun openLink(url :String ){
+        startActivityIfExists(Intent.ACTION_VIEW,url)
     }
 
     private fun sendSmsOrMms(phone:String?){
@@ -481,6 +500,42 @@ class InfoQr : Fragment() {
         startActivityIfExists(Intent.ACTION_VIEW, geoUri.orEmpty())
 
     }
+
+    private fun  addToContacts(){
+        val fullName = "${barcodeParsed?.firstName.orEmpty()} ${barcodeParsed?.lastName.orEmpty()}"
+
+        val intent=Intent(ContactsContract.Intents.Insert.ACTION).apply {
+            type=ContactsContract.Contacts.CONTENT_TYPE
+            putExtra(ContactsContract.Intents.Insert.NAME,fullName)
+            putExtra(ContactsContract.Intents.Insert.PHONE,barcodeParsed?.phone.orEmpty())
+            putExtra(ContactsContract.Intents.Insert.PHONE_TYPE,barcodeParsed?.phoneType.orEmpty())
+             putExtra(ContactsContract.Intents.Insert.EMAIL,barcodeParsed?.email.orEmpty())
+            putExtra(ContactsContract.Intents.Insert.EMAIL_TYPE,barcodeParsed?.emailType.orEmpty())
+
+        }
+
+
+        try {
+            startActivity(intent)
+        }catch (e:Exception){
+            FirebaseCrashlytics.getInstance().log("Error 521 (addToContacts function)")
+            FirebaseCrashlytics.getInstance().recordException(e)
+        }
+
+
+
+    }
+
+   private fun sendEmail(email :String) {
+       val uri=Uri.parse("mailto:${email.orEmpty()}")
+       val intent=Intent(Intent.ACTION_SEND,uri).apply {
+           type="text/plain"
+           putExtra(Intent.EXTRA_EMAIL, arrayOf(email.orEmpty()))
+            //completar
+
+       }
+       startActivityIfExists(intent)
+   }
 
     //cambio de iconos e datos en interfaz
     private fun showBarcodeIsFavorite(isFavorite: Boolean) {

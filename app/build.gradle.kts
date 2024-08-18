@@ -64,6 +64,5 @@ dependencies {
     implementation(libs.firebase.ads)
     implementation(libs.firebase.perf)
     implementation (libs.barcode.scanning)
-
-
+    implementation(libs.ez.vcard)
 }

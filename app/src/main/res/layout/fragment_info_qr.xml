@@ -290,6 +290,30 @@
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
+            <Button
+                android:id="@+id/btnAddContact"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:backgroundTint="@color/cardview_shadow_end_color"
+                android:drawableLeft="@drawable/in_addphone"
+                android:drawablePadding="15dp"
+                android:text="Añadir contacto"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/btnSendEmail"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:backgroundTint="@color/cardview_shadow_end_color"
+                android:drawableLeft="@drawable/in_email"
+                android:drawablePadding="15dp"
+                android:text="Send Correo"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
         </LinearLayout>
 
     </ScrollView>

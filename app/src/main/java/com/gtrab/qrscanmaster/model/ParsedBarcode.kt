@@ -5,6 +5,7 @@ import com.gtrab.qrscanmaster.model.schema.BarcodeSchema
 import com.gtrab.qrscanmaster.model.schema.BoardingPass
 import com.gtrab.qrscanmaster.model.schema.Geo
 import com.gtrab.qrscanmaster.model.schema.Sms
+import com.gtrab.qrscanmaster.model.schema.VCard
 import com.gtrab.qrscanmaster.model.schema.Wifi
 
 class ParsedBarcode (barcode:Barcode){
@@ -37,6 +38,16 @@ class ParsedBarcode (barcode:Barcode){
     var geoUri:String? =null
     //flight
     var numberFlight:String? =null
+    //vcard
+    var firstName: String? = null
+    var lastName: String? = null
+    var email : String? = null
+    var emailType: String? =null
+    var phoneType: String? = null
+    var secondaryPhone: String? = null
+    var secondaryPhoneType: String? = null
+    var tertiaryPhone: String? = null
+    var tertiaryPhoneType: String? = null
     init {
 
         when(schema){
@@ -44,9 +55,9 @@ class ParsedBarcode (barcode:Barcode){
             BarcodeSchema.GEO -> parseGeo()
             BarcodeSchema.WIFI -> parseWifi()
             BarcodeSchema.URL -> parseUrl()
-            BarcodeSchema.BOARDINGPASS,
+            BarcodeSchema.BOARDINGPASS -> parseBoardingPass()
             BarcodeSchema.SMS -> parseSms()
-
+            BarcodeSchema.VCARD -> parseVcard()
             else ->{}
         }
 
@@ -87,8 +98,24 @@ class ParsedBarcode (barcode:Barcode){
         smsBody= sms.message
     }
 
-    private fun parseFlight(){
+    private fun parseBoardingPass(){
         val flight= BoardingPass.parse(text)
-        numberFlight=flight?.flight;
+        numberFlight=flight?.carrier+flight?.flight;
     }
+
+    private fun parseVcard(){
+        val vCard= VCard.parse(text)
+        firstName=vCard?.firstName
+        lastName=vCard?.lastName
+        email=vCard?.email
+        emailType=vCard?.emailType
+        phone=vCard?.phone
+        phoneType=vCard?.phoneType
+        secondaryPhone=vCard?.secondaryPhone
+        secondaryPhoneType=vCard?.secondaryPhoneType
+        tertiaryPhone=vCard?.tertiaryPhone
+        tertiaryPhoneType=vCard?.tertiaryPhoneType
+    }
+
+
 }

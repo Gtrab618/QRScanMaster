@@ -12,6 +12,7 @@ import com.gtrab.qrscanmaster.model.schema.Geo
 import com.gtrab.qrscanmaster.model.schema.Other
 import com.gtrab.qrscanmaster.model.schema.Sms
 import com.gtrab.qrscanmaster.model.schema.Url
+import com.gtrab.qrscanmaster.model.schema.VCard
 
 object BarcodeParse {
 
@@ -36,6 +37,7 @@ object BarcodeParse {
             ?: Url.parse(text)
             ?: Geo.parse(text)
             ?: Sms.parse(text)
+            ?: VCard.parse(text)
             ?: BoardingPass.parse(text)
             ?: Other(text)
 
