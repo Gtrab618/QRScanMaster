@@ -27,6 +27,7 @@ import com.gtrab.qrscanmaster.util.openAppSettings
 import com.gtrab.qrscanmaster.util.showSnackbar
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.gtrab.qrscanmaster.ui.create.CreateQr
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     Communicator {
@@ -132,6 +133,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
         when (p0.itemId) {
+            R.id.nav_create ->{
+
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, CreateQr())
+                    .commit()
+                true
+            }
+
             R.id.nav_home -> {
                 //verificar si el fragmento es diferente al mismo y actulizar si los es
                 val fragment: Fragment? = supportFragmentManager.findFragmentById(R.id.fragment_container)

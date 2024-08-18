@@ -3,6 +3,7 @@ package com.gtrab.qrscanmaster.model
 import com.gtrab.qrscanmaster.model.schema.App
 import com.gtrab.qrscanmaster.model.schema.BarcodeSchema
 import com.gtrab.qrscanmaster.model.schema.BoardingPass
+import com.gtrab.qrscanmaster.model.schema.Email
 import com.gtrab.qrscanmaster.model.schema.Geo
 import com.gtrab.qrscanmaster.model.schema.Sms
 import com.gtrab.qrscanmaster.model.schema.VCard
@@ -48,6 +49,10 @@ class ParsedBarcode (barcode:Barcode){
     var secondaryPhoneType: String? = null
     var tertiaryPhone: String? = null
     var tertiaryPhoneType: String? = null
+    //email
+    var emailSubject:String?= null
+    var emailBody:String?=null
+
     init {
 
         when(schema){
@@ -58,6 +63,7 @@ class ParsedBarcode (barcode:Barcode){
             BarcodeSchema.BOARDINGPASS -> parseBoardingPass()
             BarcodeSchema.SMS -> parseSms()
             BarcodeSchema.VCARD -> parseVcard()
+            BarcodeSchema.EMAIL ->parseEmail()
             else ->{}
         }
 
@@ -117,5 +123,12 @@ class ParsedBarcode (barcode:Barcode){
         tertiaryPhoneType=vCard?.tertiaryPhoneType
     }
 
+    private fun parseEmail(){
+        val email =Email.parse(text) ?:return
+        this.email=email.email
+        emailSubject = email.subject
+        emailBody = email.body
+
+    }
 
 }

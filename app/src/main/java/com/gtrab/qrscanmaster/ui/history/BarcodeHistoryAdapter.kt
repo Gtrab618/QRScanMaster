@@ -69,7 +69,7 @@ class BarcodeHistoryAdapter (private val onBarcodeClicked: (Barcode)->Unit): Pag
 
         private fun showImage(barcode: Barcode){
             val imageId= barcode.schema.toImageId()
-            val image = AppCompatResources.getDrawable(itemView.context,imageId!!)
+            val image = AppCompatResources.getDrawable(itemView.context,imageId)
             binding.imageView2.setImageDrawable(image)
         }
 

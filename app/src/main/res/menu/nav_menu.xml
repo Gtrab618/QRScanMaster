@@ -4,9 +4,13 @@
     tools:showIn="navigation_view">
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/nav_create"
+            android:icon="@drawable/nav_create"
+            android:title="Create" />
+        <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/nav_home"
-            android:title="Home" />
+            android:icon="@drawable/nav_scanner"
+            android:title="Scanner" />
         <item
             android:id="@+id/nav_history"
             android:icon="@drawable/history"
@@ -14,7 +18,7 @@
         <item
             android:id="@+id/nav_share"
             android:icon="@drawable/nav_setting"
-            android:title="Share-Settings" />
+            android:title="Settings" />
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/nav_about"

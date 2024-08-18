@@ -509,8 +509,14 @@ class InfoQr : Fragment() {
             putExtra(ContactsContract.Intents.Insert.NAME,fullName)
             putExtra(ContactsContract.Intents.Insert.PHONE,barcodeParsed?.phone.orEmpty())
             putExtra(ContactsContract.Intents.Insert.PHONE_TYPE,barcodeParsed?.phoneType.orEmpty())
-             putExtra(ContactsContract.Intents.Insert.EMAIL,barcodeParsed?.email.orEmpty())
+            putExtra(ContactsContract.Intents.Insert.EMAIL,barcodeParsed?.email.orEmpty())
             putExtra(ContactsContract.Intents.Insert.EMAIL_TYPE,barcodeParsed?.emailType.orEmpty())
+            putExtra(ContactsContract.Intents.Insert.SECONDARY_PHONE, barcodeParsed?.secondaryPhone.orEmpty())
+            putExtra(ContactsContract.Intents.Insert.SECONDARY_PHONE_TYPE, barcodeParsed?.secondaryPhoneType.orEmpty())
+            putExtra(ContactsContract.Intents.Insert.TERTIARY_PHONE, barcodeParsed?.tertiaryPhone.orEmpty())
+            putExtra(ContactsContract.Intents.Insert.TERTIARY_PHONE_TYPE, barcodeParsed?.tertiaryPhoneType.orEmpty())
+
+
 
         }
 
@@ -531,7 +537,8 @@ class InfoQr : Fragment() {
        val intent=Intent(Intent.ACTION_SEND,uri).apply {
            type="text/plain"
            putExtra(Intent.EXTRA_EMAIL, arrayOf(email.orEmpty()))
-            //completar
+           putExtra(Intent.EXTRA_SUBJECT, barcodeParsed?.emailSubject.orEmpty())
+           putExtra(Intent.EXTRA_TEXT, barcodeParsed?.emailBody.orEmpty())
 
        }
        startActivityIfExists(intent)
