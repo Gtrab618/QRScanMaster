@@ -20,6 +20,7 @@ activity = "1.8.0"
 constraintlayout = "2.1.4"
 core="3.5.3"
 playServicesAds = "23.2.0"
+preferenceKtx = "1.2.1"
 roomCompiler = "2.6.1"
 runtime = "3.3.0"
 rxandroid = "3.0.2"
@@ -29,9 +30,11 @@ googleGmsGoogleServices = "4.4.2"
 firebaseAnalytics = "22.0.2"
 firebaseCrashlytics = "19.0.3"
 googleFirebaseCrashlytics = "3.0.2"
+preference = "1.2.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCompiler" }
 androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "roomCompiler" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomCompiler" }
@@ -54,6 +57,7 @@ zxing-core = { module = "com.google.zxing:core", version.ref = "core" }
 zxing-android-embedded = { module = "com.journeyapps:zxing-android-embedded", version.ref = "zxingAndroidEmbedded" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics", version.ref = "firebaseAnalytics" }
 firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics", version.ref = "firebaseCrashlytics" }
+androidx-preference = { group = "androidx.preference", name = "preference", version.ref = "preference" }
 [plugins]
 
 androidApplication = { id = "com.android.application", version.ref = "agp" }
