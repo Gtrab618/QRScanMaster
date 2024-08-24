@@ -1,35 +1,33 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/messages_header">
 
-        <EditTextPreference
-            app:key="signature"
-            app:title="@string/signature_title"
-            app:useSimpleSummaryProvider="true" />
 
-        <ListPreference
-            app:defaultValue="reply"
-            app:entries="@array/reply_entries"
-            app:entryValues="@array/reply_values"
-            app:key="reply"
-            app:title="@string/reply_title"
-            app:useSimpleSummaryProvider="true" />
+    <PreferenceCategory app:title="General-funcional">
 
+        <androidx.preference.SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="vibrate"
+            app:summary="Vibrar al escanear"
+            app:title="Vibración"/>
+
+        <androidx.preference.SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:key="copyClipBoard"
+            app:summary="Copiar a porta papeles"
+            app:title="Portapapeles"/>
+        <androidx.preference.SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:key="confirmScanManual"
+            app:summary="Permite seleccionar si un qr es aceptado o no"
+            app:title="Confirmar qr escaneado"/>
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
+    <PreferenceCategory app:title="Proximamente" >
 
-        <SwitchPreferenceCompat
-            app:key="sync"
-            app:title="@string/sync_title" />
-
-        <SwitchPreferenceCompat
-            app:dependency="sync"
-            app:key="attachment"
-            app:summaryOff="@string/attachment_summary_off"
-            app:summaryOn="@string/attachment_summary_on"
-            app:title="@string/attachment_title" />
-
+        <androidx.preference.SwitchPreferenceCompat
+            app:defaultValue="false"
+            app:summary="Permite guardar qr duplicados"
+            app:title="Guardar duplicados "/>
     </PreferenceCategory>
-
 </PreferenceScreen>

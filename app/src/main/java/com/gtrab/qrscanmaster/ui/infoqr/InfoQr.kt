@@ -38,6 +38,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.gtrab.qrscanmaster.R
+import com.gtrab.qrscanmaster.dependencies.settings
 import com.gtrab.qrscanmaster.model.schema.BarcodeSchema
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
@@ -175,6 +176,7 @@ class InfoQr : Fragment() {
         showBarcodeImage()
         showDataBarcode()
         showOrHideButtons()
+        applySetting()
         //01 temporal anuncios
         val adRequest = AdRequest.Builder().build()
         adView.loadAd(adRequest)
@@ -251,9 +253,15 @@ class InfoQr : Fragment() {
         showBarcodeIsFavorite(barcodeParsed?.isFavorite ?:false)
     }
 
+    private fun applySetting(){
+        if(settings.copyToClipboard){
+            barcodeParsed?.text?.let { copyToClipboard(it) }
+        }
+
+    }
+
     //utilizando el barcode schema ver si asigno el onlistener solo a algunos botones o no
     private fun showOrHideButtons(){
-        btnCopyPassWifi.isVisible=barcodeParsed?.networkPassword.isNullOrBlank().not()
         btnUrl.isVisible=barcodeParsed?.url.isNullOrBlank().not()
         btnPlayStore.isVisible=barcodeParsed?.appMarketUrl.isNullOrBlank().not()
         btnSendSms.isVisible=barcodeParsed?.phone.isNullOrBlank().not() || barcodeParsed?.smsBody.isNullOrBlank().not()
@@ -261,6 +269,7 @@ class InfoQr : Fragment() {
         btnSearchFlight.isVisible=barcodeParsed?.numberFlight.isNullOrBlank().not()
         btnAddContact.isVisible=BarcodeSchema.VCARD==barcodeParsed?.schema
         btnSendEmail.isVisible=barcodeParsed?.email.isNullOrBlank().not()
+        btnCopyPassWifi.isVisible=barcodeParsed?.networkPassword.isNullOrBlank().not()
         //01 revisar si  se le integra con whassap enviar whatasspp
     }
 
@@ -308,6 +317,7 @@ class InfoQr : Fragment() {
     private fun copyToClipboard(text: String) {
         val clipData = ClipData.newPlainText("", text)
         clipboardManager.setPrimaryClip(clipData)
+        snackBar(1)
     }
 
     private fun snackBar(stringId: Int) {

@@ -1,5 +1,7 @@
 package com.gtrab.qrscanmaster.extension
 
+import java.util.Locale
+
 private val escapedRegex = """\\([\\;,":])""".toRegex()
 fun String.unescape():String{
     return replace(escapedRegex){ escaped ->
@@ -29,4 +31,8 @@ fun String.startsWithAnyIgnoreCase(prefixes: List<String>):Boolean{
 }
 fun String.removePrefixIgnoreCase(prefix: String): String {
     return substring(prefix.length)
+}
+
+fun String.toCaps(): String{
+    return uppercase(Locale.ROOT)
 }

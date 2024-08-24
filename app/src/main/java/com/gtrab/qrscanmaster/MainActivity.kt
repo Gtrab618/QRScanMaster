@@ -26,6 +26,7 @@ import com.gtrab.qrscanmaster.util.openAppSettings
 import com.gtrab.qrscanmaster.util.showSnackbar
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.gtrab.qrscanmaster.ui.config.ConfigMain
 import com.gtrab.qrscanmaster.ui.config.SettingsFragment
 import com.gtrab.qrscanmaster.ui.create.CreateQr
 
@@ -158,9 +159,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 true // Retorna true para indicar que se ha manejado el evento de clic
             }
 
-            R.id.nav_share -> {
+            R.id.nav_config -> {
 
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, SettingsFragment())
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, ConfigMain())
                     .commit()
                 true // Retorna true para indicar que se ha manejado el evento de clic
             }
@@ -169,7 +170,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show()
 
-                true // Retorna true para indicar que se ha manejado el evento de clic   
+                true // Retorna true para indicar que se ha manejado el evento de clic
             }
             // Agrega más casos según sea necesario para otros elementos del menú
             else -> false // Retorna false para indicar que el evento de clic no ha sido manejado
