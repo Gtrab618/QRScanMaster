@@ -39,6 +39,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.gtrab.qrscanmaster.R
 import com.gtrab.qrscanmaster.dependencies.settings
+import com.gtrab.qrscanmaster.dependencies.wifiConnector
 import com.gtrab.qrscanmaster.model.schema.BarcodeSchema
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
@@ -80,6 +81,7 @@ class InfoQr : Fragment() {
     private lateinit var btnSearchFlight:Button
     private lateinit var btnAddContact:Button
     private lateinit var btnSendEmail:Button
+    private lateinit var btnConnectWifi:Button
 
 
     private var barcodeParsed: ParsedBarcode? = null
@@ -168,6 +170,7 @@ class InfoQr : Fragment() {
         btnSearchFlight= view.findViewById(R.id.btnSearchFlight)
         btnAddContact= view.findViewById(R.id.btnAddContact)
         btnSendEmail=view.findViewById(R.id.btnSendEmail)
+        btnConnectWifi= view.findViewById(R.id.btnConnectWifi)
         drawerView = view
         imageQr = view.findViewById(R.id.mwQr)
         parseBarcodeInfo()
@@ -270,6 +273,7 @@ class InfoQr : Fragment() {
         btnAddContact.isVisible=BarcodeSchema.VCARD==barcodeParsed?.schema
         btnSendEmail.isVisible=barcodeParsed?.email.isNullOrBlank().not()
         btnCopyPassWifi.isVisible=barcodeParsed?.networkPassword.isNullOrBlank().not()
+        btnConnectWifi.isVisible=barcodeParsed?.schema==BarcodeSchema.WIFI
         //01 revisar si  se le integra con whassap enviar whatasspp
     }
 
@@ -306,8 +310,15 @@ class InfoQr : Fragment() {
         btnSendEmail.setOnClickListener {
             sendEmail(barcodeParsed?.email.orEmpty())
         }
+
+        btnConnectWifi.setOnClickListener {
+            connectToWifi()
+        }
     }
 
+    private fun enableConnectToWifiButton(isEnable:Boolean){
+        btnConnectWifi.isEnabled=isEnable
+    }
 
     private fun copyNetworkPasswordToClipboard() {
         copyToClipboard(barcodeParsed?.networkPassword.orEmpty())
@@ -553,6 +564,37 @@ class InfoQr : Fragment() {
        }
        startActivityIfExists(intent)
    }
+
+    private fun connectToWifi(){
+        enableConnectToWifiButton(false)
+
+       try {
+           println("tratando de conectar")
+           wifiConnector.connect(
+               requireContext(),
+               barcodeParsed?.networkAuthType.orEmpty(),
+               barcodeParsed?.networkName.orEmpty(),
+               barcodeParsed?.networkPassword.orEmpty(),
+               barcodeParsed?.isHidden ?: false,
+               barcodeParsed?.anonymousIdentity.orEmpty(),
+               barcodeParsed?.identity.orEmpty(),
+               barcodeParsed?.eapMethod.orEmpty(),
+               barcodeParsed?.phase2Method.orEmpty()
+
+           ).observeOn(AndroidSchedulers.mainThread()).subscribe(
+               {
+                   println("conectado correctamente")
+                   enableConnectToWifiButton(true)
+               },{
+
+                   println("error al conectar wifi 01")
+                   enableConnectToWifiButton(false)
+               }
+           ).addTo(disposable)
+       }catch (e:Exception){
+           println("error contectar wifi $e")
+       }
+    }
 
     //cambio de iconos e datos en interfaz
     private fun showBarcodeIsFavorite(isFavorite: Boolean) {

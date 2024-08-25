@@ -314,6 +314,18 @@
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
+            <Button
+                android:id="@+id/btnConnectWifi"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:backgroundTint="@color/cardview_shadow_end_color"
+                android:drawableLeft="@drawable/in_wifi_connect"
+                android:drawablePadding="15dp"
+                android:text="Connect Network"
+                android:textAlignment="textStart"
+                android:textColor="@color/black"
+                android:textSize="18sp" />
+
         </LinearLayout>
 
     </ScrollView>

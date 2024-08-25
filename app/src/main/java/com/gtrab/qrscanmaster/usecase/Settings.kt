@@ -19,7 +19,7 @@ class Settings(private val context: Context) {
         context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE)
     }
 
-    var copyToClipboard:Boolean get()=get(Key.COPY_TO_CLIPBOARD,true)
+    var copyToClipboard:Boolean get()=get(Key.COPY_TO_CLIPBOARD,false)
         set(value) = set(Key.COPY_TO_CLIPBOARD,value)
 
     var vibrate: Boolean get() = get(Key.VIBRATE, true)
