@@ -69,6 +69,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //acciones para los botones
         navigationView.setNavigationItemSelectedListener(this)
 
+        ViewCompat.setOnApplyWindowInsetsListener(navigationView) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(systemBars.left, 0, 0,0)
+            insets
+        }
+
+
         toggle = ActionBarDrawerToggle(
             this,
             drawerLayout,
