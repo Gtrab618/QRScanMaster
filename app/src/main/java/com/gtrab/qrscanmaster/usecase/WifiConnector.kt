@@ -1,6 +1,7 @@
 package com.gtrab.qrscanmaster.usecase
 
 import android.content.Context
+import android.net.wifi.WifiConfiguration
 import android.net.wifi.WifiEnterpriseConfig
 import android.net.wifi.WifiManager
 import android.net.wifi.WifiNetworkSuggestion
@@ -92,6 +93,8 @@ object WifiConnector {
             "","NOPASS" -> connectToOpenNetworkNewApi(context,name)
             "WPA","WPA2" -> connectToWpa2NetworkNewApi(context,name,password)
             "WPA2-EAP" -> connectToWpa2EapNetworkNewApi(context, name, password, anonymousIdentity, identity, eapMethod, phase2Method)
+            "WPA3" -> connectToWpa3NetworkNewApi(context, name, password)
+            "WPA3-EAP" -> connectToWpa3EapNetworkNewApi(context, name, password, anonymousIdentity, identity, eapMethod, phase2Method)
 
         }
 
@@ -140,8 +143,49 @@ object WifiConnector {
             .setSsid(name)
             .setWpa2Passphrase(password)
             .setWpa2EnterpriseConfig(config)
+        connect(context,builder)
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun connectToWpa3NetworkNewApi(context: Context, name: String, password: String){
+        val builder = WifiNetworkSuggestion.Builder()
+            .setSsid(name)
+            .setWpa3Passphrase(password)
+        connect(context,builder)
+
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun connectToWpa3EapNetworkNewApi(
+        context:Context,
+        name:String,
+        password:String,
+        anonymousIdentity: String,
+        identity: String,
+        eapMethod: Int?,
+        phase2Method: Int?
+    ){
+        val config= WifiEnterpriseConfig().also { config ->
+            config.anonymousIdentity=anonymousIdentity
+            config.identity=identity
+            config.password=password
+            eapMethod?.apply {
+                config.eapMethod=this
+            }
+            phase2Method?.apply {
+                config.phase2Method=this
+            }
+        }
+
+        val builder = WifiNetworkSuggestion.Builder()
+            .setSsid(name)
+            .setWpa3Passphrase(password)
+            //01 revisar este metodo que esta decaprited para versiones sdk 31 en adelante
+            .setWpa3EnterpriseConfig(config)
+
+        connect(context,builder)
+    }
 
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun connect(context: Context, builder: WifiNetworkSuggestion.Builder){
@@ -151,7 +195,9 @@ object WifiConnector {
             removeNetworkSuggestions(suggestion)
             val status=addNetworkSuggestions(suggestion)
             if(status==0){
-                println("conexion permitida")
+                //02 completar con un dialog con las indicacaciones en caso de
+                //ser denegado el permiso
+                println("conexion wifi permitida")
             }else if (status==2){
                 println("permiso de wifi denegado")
             }
@@ -172,7 +218,128 @@ object WifiConnector {
         identity: String,
         eapMethod: Int?,
         phase2Method: Int?
-    ){}
+    ){
+        //enableWifiIfNeeded(context)
+        when(authType.toCaps()){
+            "", "NOPASS" -> connectToOpenNetworkOldApi(context, name, isHidden)
+            "WPA", "WPA2" -> connectToWpaNetworkOldApi(context, name, password, isHidden)
+            "WPA2-EAP" -> connectToWpa2EapNetworkOldApi(context, name, password, isHidden, anonymousIdentity, identity, eapMethod, phase2Method)
+            "WEP" -> connectToWepNetworkOldApi(context, name, password, isHidden)
+        }
+    }
+    /*
+    revisar si esto para habilitar el wifi es necesario
+     private fun enableWifiIfNeeded(context: Context) {
+        context.wifiManager?.apply {
+            if (isWifiEnabled.not()) {
+                isWifiEnabled = true
+            }
+        }
+    }
+    */
+
+    @Suppress("DEPRECATION")
+    private fun connectToOpenNetworkOldApi(context: Context, name: String,isHidden: Boolean){
+        val wifiConfiguration= WifiConfiguration().apply {
+            SSID = name.quote()
+            hiddenSSID = isHidden
+            allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE)
+            allowedProtocols.set(WifiConfiguration.Protocol.RSN)
+            allowedProtocols.set(WifiConfiguration.Protocol.WPA)
+            allowedAuthAlgorithms.clear()
+            allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP)
+            allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP)
+            allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40)
+            allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104)
+            allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP)
+            allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP)
+        }
+
+        connect(context, wifiConfiguration)
+    }
+
+    private fun connectToWpaNetworkOldApi(context: Context, name: String, password: String, isHidden: Boolean) {
+        val wifiConfiguration = WifiConfiguration().apply {
+            SSID = name.quote()
+            preSharedKey = password.quoteIfNotHex()
+            hiddenSSID = isHidden
+            allowedProtocols.set(WifiConfiguration.Protocol.RSN)
+            allowedProtocols.set(WifiConfiguration.Protocol.WPA)
+            allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK)
+            allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP)
+            allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP)
+            allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40)
+            allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104)
+            allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP)
+            allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP)
+        }
+        connect(context, wifiConfiguration)
+    }
+
+    private fun connectToWpa2EapNetworkOldApi(
+        context: Context,
+        name: String,
+        password: String,
+        isHidden: Boolean,
+        anonymousIdentity: String,
+        identity: String,
+        eapMethod: Int?,
+        phase2Method: Int?
+    ) {
+        val wifiConfiguration = WifiConfiguration().apply {
+            SSID = name.quote()
+            preSharedKey = password.quoteIfNotHex()
+            hiddenSSID = isHidden
+            allowedProtocols.set(WifiConfiguration.Protocol.RSN)
+            allowedProtocols.set(WifiConfiguration.Protocol.WPA)
+            allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK)
+            allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP)
+            allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP)
+            allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40)
+            allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104)
+            allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP)
+            allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP)
+            enterpriseConfig.anonymousIdentity = anonymousIdentity
+            enterpriseConfig.identity = identity
+            enterpriseConfig.password = password
+            eapMethod?.apply {
+                enterpriseConfig.eapMethod = this
+            }
+            phase2Method?.apply {
+                enterpriseConfig.phase2Method = this
+            }
+        }
+        connect(context, wifiConfiguration)
+    }
+
+    private fun connectToWepNetworkOldApi(context: Context, name: String, password: String, isHidden: Boolean) {
+        val wifiConfiguration = WifiConfiguration().apply {
+            SSID = name.quote()
+            wepKeys[0] = password.quoteIfNotHex()
+            hiddenSSID = isHidden
+            wepTxKeyIndex = 0
+            allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE)
+            allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40)
+            allowedProtocols.set(WifiConfiguration.Protocol.RSN)
+            allowedProtocols.set(WifiConfiguration.Protocol.WPA)
+            allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN)
+            allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.SHARED)
+            allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP)
+            allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP)
+            allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40)
+            allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104)
+        }
+        connect(context, wifiConfiguration)
+    }
+
+    private fun connect(context: Context,wifiConfiguration: WifiConfiguration){
+        context.wifiManager?.apply {
+            val id= addNetwork(wifiConfiguration)
+            disconnect()
+            enableNetwork(id,true)
+            reconnect()
+        }
+    }
 
     private fun String.toEapMethod():Int?{
         return when(this){
@@ -203,6 +370,21 @@ object WifiConnector {
         }
     }
 
+    private fun String.quote(): String {
+        return if (startsWith("\"") && endsWith("\"")) this else "\"$this\""
+    }
+
+    private fun String.quoteIfNotHex(): String {
+        return if (isHex()) {
+            this
+        } else {
+            quote()
+        }
+    }
+
+    private fun String.isHex(): Boolean {
+        return length == 64 && matches(hexRegex)
+    }
     private inline fun <T> requireApiLevel(version: Int, block: () -> T): T? {
         return if (Build.VERSION.SDK_INT >= version) return block() else null
     }
