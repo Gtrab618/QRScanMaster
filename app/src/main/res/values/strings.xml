@@ -18,4 +18,44 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <!-- main menu -->
+    <string name="main_menu_create">Create Qr</string>
+    <string name="main_menu_scanner">Scanner</string>
+    <string name="main_menu_history">History</string>
+    <string name="main_menu_settings">Settings</string>
+    <!-- Title views -->
+    <string name="view_create">Create</string>
+    <string name="view_data">Information</string>
+    <string name="view_history">History</string>
+    <string name="view_settings">Settings</string>
+    <!-- btn  info view block-->
+    <string name="info_save_img">Saver qr</string>
+    <string name="info_share_img">Share</string>
+    <string name="info_copy_data">Copy</string>
+    <!-- btn info view options-->
+    <string name="info_btn_wifi_pass">Copy pass</string>
+    <string name="info_btn_url">Open url</string>
+    <string name="info_btn_store">Go store</string>
+    <string name="info_btn_sms">Send Sms</string>
+    <string name="info_btn_location">View location</string>
+    <string name="info_btn_flight">Look state flight</string>
+    <string name="info_btn_contact">Add contact</string>
+    <string name="info_btn_email">Send email</string>
+    <string name="info_btn_wifi_connect">Connect Network</string>
+    <!-- setting view-->
+
+    <!-- general -->
+    <string name="setting_general_title">General</string>
+
+    <string name="setting_vibration_title">Vibration</string>
+    <string name="setting_vibration">Vibrate to scan</string>
+    <string name="setting_clipboard_title">Clipboard</string>
+    <string name="setting_clipboard">Copy to clipboard</string>
+    <string name="setting_confirmed_title">Confirmed qr scan</string>
+    <string name="setting_confirmed">The qr is accept o reject</string>
+    <!-- next -->
+    <string name="setting_next_title">Next</string>
+
+    <string name="setting_double_title">Save double</string>
+    <string name="setting_double">Permited saved double</string>
 </resources>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QR Scan Master</string>
+    <string name="open_nav">Abrir Menu</string>
+    <string name="close_nav">Close Navigation Drawer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <!-- main menu -->
+    <string name="main_menu_create">Crear Qr</string>
+    <string name="main_menu_scanner">Escanear</string>
+    <string name="main_menu_history">Historial</string>
+    <string name="main_menu_settings">Configuraciones</string>
+    <!-- Title views -->
+    <string name="view_create">Crear</string>
+    <string name="view_data">Información</string>
+    <string name="view_history">Historial</string>
+    <string name="view_settings">Configuraciones</string>
+    <!-- btn  info view block-->
+    <string name="info_save_img">Guardar qr</string>
+    <string name="info_share_img">Compartir</string>
+    <string name="info_copy_data">Copiar</string>
+    <!-- btn info view options-->
+    <string name="info_btn_wifi_pass">Copiar contraseña</string>
+    <string name="info_btn_url">Abrir Url</string>
+    <string name="info_btn_store">Ver en la playstore</string>
+    <string name="info_btn_sms">Enviar sms</string>
+    <string name="info_btn_location">Ver ubicación</string>
+    <string name="info_btn_flight">Ver estado de vuelo</string>
+    <string name="info_btn_contact">Añadir contacto</string>
+    <string name="info_btn_email">Enviar Correo</string>
+    <string name="info_btn_wifi_connect">Conectarse a red</string>
+    <!-- setting view-->
+
+    <!-- general -->
+    <string name="setting_general_title">General</string>
+
+    <string name="setting_vibration_title">Vibración</string>
+    <string name="setting_vibration">Vibrar al escanear</string>
+    <string name="setting_clipboard_title">Portapapeles</string>
+    <string name="setting_clipboard">Copiar al portapapeles</string>
+    <string name="setting_confirmed_title">Confirmacion manual</string>
+    <string name="setting_confirmed">El qr es aceptado o no</string>
+    <!-- next -->
+    <string name="setting_next_title">Proximamente</string>
+
+    <string name="setting_double_title">Guardar duplicados</string>
+    <string name="setting_double">Permite guardar qr duplicados</string>
+</resources>

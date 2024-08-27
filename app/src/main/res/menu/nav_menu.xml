@@ -6,19 +6,19 @@
         <item
             android:id="@+id/nav_create"
             android:icon="@drawable/nav_create"
-            android:title="Create" />
+            android:title="@string/main_menu_create" />
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/nav_scanner"
-            android:title="Scanner" />
+            android:title="@string/main_menu_scanner" />
         <item
             android:id="@+id/nav_history"
             android:icon="@drawable/history"
-            android:title="History" />
+            android:title="@string/main_menu_history" />
         <item
             android:id="@+id/nav_config"
             android:icon="@drawable/nav_setting"
-            android:title="Settings" />
+            android:title="@string/main_menu_settings" />
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/nav_about"

@@ -20,7 +20,7 @@
             android:layout_height="50dp"
             android:background="#1E88E5"
             android:gravity="center"
-            android:text="Información"
+            android:text="@string/view_data"
             android:textSize="20sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -176,7 +176,7 @@
                     android:lineSpacingExtra="10sp"
                     android:paddingTop="8dp"
                     android:paddingBottom="5dp"
-                    android:text="Guardar qr"
+                    android:text="@string/info_save_img"
                     android:textAllCaps="false"
                     android:textColor="@color/black" />
 
@@ -192,7 +192,7 @@
                     android:lineSpacingExtra="10sp"
                     android:paddingTop="8dp"
                     android:paddingBottom="5dp"
-                    android:text="Share"
+                    android:text="@string/info_share_img"
                     android:textAllCaps="false"
                     android:textColor="@color/black" />
 
@@ -208,7 +208,7 @@
                     android:lineSpacingExtra="10sp"
                     android:paddingTop="8dp"
                     android:paddingBottom="5dp"
-                    android:text="Copy"
+                    android:text="@string/info_copy_data"
                     android:textAllCaps="false"
                     android:textColor="@color/black" />
 
@@ -228,10 +228,11 @@
                 android:backgroundTint="@color/cardview_shadow_end_color"
                 android:drawableLeft="@drawable/in_copy_pass_wifi"
                 android:drawablePadding="15dp"
-                android:text="Copiar Pass"
+                android:text="@string/info_btn_wifi_pass"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
+
             <Button
                 android:id="@+id/btnOpenUrl"
                 android:layout_width="match_parent"
@@ -239,10 +240,11 @@
                 android:backgroundTint="@color/cardview_shadow_end_color"
                 android:drawableLeft="@drawable/in_browser"
                 android:drawablePadding="15dp"
-                android:text="Abrir Url"
+                android:text="@string/info_btn_url"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
+
             <Button
                 android:id="@+id/btnPlayStore"
                 android:layout_width="match_parent"
@@ -250,7 +252,7 @@
                 android:backgroundTint="@color/cardview_shadow_end_color"
                 android:drawableLeft="@drawable/in_store"
                 android:drawablePadding="15dp"
-                android:text="Ir store"
+                android:text="@string/info_btn_store"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
@@ -262,10 +264,11 @@
                 android:backgroundTint="@color/cardview_shadow_end_color"
                 android:drawableLeft="@drawable/in_sms"
                 android:drawablePadding="15dp"
-                android:text="Enviar SMS"
+                android:text="@string/info_btn_sms"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
+
             <Button
                 android:id="@+id/btnLookLocation"
                 android:layout_width="match_parent"
@@ -273,7 +276,7 @@
                 android:backgroundTint="@color/cardview_shadow_end_color"
                 android:drawableLeft="@drawable/in_location"
                 android:drawablePadding="15dp"
-                android:text="Mostrar ubicación"
+                android:text="@string/info_btn_location"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
@@ -285,7 +288,7 @@
                 android:backgroundTint="@color/cardview_shadow_end_color"
                 android:drawableLeft="@drawable/in_flight"
                 android:drawablePadding="15dp"
-                android:text="Ver state vuelo"
+                android:text="@string/info_btn_flight"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
@@ -297,7 +300,7 @@
                 android:backgroundTint="@color/cardview_shadow_end_color"
                 android:drawableLeft="@drawable/in_addphone"
                 android:drawablePadding="15dp"
-                android:text="Añadir contacto"
+                android:text="@string/info_btn_contact"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
@@ -309,7 +312,7 @@
                 android:backgroundTint="@color/cardview_shadow_end_color"
                 android:drawableLeft="@drawable/in_email"
                 android:drawablePadding="15dp"
-                android:text="Send Correo"
+                android:text="@string/info_btn_email"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
@@ -321,7 +324,7 @@
                 android:backgroundTint="@color/cardview_shadow_end_color"
                 android:drawableLeft="@drawable/in_wifi_connect"
                 android:drawablePadding="15dp"
-                android:text="Connect Network"
+                android:text="@string/info_btn_wifi_connect"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
