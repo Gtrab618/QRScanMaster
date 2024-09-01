@@ -40,6 +40,9 @@ interface BarcodeDatabase {
     fun getAll(): PagingSource<Int, Barcode>
     //fun getAll(): DataSource.Factory<Int,Barcode>
 
+    @Query("SELECT * FROM codes WHERE isFavorite=1 ORDER BY date DESC")
+    fun getFavorites():PagingSource<Int,Barcode>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun save(barcode: Barcode): Single<Long>
     //revisar la opcion de guardar duplicados que parece incesesaria primeramente 02
@@ -48,6 +51,9 @@ interface BarcodeDatabase {
 
     @Query("DELETE FROM codes WHERE id = :id")
     fun delete(id:Long):Completable
+
+    @Query("DELETE FROM codes")
+    fun deleteAll(): Completable
 }
 
 fun BarcodeDatabase.saveIfNotPresent(barcode:Barcode): Single<Long> {

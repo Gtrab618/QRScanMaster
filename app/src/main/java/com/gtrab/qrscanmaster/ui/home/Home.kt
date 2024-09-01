@@ -489,7 +489,8 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
 
     private fun showScanConfirmationDialog(barcode: Barcode) {
         temBarcodeManual = barcode
-        val dialog = ConfirmDialogFragment.newInstance()
+        //01 para la version ingles añadir lo local
+        val dialog = ConfirmDialogFragment.newInstance("Scanner","¿Ver este qr? ${barcode.schema}")
         dialog.show(childFragmentManager, "")
 
     }

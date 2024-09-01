@@ -12,9 +12,13 @@ class ConfirmDialogFragment: DialogFragment() {
     }
 
     companion object{
-        fun newInstance():ConfirmDialogFragment{
+        fun newInstance(title:String, message:String):ConfirmDialogFragment{
             return ConfirmDialogFragment().apply {
                 isCancelable=false
+                arguments=Bundle().apply {
+                    putString("title",title)
+                    putString("message",message)
+                }
             }
         }
     }
@@ -22,10 +26,13 @@ class ConfirmDialogFragment: DialogFragment() {
 
     //01 perzonalizar este dialog a futuro con MaterialAlertDialogBuilder
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        val title= arguments?.getString("title")
+        val message= arguments?.getString("message")
+
         val banderaBool= parentFragment as? ConfirmDialogListener
         val dialog = AlertDialog.Builder(requireContext())
-            .setTitle("Confirmar")
-            .setMessage("¿Ver este qr?")
+            .setTitle(title)
+            .setMessage(message)
             .setIcon(R.drawable.edit_name)
             .setCancelable(false)
             .setPositiveButton("Sí") { _, _ ->
