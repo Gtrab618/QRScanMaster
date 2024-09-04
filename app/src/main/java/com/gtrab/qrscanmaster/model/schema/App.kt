@@ -17,7 +17,9 @@ class App(val url:String): Schema {
             return App(text)
         }
 
-        //02 falta completar para crear barcode
+        fun fromPackage(packaName:String):App{
+            return App(PREFIXES[0]+packaName)
+        }
     }
 
     override val schema =BarcodeSchema.APP

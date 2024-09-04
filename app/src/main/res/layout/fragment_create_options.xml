@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp">
+
+                <Button
+                    android:id="@+id/btnAppCrea"
+                    android:layout_width="0dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/hs_store"
+                    android:text="App qr" />
+
+                <Button
+                    android:id="@+id/btnEmailCrea"
+                    android:layout_width="0dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/hs_email"
+                    android:text="Email" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="40dp">
+
+                <Button
+                    android:id="@+id/btnSmsCrea"
+                    android:layout_width="0dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/hs_sms"
+                    android:text="Sms" />
+
+                <Button
+                    android:id="@+id/btnGeoCrea"
+                    android:layout_width="0dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/hs_link"
+                    android:text="Url" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="40dp">
+
+                <Button
+                    android:id="@+id/btnWifiCrea"
+                    android:layout_width="0dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/hs_wifi"
+                    android:text="Wifi QR" />
+
+                <Button
+                    android:id="@+id/btnVcardCrea"
+                    android:layout_width="0dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/hs_vcard"
+                    android:text="Vcard QR" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="40dp">
+
+                <Button
+                    android:id="@+id/btnWhatsapp"
+                    android:layout_width="0dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/hs_whatsapp"
+                    android:text="Whatsapp" />
+
+                <Button
+                    android:id="@+id/btnlocation"
+                    android:layout_width="0dp"
+                    android:layout_height="75dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_weight="1"
+                    android:drawableTop="@drawable/hs_location"
+                    android:text="location" />
+
+            </TableRow>
+
+
+        </TableLayout>
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

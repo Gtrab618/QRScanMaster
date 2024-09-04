@@ -139,5 +139,8 @@ class History : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
 
     }
 
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        disposable.clear()
+    }
 }

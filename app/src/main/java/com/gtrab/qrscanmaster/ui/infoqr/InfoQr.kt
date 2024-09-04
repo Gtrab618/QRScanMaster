@@ -151,6 +151,7 @@ class InfoQr : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         MobileAds.initialize(requireContext()){}
         adView= view.findViewById(R.id.adView)
         //02 completar la carga es decir que carge el name si el barcode ya a sido guardado no solo al editar
@@ -281,6 +282,10 @@ class InfoQr : Fragment() {
 
         btnQrSaveImage.setOnClickListener {
             checkPermissionStorage()
+        }
+
+        btnPlayStore.setOnClickListener {
+            openInAppMarket()
         }
 
         btnCopyPassWifi.setOnClickListener {
@@ -627,6 +632,9 @@ class InfoQr : Fragment() {
         }
     }
 
+    private fun openInAppMarket(){
+        startActivityIfExists(Intent.ACTION_VIEW,barcodeParsed?.appMarketUrl.orEmpty())
+    }
 
     //muestra de mensajes
     private fun showBarcodeSaved() {
@@ -634,5 +642,10 @@ class InfoQr : Fragment() {
         Snackbar.make(requireView(), "qr Guardado! \uD83D\uDCCB", Snackbar.LENGTH_LONG)
             .show()
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        disposable.clear()
     }
 }

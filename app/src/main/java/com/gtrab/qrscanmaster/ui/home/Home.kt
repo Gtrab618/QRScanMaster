@@ -207,6 +207,7 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         scannerView = view.findViewById<CodeScannerView>(R.id.scanner_view)
         btnGalery = view.findViewById(R.id.btnGalery)
         btnCameraFront = view.findViewById(R.id.btnCameraFront)

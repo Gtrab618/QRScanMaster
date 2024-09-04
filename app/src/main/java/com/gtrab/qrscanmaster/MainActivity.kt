@@ -27,8 +27,7 @@ import com.gtrab.qrscanmaster.util.showSnackbar
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.gtrab.qrscanmaster.ui.config.ConfigMain
-import com.gtrab.qrscanmaster.ui.config.SettingsFragment
-import com.gtrab.qrscanmaster.ui.create.CreateQr
+import com.gtrab.qrscanmaster.ui.create.FragmentCreateQrMain
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     Communicator {
@@ -143,7 +142,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (p0.itemId) {
             R.id.nav_create ->{
 
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, CreateQr())
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, FragmentCreateQrMain())
                     .commit()
                 true
             }
