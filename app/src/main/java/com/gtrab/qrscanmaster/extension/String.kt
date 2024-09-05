@@ -1,5 +1,7 @@
 package com.gtrab.qrscanmaster.extension
 
+import androidx.fragment.app.Fragment
+import com.gtrab.qrscanmaster.model.schema.Schema
 import java.util.Locale
 
 private val escapedRegex = """\\([\\;,":])""".toRegex()
@@ -8,6 +10,7 @@ fun String.unescape():String{
         escaped.groupValues[1]
     }
 }
+
 fun List<String?>.joinToStringNotNullOrBlankWithLineSeparator():String{
     return joinToStringNotNullOrBlank("\n")
 }

@@ -16,6 +16,14 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
+    <ImageButton
+        android:id="@+id/btnConfirm"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:background="@drawable/img_button_transparent" />
+
     <FrameLayout
         android:id="@+id/createContainer"
         android:layout_width="match_parent"
