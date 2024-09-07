@@ -58,7 +58,7 @@
                     android:text="Sms" />
 
                 <Button
-                    android:id="@+id/btnGeoCrea"
+                    android:id="@+id/btnUrlCrea"
                     android:layout_width="0dp"
                     android:layout_height="75dp"
                     android:layout_marginStart="25dp"
@@ -111,7 +111,7 @@
                     android:text="Whatsapp" />
 
                 <Button
-                    android:id="@+id/btnlocation"
+                    android:id="@+id/btnGeoCrea"
                     android:layout_width="0dp"
                     android:layout_height="75dp"
                     android:layout_marginStart="25dp"

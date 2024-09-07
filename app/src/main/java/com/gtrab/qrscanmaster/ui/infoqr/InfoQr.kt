@@ -422,8 +422,10 @@ class InfoQr : Fragment() {
     //accinones de btn
     private fun selectedIsFavorite() {
 
-        val temBarcode = barcodeParsed?.let { param1?.copy(isFavorite = it.isFavorite.not()) }
+        val temBarcode = barcodeParsed?.isFavorite?.not()?.let { param1?.copy(isFavorite = it) }
+        param1?.isFavorite=temBarcode?.isFavorite ?: false
         if (temBarcode != null) {
+
             barcodeDatabase.save(temBarcode).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(
                 {
@@ -495,20 +497,19 @@ class InfoQr : Fragment() {
     }
 
     private fun onNameConfirmed(name: String) {
-
         if (name.isBlank()) return
 
-        val temBarcode = param1?.id?.let { param1?.copy(id = it, name = name) }
+        val temBarcode = barcodeParsed?.id?.let { param1?.copy(id= it, name=name) }
+        param1?.name=temBarcode?.name ?: ""
 
         if (temBarcode != null) {
             barcodeDatabase.save(temBarcode).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(
                 {
-                    param1?.name = name
+                    barcodeParsed?.name = name
                     showBarcodeName(name)
                 }, {error->
                         FirebaseCrashlytics.getInstance().recordException(error)
-
                         FirebaseCrashlytics.getInstance().log("Infor qr 512: ${error.message}")
                 }
             ).addTo(disposable)
@@ -516,7 +517,11 @@ class InfoQr : Fragment() {
     }
 
     private fun openLink(url :String ){
-        startActivityIfExists(Intent.ACTION_VIEW,url)
+        try {
+            startActivityIfExists(Intent.ACTION_VIEW,url)
+        }catch (e:Exception){
+            Toast.makeText(requireContext(), "url no valida", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun sendSmsOrMms(phone:String?){
@@ -582,7 +587,7 @@ class InfoQr : Fragment() {
         enableConnectToWifiButton(false)
 
        try {
-           println("tratando de conectar")
+
            wifiConnector.connect(
                requireContext(),
                barcodeParsed?.networkAuthType.orEmpty(),

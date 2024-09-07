@@ -19,7 +19,7 @@ data class Barcode(
     val format:BarcodeFormat,
     val schema: BarcodeSchema,
     val date: Long,
-    val isFavorite: Boolean= false,
+    var isFavorite: Boolean= false,
     val errorCorrectionLevel:String? =null
 
 ):Serializable

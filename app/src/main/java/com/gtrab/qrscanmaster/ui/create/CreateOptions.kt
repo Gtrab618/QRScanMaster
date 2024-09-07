@@ -14,6 +14,7 @@ import com.gtrab.qrscanmaster.databinding.FragmentCreateOptionsBinding
 import com.gtrab.qrscanmaster.ui.create.qr.CreateQrCodeApp
 import com.gtrab.qrscanmaster.ui.create.qr.CreateQrEmail
 import com.gtrab.qrscanmaster.ui.create.qr.CreateQrSms
+import com.gtrab.qrscanmaster.ui.create.qr.CreateQrUrl
 import com.hbb20.CountryCodePicker
 
 
@@ -60,5 +61,11 @@ class CreateOptions : Fragment() {
                 .commit()
         }
 
+        binding.btnUrlCrea.setOnClickListener {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.createContainer,CreateQrUrl())
+                .commit()
+        }
     }
 }
