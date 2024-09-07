@@ -28,5 +28,11 @@ class SettingsFragment : PreferenceFragmentCompat() {
             settings.confirmScansManually= newValue as Boolean
             true
         }
+
+        val saveCreatedBarcodesPreference = findPreference<SwitchPreferenceCompat>("saveCreateBarcode")
+        saveCreatedBarcodesPreference?.setOnPreferenceChangeListener { _, newValue ->
+            settings.saveCreatedBarcodesToHistory=newValue as Boolean
+            true
+        }
     }
 }

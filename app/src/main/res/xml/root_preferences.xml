@@ -20,13 +20,15 @@
             app:key="confirmScanManual"
             app:summary="@string/setting_confirmed"
             app:title="@string/setting_confirmed_title" />
+
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/setting_next_title">
+    <PreferenceCategory app:title="Historial">
 
         <androidx.preference.SwitchPreferenceCompat
-            app:defaultValue="false"
-            app:summary="@string/setting_double"
-            app:title="@string/setting_double" />
+            app:defaultValue="true"
+            app:key="saveCreateBarcode"
+            app:summary="guardar qr crados"
+            app:title="guardar los qr que creaste" />
     </PreferenceCategory>
 </PreferenceScreen>

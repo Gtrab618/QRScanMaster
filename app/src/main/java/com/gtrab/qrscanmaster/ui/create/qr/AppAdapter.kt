@@ -12,9 +12,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gtrab.qrscanmaster.databinding.ItemAppBinding
 
 
-class AppAdapter(private val onAppClicked :(String)->Unit):RecyclerView.Adapter<AppAdapter.ViewHolder>(){
+class AppAdapter(private val listener:Listener):RecyclerView.Adapter<AppAdapter.ViewHolder>(){
 
     private lateinit var binding:ItemAppBinding
+    interface Listener{
+        fun onAppClicked(packageName:String)
+    }
 
     var apps:List<ResolveInfo> = emptyList()
         @SuppressLint("NotifyDataSetChanged")
@@ -67,8 +70,9 @@ class AppAdapter(private val onAppClicked :(String)->Unit):RecyclerView.Adapter<
         private fun handleItemCliked(app: ResolveInfo){
             itemView.setOnClickListener {
 
-                onAppClicked(app.activityInfo?.packageName.orEmpty())
-             }
+                listener.onAppClicked(app.activityInfo?.packageName.orEmpty())
+
+            }
         }
     }
 }

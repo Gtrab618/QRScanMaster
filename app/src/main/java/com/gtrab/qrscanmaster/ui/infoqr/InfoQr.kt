@@ -410,8 +410,10 @@ class InfoQr : Fragment() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { showBarcodeSaved() },
-                {
-                    Toast.makeText(requireContext(), "error guardar", Toast.LENGTH_SHORT).show()
+                {error->
+                    FirebaseCrashlytics.getInstance().recordException(error)
+
+                    FirebaseCrashlytics.getInstance().log("Infor qr 416: ${error.message}")
                 }
             ).addTo(disposable)
     }
@@ -427,8 +429,10 @@ class InfoQr : Fragment() {
                 {
                     barcodeParsed?.isFavorite = temBarcode.isFavorite
                     showBarcodeIsFavorite(temBarcode.isFavorite)
-                }, {
-                    //error
+                }, {error->
+                        FirebaseCrashlytics.getInstance().recordException(error)
+
+                        FirebaseCrashlytics.getInstance().log("Infor qr 435: ${error.message}")
                 }
             ).addTo(disposable)
         }
@@ -474,8 +478,10 @@ class InfoQr : Fragment() {
                         {
                             Toast.makeText(requireContext(), "eliminar", Toast.LENGTH_SHORT).show()
                             requireActivity().supportFragmentManager.popBackStack()
-                        },{
-                            //error delete
+                        },{error->
+                            FirebaseCrashlytics.getInstance().recordException(error)
+
+                            FirebaseCrashlytics.getInstance().log("Infor qr 484: ${error.message}")
                         }
                     ).addTo(disposable)
             }
@@ -500,8 +506,10 @@ class InfoQr : Fragment() {
                 {
                     param1?.name = name
                     showBarcodeName(name)
-                }, {
-                    //error
+                }, {error->
+                        FirebaseCrashlytics.getInstance().recordException(error)
+
+                        FirebaseCrashlytics.getInstance().log("Infor qr 512: ${error.message}")
                 }
             ).addTo(disposable)
         }
@@ -588,16 +596,15 @@ class InfoQr : Fragment() {
 
            ).observeOn(AndroidSchedulers.mainThread()).subscribe(
                {
-                   println("conectado correctamente")
                    enableConnectToWifiButton(true)
                },{
 
-                   println("error al conectar wifi 01")
                    enableConnectToWifiButton(false)
                }
            ).addTo(disposable)
        }catch (e:Exception){
-           println("error contectar wifi $e")
+           FirebaseCrashlytics.getInstance().recordException(e)
+           FirebaseCrashlytics.getInstance().log("Infor qr 610: ${e.message}")
        }
     }
 
@@ -612,7 +619,7 @@ class InfoQr : Fragment() {
     }
 
     private fun showBarcodeName(name: String) {
-        txtNameQr.isVisible = name.isNullOrBlank().not()
+        txtNameQr.isVisible = name.isBlank().not()
         txtNameQr.text = name.orEmpty()
     }
 

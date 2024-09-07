@@ -66,4 +66,5 @@ dependencies {
     implementation (libs.barcode.scanning)
     implementation(libs.ez.vcard)
     implementation(libs.androidx.preference.ktx)
+    implementation (libs.ccp)
 }

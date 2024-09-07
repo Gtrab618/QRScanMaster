@@ -41,9 +41,11 @@ import com.gtrab.qrscanmaster.extension.vibrator
 import com.gtrab.qrscanmaster.model.Barcode
 import com.gtrab.qrscanmaster.ui.dialogs.ConfirmDialogFragment
 import com.gtrab.qrscanmaster.usecase.BarcodeParse
+import com.gtrab.qrscanmaster.util.addTo
 import com.gtrab.qrscanmaster.util.decodeQRCode
 import com.gtrab.qrscanmaster.util.getFormatString
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.io.IOException
 
@@ -51,6 +53,7 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
 
     private val vibrationPattern = arrayOf<Long>(0, 350).toLongArray()
     private lateinit var comm: Communicator
+    private val disposable = CompositeDisposable()
     private lateinit var temBarcodeManual: Barcode
     private lateinit var codeScanner: CodeScanner
     private lateinit var scannerView: CodeScannerView
@@ -526,7 +529,7 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
                     //01 revisar para que es lastResult
                     lastResult = barcode
                     //revisar esto 02
-                    comm.passInfoQr(barcode.copy(id = id))
+                    comm.passInfoQr(barcode)
                     //realizar pruebas de carga recicleview
                     /* if(bandera>0){ 03
                          barcode.text=bandera.toString()
@@ -534,14 +537,15 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
                          bandera--
                      }*/
                 },
-                {
-                    //error 02
+                {error ->
+                    FirebaseCrashlytics.getInstance().recordException(error)
+                    FirebaseCrashlytics.getInstance().log("Home 543: ${error.message}")
                 }
-            )
-            .also {
-                println("termina dispose")
-            }
+            ).addTo(disposable)
     }
 
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        disposable.clear()
+    }
 }
