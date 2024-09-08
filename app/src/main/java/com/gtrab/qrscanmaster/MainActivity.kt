@@ -3,6 +3,7 @@ package com.gtrab.qrscanmaster
 import android.os.Build
 import android.os.Bundle
 import android.Manifest
+import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import android.window.OnBackInvokedDispatcher
@@ -16,6 +17,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.replace
 import com.gtrab.qrscanmaster.comunication.Communicator
 import com.gtrab.qrscanmaster.model.Barcode
 import com.gtrab.qrscanmaster.ui.home.Home
@@ -26,26 +29,28 @@ import com.gtrab.qrscanmaster.util.openAppSettings
 import com.gtrab.qrscanmaster.util.showSnackbar
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
+import com.gtrab.qrscanmaster.ui.about.About
 import com.gtrab.qrscanmaster.ui.config.ConfigMain
 import com.gtrab.qrscanmaster.ui.create.FragmentCreateQrMain
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
     Communicator {
     private lateinit var drawerLayout: DrawerLayout
-    private lateinit var toggle:ActionBarDrawerToggle
-    private var savedInstance:Bundle?=null
+    private lateinit var toggle: ActionBarDrawerToggle
+    private var savedInstance: Bundle? = null
     private var isAppOpenedForSettings = false
+
     //request permission camera
     private val coarsePermission =
         PermissionRequester(this, Manifest.permission.CAMERA, onRational = {
-            drawerLayout.showSnackbar("acceso requerido",Snackbar.LENGTH_INDEFINITE,"Ok"){
+            drawerLayout.showSnackbar("acceso requerido", Snackbar.LENGTH_INDEFINITE, "Ok") {
                 checkPermissionCamera()
             }
 
         }, onDenied = {
-            drawerLayout.showSnackbar("acceso requerido",Snackbar.LENGTH_INDEFINITE,"Ok"){
+            drawerLayout.showSnackbar("acceso requerido", Snackbar.LENGTH_INDEFINITE, "Ok") {
                 openAppSettings()
-                isAppOpenedForSettings=true
+                isAppOpenedForSettings = true
             }
 
         })
@@ -70,7 +75,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         ViewCompat.setOnApplyWindowInsetsListener(navigationView) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(systemBars.left, 0, 0,0)
+            view.setPadding(systemBars.left, 0, 0, 0)
             insets
         }
 
@@ -84,7 +89,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         )
         //asignacion de 2 variables para despues inicializarlas
         drawerLayout.addDrawerListener(toggle)
-        savedInstance=savedInstanceState
+        savedInstance = savedInstanceState
 
         //iniciar el toggle y pintar el home
         checkPermissionCamera()
@@ -125,41 +130,57 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     fun exitOnBackPressed() {
+
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
 
             drawerLayout.closeDrawer(GravityCompat.START)
 
         } else {
-            if(supportFragmentManager.backStackEntryCount>0){
-                supportFragmentManager.popBackStack()
-            }else{
-                finish()
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+            if (currentFragment != null) {
+
+                if (supportFragmentManager.backStackEntryCount > 0) {
+                    supportFragmentManager.popBackStack()
+                } else {
+
+                    if (currentFragment.javaClass.simpleName != "Home") {
+                        supportFragmentManager.beginTransaction()
+                            .add(R.id.fragment_container, Home())
+                            .commit()
+                    } else {
+                        finish()
+                    }
+                }
             }
+
         }
     }
 
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
         when (p0.itemId) {
-            R.id.nav_create ->{
-
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, FragmentCreateQrMain())
+            R.id.nav_create -> {
+                supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, FragmentCreateQrMain())
                     .commit()
                 true
             }
 
             R.id.nav_home -> {
                 //verificar si el fragmento es diferente al mismo y actulizar si los es
-                val fragment: Fragment? = supportFragmentManager.findFragmentById(R.id.fragment_container)
+                val fragment: Fragment? =
+                    supportFragmentManager.findFragmentById(R.id.fragment_container)
 
-                if(fragment !is Home){
-                    supportFragmentManager.beginTransaction().replace(R.id.fragment_container, Home())
+                if (fragment !is Home) {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, Home())
                         .commit()
                 }
                 true // Retorna true para indicar que se ha manejado el evento de clic
             }
 
             R.id.nav_history -> {
-
+                supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, History()).commit()
                 true // Retorna true para indicar que se ha manejado el evento de clic
@@ -167,7 +188,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
             R.id.nav_config -> {
 
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, ConfigMain())
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, ConfigMain())
                     .commit()
                 true // Retorna true para indicar que se ha manejado el evento de clic
             }
@@ -189,7 +211,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     //arreglar despues el el comunicador
-    override fun passInfoQr(barcode : Barcode) {
+    override fun passInfoQr(barcode: Barcode) {
         val infoQrFragment = InfoQr.newInstance(barcode)
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, infoQrFragment).addToBackStack(null)
@@ -200,7 +222,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun checkPermissionCamera() {
         coarsePermission.runWithPermission {
             if (savedInstance == null) {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container, Home())
+
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.fragment_container, Home(), "home")
+                    .addToBackStack("home") // Añade el fragmento a la pila de retroceso
                     .commit()
             }
             toggle.syncState()

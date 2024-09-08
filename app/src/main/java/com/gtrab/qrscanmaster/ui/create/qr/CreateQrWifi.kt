@@ -1,4 +1,4 @@
-package com.gtrab.qrscanmaster.ui.about
+package com.gtrab.qrscanmaster.ui.create.qr
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,14 +8,16 @@ import android.view.ViewGroup
 import com.gtrab.qrscanmaster.R
 
 
-class About : Fragment() {
+class CreateQrWifi : Fragment() {
 
-     override fun onCreateView(
+
+    override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_about, container, false)
+        return inflater.inflate(R.layout.fragment_create_qr_wifi, container, false)
     }
+
 
 }
