@@ -25,7 +25,7 @@
     <string name="main_menu_history">Historial</string>
     <string name="main_menu_settings">Configuraciones</string>
     <!-- Title views -->
-    <string name="view_create">Crear</string>
+    <string name="view_create">Crear Qr</string>
     <string name="view_data">Información</string>
     <string name="view_history">Historial</string>
     <string name="view_settings">Configuraciones</string>
@@ -43,6 +43,36 @@
     <string name="info_btn_contact">Añadir contacto</string>
     <string name="info_btn_email">Enviar Correo</string>
     <string name="info_btn_wifi_connect">Conectarse a red</string>
+
+    <!-- create qr view-->
+    <string name="create_btn_app">App</string>
+    <string name="create_btn_email">Email</string>
+    <string name="create_btn_sms">Sms</string>
+    <string name="create_btn_url">Url</string>
+    <string name="create_btn_wifi">Wifi</string>
+    <string name="create_btn_vcard">Vcard</string>
+    <string name="create_btn_location">Ubicación</string>
+
+    <!-- create qr view interface-->
+    <string name="create_qr_email_prin">Gmail</string>
+    <string name="create_qr_email_subject">Asunto</string>
+    <string name="create_qr_email_message">Mensaje</string>
+
+    <string name="create_qr_sms_prin">Sms</string>
+    <string name="create_qr_sms_phone">Número Teléfono</string>
+
+    <string name="create_qr_wifi_prin">Wifi</string>
+    <string name="create_qr_wifi_encryp">Cifrado</string>
+    <string name="create_qr_wifi_name">Nombre Red</string>
+    <string name="create_qr_wifi_pass">Contraseña</string>
+    <string name="create_qr_wifi_hidden">Oculta</string>
+
+    <string name="create_qr_vcard_first">Nombre</string>
+    <string name="create_qr_vcard_last">Apellido</string>
+
+    <string name="create_qr_location_latitude">Latitud</string>
+    <string name="create_qr_location_longitude">Longitud</string>
+
     <!-- setting view-->
 
     <!-- general -->

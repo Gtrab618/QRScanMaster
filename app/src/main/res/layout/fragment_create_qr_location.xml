@@ -6,29 +6,51 @@
     android:orientation="vertical"
     tools:context=".ui.create.qr.CreateQrLocation">
 
+    <TextView
+        android:id="@+id/txtTitleLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/create_btn_location" />
+
+    <TextView
+        android:id="@+id/txtLa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/create_qr_location_latitude" />
+
     <EditText
-        android:id="@+id/txtLatitude"
+        android:id="@+id/etLatitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:padding="8dp"
         android:background="@drawable/edit_text_border"
-        android:ems="10"
-        android:hint="Latitude"
-        android:inputType="numberSigned"
         android:digits="-.01234567890"
-        android:maxLength="10" />
+        android:ems="10"
+        android:hint="@string/create_qr_location_latitude"
+        android:inputType="numberSigned"
+        android:maxLength="10"
+        android:padding="8dp" />
 
-    <EditText
+    <TextView
         android:id="@+id/txtLongitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="@string/create_qr_location_longitude" />
+
+    <EditText
+        android:id="@+id/etLongitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:padding="8dp"
         android:background="@drawable/edit_text_border"
-        android:ems="10"
-        android:hint="Longitude"
-        android:inputType="numberSigned"
         android:digits="-.01234567890"
-        android:maxLength="10" />
+        android:ems="10"
+        android:hint="@string/create_qr_location_longitude"
+        android:inputType="numberSigned"
+        android:maxLength="10"
+        android:padding="8dp" />
 </LinearLayout>

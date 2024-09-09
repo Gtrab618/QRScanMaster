@@ -52,7 +52,7 @@ class CreateQrWifi : CreateQrBase() {
                 position: Int,
                 id: Long
             ) {
-                binding.txtNetworkPass.isVisible = position != 2
+                binding.etNetworkPass.isVisible = position != 2
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -61,12 +61,12 @@ class CreateQrWifi : CreateQrBase() {
     }
 
     private fun handleTextChanged() {
-        binding.txtNetworkName.addTextChangedListener {toggleCreateBarcodeButton() }
-        binding.txtNetworkPass.addTextChangedListener { toggleCreateBarcodeButton()}
+        binding.etNetworkName.addTextChangedListener {toggleCreateBarcodeButton() }
+        binding.etNetworkPass.addTextChangedListener { toggleCreateBarcodeButton()}
     }
 
     private fun toggleCreateBarcodeButton() {
-        parentFragmen.isCreateBarcodeButtonEnabled = binding.txtNetworkName.isNotBlank()
+        parentFragmen.isCreateBarcodeButtonEnabled = binding.etNetworkName.isNotBlank()
     }
 
     override fun getBarcodeSchema(): Schema {
@@ -77,8 +77,8 @@ class CreateQrWifi : CreateQrBase() {
             else -> "nopass"
         }
         return Wifi(
-            encryption = encryption, name = binding.txtNetworkName.textString,
-            password = binding.txtNetworkPass.textString, isHidden = binding.chcBoxHidden.isChecked
+            encryption = encryption, name = binding.etNetworkName.textString,
+            password = binding.etNetworkPass.textString, isHidden = binding.chcBoxHidden.isChecked
         )
     }
 }

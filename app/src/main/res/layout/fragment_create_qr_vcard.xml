@@ -6,39 +6,66 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".ui.create.qr.CreateQrVcard">
+    <TextView
+        android:id="@+id/txtTitleVcard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Vcard" />
 
-
-    <EditText
+    <TextView
         android:id="@+id/txtFirstName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:padding="8dp"
-        android:background="@drawable/edit_text_border"
-        android:layout_margin="10dp"
-        android:hint="First Name"
-        android:inputType="text" />
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/create_qr_vcard_first" />
 
     <EditText
+        android:id="@+id/etFirstName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/edit_text_border"
+        android:ems="10"
+        android:hint="@string/create_qr_vcard_first"
+        android:inputType="text"
+        android:padding="8dp" />
+
+    <TextView
         android:id="@+id/txtLastName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:padding="8dp"
-        android:background="@drawable/edit_text_border"
-        android:layout_margin="10dp"
-        android:hint="Last Name"
-        android:inputType="text" />
+        android:layout_marginStart="10dp"
+        android:text="@string/create_qr_vcard_last" />
 
     <EditText
-        android:id="@+id/txtEmailVcard"
+        android:id="@+id/etLastName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:padding="8dp"
-        android:background="@drawable/edit_text_border"
         android:layout_margin="10dp"
-        android:hint="Email"/>
+        android:background="@drawable/edit_text_border"
+        android:ems="10"
+        android:hint="@string/create_qr_vcard_last"
+        android:inputType="text"
+        android:padding="8dp" />
+
+    <TextView
+        android:id="@+id/txtEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="@string/create_qr_email_prin" />
+
+    <EditText
+        android:id="@+id/etEmailVcard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/edit_text_border"
+        android:ems="10"
+        android:hint="@string/create_qr_email_prin"
+        android:padding="8dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -51,7 +78,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Phone number"
+            android:text="@string/create_qr_sms_phone"
             android:textSize="18sp" />
 
         <LinearLayout

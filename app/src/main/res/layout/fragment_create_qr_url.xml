@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.create.qr.CreateQrUrl">
 
+    <TextView
+        android:id="@+id/txtTitleEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/create_btn_url" />
+
     <EditText
-        android:id="@+id/txtUrl"
+        android:id="@+id/etUrl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:padding="8dp"
         android:background="@drawable/edit_text_border"
         android:ems="10"
-        android:hint="Url"
-        android:maxLength="50" />
+        android:hint="@string/create_btn_url"
+        android:maxLength="50"
+        android:padding="8dp" />
 
-</FrameLayout>
+</LinearLayout>

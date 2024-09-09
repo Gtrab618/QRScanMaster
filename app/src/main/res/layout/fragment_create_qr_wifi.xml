@@ -7,6 +7,19 @@
     android:orientation="vertical"
     tools:context=".ui.create.qr.CreateQrWifi">
 
+    <TextView
+        android:id="@+id/txtTitleWifi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/create_qr_wifi_prin" />
+
+    <TextView
+        android:id="@+id/txtSecurityWifi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/create_qr_wifi_encryp" />
 
     <Spinner
         android:id="@+id/spnEncryp"
@@ -15,18 +28,25 @@
         android:layout_margin="10dp"
         android:layout_weight="1" />
 
+    <TextView
+        android:id="@+id/txtNameWifi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="@string/create_qr_wifi_name" />
+
     <EditText
-        android:id="@+id/txtNetworkName"
+        android:id="@+id/etNetworkName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:autofillHints="text"
-        android:padding="8dp"
         android:background="@drawable/edit_text_border"
         android:ems="10"
-        android:hint="Network name"
+        android:hint="@string/create_qr_wifi_name"
         android:inputType="text"
-        android:maxLength="50" />
+        android:maxLength="50"
+        android:padding="8dp" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_input_layout_password"
@@ -35,16 +55,17 @@
         android:layout_margin="10dp"
         app:passwordToggleEnabled="true"
         android:background="@drawable/edit_text_border">
+
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txtNetworkPass"
+            android:id="@+id/etNetworkPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="start|top"
-            android:lines="1"
-            android:maxLines="1"
-            android:hint="pass"
+            android:hint="@string/create_qr_wifi_pass"
+            android:imeOptions="actionDone"
             android:inputType="textPassword"
-            android:imeOptions="actionDone"/>
+            android:lines="1"
+            android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <CheckBox
@@ -53,6 +74,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:layout_weight="1"
-        android:text="Hidden" />
+        android:text="@string/create_qr_wifi_hidden" />
 
 </LinearLayout>

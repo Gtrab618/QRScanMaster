@@ -28,7 +28,7 @@
                     android:layout_marginEnd="25dp"
                     android:layout_weight="1"
                     android:drawableTop="@drawable/hs_store"
-                    android:text="App qr" />
+                    android:text="@string/create_btn_app" />
 
                 <Button
                     android:id="@+id/btnEmailCrea"
@@ -38,7 +38,7 @@
                     android:layout_marginEnd="25dp"
                     android:layout_weight="1"
                     android:drawableTop="@drawable/hs_email"
-                    android:text="Email" />
+                    android:text="@string/create_btn_email" />
 
             </TableRow>
 
@@ -55,7 +55,7 @@
                     android:layout_marginEnd="25dp"
                     android:layout_weight="1"
                     android:drawableTop="@drawable/hs_sms"
-                    android:text="Sms" />
+                    android:text="@string/create_btn_sms" />
 
                 <Button
                     android:id="@+id/btnUrlCrea"
@@ -65,7 +65,7 @@
                     android:layout_marginEnd="25dp"
                     android:layout_weight="1"
                     android:drawableTop="@drawable/hs_link"
-                    android:text="Url" />
+                    android:text="@string/create_btn_url" />
 
             </TableRow>
 
@@ -82,7 +82,7 @@
                     android:layout_marginEnd="25dp"
                     android:layout_weight="1"
                     android:drawableTop="@drawable/hs_wifi"
-                    android:text="Wifi QR" />
+                    android:text="@string/create_btn_wifi" />
 
                 <Button
                     android:id="@+id/btnVcardCrea"
@@ -92,7 +92,7 @@
                     android:layout_marginEnd="25dp"
                     android:layout_weight="1"
                     android:drawableTop="@drawable/hs_vcard"
-                    android:text="Vcard QR" />
+                    android:text="@string/create_btn_vcard" />
             </TableRow>
 
             <TableRow
@@ -107,7 +107,7 @@
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="25dp"
                     android:drawableTop="@drawable/hs_location"
-                    android:text="location" />
+                    android:text="@string/create_btn_location" />
 
             </TableRow>
 

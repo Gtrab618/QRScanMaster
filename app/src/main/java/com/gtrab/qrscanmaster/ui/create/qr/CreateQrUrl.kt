@@ -35,14 +35,14 @@ class CreateQrUrl : CreateQrBase() {
     }
 
     private fun  handleTextChanged(){
-        binding.txtUrl.addTextChangedListener { toggleCreateBarcodeButton() }
+        binding.etUrl.addTextChangedListener { toggleCreateBarcodeButton() }
     }
 
     private fun toggleCreateBarcodeButton() {
-        parentFragmen.isCreateBarcodeButtonEnabled = binding.txtUrl.isNotBlank()
+        parentFragmen.isCreateBarcodeButtonEnabled = binding.etUrl.isNotBlank()
     }
 
     override fun getBarcodeSchema(): Schema {
-        return Url(url=binding.txtUrl.textString)
+        return Url(url=binding.etUrl.textString)
     }
 }

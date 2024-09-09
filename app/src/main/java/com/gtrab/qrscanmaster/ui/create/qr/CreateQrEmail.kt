@@ -33,16 +33,16 @@ class CreateQrEmail : CreateQrBase() {
     }
 
     private fun handleTextChanged() {
-        binding.txtSubject.addTextChangedListener { toggleCreateBarcodeButton() }
-        binding.txtEmail.addTextChangedListener { toggleCreateBarcodeButton() }
-        binding.txtMessage.addTextChangedListener { toggleCreateBarcodeButton() }
+        binding.etSubject.addTextChangedListener { toggleCreateBarcodeButton() }
+        binding.etEmail.addTextChangedListener { toggleCreateBarcodeButton() }
+        binding.etMessage.addTextChangedListener { toggleCreateBarcodeButton() }
     }
 
     override fun getBarcodeSchema(): Schema {
-        return Email(email=binding.txtEmail.textString, subject = binding.txtSubject.textString, body = binding.txtMessage.textString)
+        return Email(email=binding.etEmail.textString, subject = binding.etSubject.textString, body = binding.etMessage.textString)
     }
     private fun toggleCreateBarcodeButton() {
-        parentFragmen.isCreateBarcodeButtonEnabled = binding.txtEmail.isNotBlank() || binding.txtSubject.isNotBlank() || binding.txtMessage.isNotBlank()
+        parentFragmen.isCreateBarcodeButtonEnabled = binding.etEmail.isNotBlank() || binding.etSubject.isNotBlank() || binding.etMessage.isNotBlank()
     }
 
 }

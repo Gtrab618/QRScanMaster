@@ -45,7 +45,7 @@ class CreateQrVcard : CreateQrBase() {
        }
 
 
-       return VCard(firstName = binding.txtFirstName.textString, lastName = binding.txtLastName.textString, email = binding.txtEmailVcard.textString, phone = number)
+       return VCard(firstName = binding.etFirstName.textString, lastName = binding.etLastName.textString, email = binding.etEmailVcard.textString, phone = number)
     }
 
 

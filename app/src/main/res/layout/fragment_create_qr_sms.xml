@@ -5,29 +5,53 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.create.qr.CreateQrSms">
-    <EditText
+
+
+    <TextView
+        android:id="@+id/txtTitleSms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/create_qr_sms_prin" />
+
+    <TextView
         android:id="@+id/txtPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:padding="8dp"
-        android:background="@drawable/edit_text_border"
-        android:ems="10"
-        android:hint="Phone"
-        android:inputType="phone"
-        android:maxLength="50" />
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/create_qr_sms_phone" />
 
     <EditText
-        android:id="@+id/txtMessage"
+        android:id="@+id/etPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:padding="8dp"
         android:background="@drawable/edit_text_border"
         android:ems="10"
-        android:hint="Subject"
+        android:hint="@string/create_qr_sms_phone"
+        android:inputType="phone"
+        android:maxLength="50"
+        android:padding="8dp" />
+
+    <TextView
+        android:id="@+id/txtSubject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:text="@string/create_qr_email_message" />
+
+    <EditText
+        android:id="@+id/etSubject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/edit_text_border"
+        android:ems="10"
+        android:hint="@string/create_qr_email_message"
         android:inputType="text"
-        android:maxLength="100" />
+        android:maxLength="100"
+        android:padding="8dp" />
 
 
 </LinearLayout>

@@ -37,16 +37,16 @@ class CreateQrSms : CreateQrBase() {
     }
 
     private  fun handleTextChanged(){
-        binding.txtPhone.addTextChangedListener {toggleCreateBarcodeButton()  }
-        binding.txtMessage.addTextChangedListener { toggleCreateBarcodeButton() }
+        binding.etPhone.addTextChangedListener {toggleCreateBarcodeButton()  }
+        binding.etSubject.addTextChangedListener { toggleCreateBarcodeButton() }
 
     }
 
     private fun toggleCreateBarcodeButton() {
-        parentFragmen.isCreateBarcodeButtonEnabled = binding.txtPhone.isNotBlank() || binding.txtMessage.isNotBlank()
+        parentFragmen.isCreateBarcodeButtonEnabled = binding.etPhone.isNotBlank() || binding.etSubject.isNotBlank()
     }
 
     override fun getBarcodeSchema(): Schema {
-        return Sms(phone=binding.txtPhone.textString,binding.txtMessage.textString)
+        return Sms(phone=binding.etPhone.textString,binding.etSubject.textString)
     }
 }

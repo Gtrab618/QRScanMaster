@@ -23,6 +23,7 @@
     <string name="main_menu_scanner">Scanner</string>
     <string name="main_menu_history">History</string>
     <string name="main_menu_settings">Settings</string>
+
     <!-- Title views -->
     <string name="view_create">Create</string>
     <string name="view_data">Information</string>
@@ -42,6 +43,37 @@
     <string name="info_btn_contact">Add contact</string>
     <string name="info_btn_email">Send email</string>
     <string name="info_btn_wifi_connect">Connect Network</string>
+
+    <!-- create qr view-->
+
+    <string name="create_btn_app">App</string>
+    <string name="create_btn_email">Email</string>
+    <string name="create_btn_sms">Sms</string>
+    <string name="create_btn_url">Url</string>
+    <string name="create_btn_wifi">Wifi</string>
+    <string name="create_btn_vcard">Vcard</string>
+    <string name="create_btn_location">Location</string>
+
+    <!-- create qr view interface-->
+    <string name="create_qr_email_prin">Email</string>
+    <string name="create_qr_email_subject">Subject</string>
+    <string name="create_qr_email_message">Message</string>
+
+    <string name="create_qr_sms_prin">Sms</string>
+    <string name="create_qr_sms_phone">Phone number</string>
+
+    <string name="create_qr_wifi_prin">Wifi</string>
+    <string name="create_qr_wifi_encryp">Encryption</string>
+    <string name="create_qr_wifi_name">Network Name</string>
+    <string name="create_qr_wifi_pass">Password</string>
+    <string name="create_qr_wifi_hidden">Hidden</string>
+
+    <string name="create_qr_vcard_first">First Name</string>
+    <string name="create_qr_vcard_last">Last Name</string>
+
+    <string name="create_qr_location_latitude">Latitude</string>
+    <string name="create_qr_location_longitude">Longitude</string>
+
     <!-- setting view-->
 
     <!-- general -->

@@ -33,16 +33,16 @@ class CreateQrLocation : CreateQrBase() {
     }
 
     override fun getBarcodeSchema(): Schema {
-        return Geo(latitude = binding.txtLatitude.textString, longitude = binding.txtLongitude.textString, altitude = null)
+        return Geo(latitude = binding.etLatitude.textString, longitude = binding.etLongitude.textString, altitude = null)
     }
 
     private fun handleTextChanged(){
-        binding.txtLatitude.addTextChangedListener { toggleCreateBarcodeButton() }
-        binding.txtLongitude.addTextChangedListener { toggleCreateBarcodeButton() }
+        binding.etLatitude.addTextChangedListener { toggleCreateBarcodeButton() }
+        binding.etLongitude.addTextChangedListener { toggleCreateBarcodeButton() }
     }
 
     private fun toggleCreateBarcodeButton() {
-        parentFragmen.isCreateBarcodeButtonEnabled=binding.txtLatitude.isNotBlank() && binding.txtLongitude.isNotBlank()
+        parentFragmen.isCreateBarcodeButtonEnabled=binding.etLatitude.isNotBlank() && binding.etLongitude.isNotBlank()
 
     }
 
