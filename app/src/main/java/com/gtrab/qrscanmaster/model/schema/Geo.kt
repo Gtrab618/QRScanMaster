@@ -26,17 +26,23 @@ class Geo :Schema{
     //para crear
     constructor(latitude:String, longitude:String, altitude:String?=null){
         uri = if (altitude.isNullOrEmpty()) {
-            "$PREFIX$latitude$SEPARATOR$longitude?q=$latitude$longitude"
+            "$PREFIX$latitude$SEPARATOR$longitude"
+
         } else {
             "$PREFIX$latitude$SEPARATOR$longitude$SEPARATOR$altitude"
         }
+
     }
 
     override val schema = BarcodeSchema.GEO
 
-    override fun toFormattedText(): String= uri
+    override fun toBarcodeText(): String= uri
 
-    override fun toBarcodeText(): String {
-        return uri.removePrefixIgnoreCase(PREFIX).replace(SEPARATOR, "\n")
+    override fun toFormattedText(): String {
+        return if (uri.contains("?")){
+            uri.removePrefixIgnoreCase(PREFIX).replace(SEPARATOR, "\n").substringBefore('?')
+        }else{
+            uri.removePrefixIgnoreCase(PREFIX).replace(SEPARATOR, "\n")
+        }
     }
 }

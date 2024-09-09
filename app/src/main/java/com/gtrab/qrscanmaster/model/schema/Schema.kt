@@ -1,22 +1,12 @@
 package com.gtrab.qrscanmaster.model.schema
 enum class BarcodeSchema {
     APP,
-    BOOKMARK,
-    CRYPTOCURRENCY,
     EMAIL,
     GEO,
-    GOOGLE_MAPS,
-    MMS,
-    MECARD,
-    OTP_AUTH,
-    PHONE,
     SMS,
     URL,
-    VEVENT,
     VCARD,
     WIFI,
-    YOUTUBE,
-    NZCOVIDTRACER,
     BOARDINGPASS,
     OTHER;
 }

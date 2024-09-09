@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var toggle: ActionBarDrawerToggle
     private var savedInstance: Bundle? = null
     private var isAppOpenedForSettings = false
-
+    private lateinit var navigationView:NavigationView
     //request permission camera
     private val coarsePermission =
         PermissionRequester(this, Manifest.permission.CAMERA, onRational = {
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setSupportActionBar(toolBar)
         drawerLayout = findViewById(R.id.drawer_layout)
 
-        val navigationView = findViewById<NavigationView>(R.id.nav_view)
+        navigationView = findViewById<NavigationView>(R.id.nav_view)
         //acciones para los botones
         navigationView.setNavigationItemSelectedListener(this)
 
@@ -78,7 +78,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             view.setPadding(systemBars.left, 0, 0, 0)
             insets
         }
-
 
         toggle = ActionBarDrawerToggle(
             this,
@@ -141,12 +140,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
                 if (supportFragmentManager.backStackEntryCount > 0) {
                     supportFragmentManager.popBackStack()
+
                 } else {
 
                     if (currentFragment.javaClass.simpleName != "Home") {
                         supportFragmentManager.beginTransaction()
                             .add(R.id.fragment_container, Home())
                             .commit()
+                        navigationView.setCheckedItem(R.id.nav_home)
                     } else {
                         finish()
                     }

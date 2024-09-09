@@ -89,6 +89,7 @@ class FragmentCreateQrMain : Fragment(), AppAdapter.Listener {
     }
 
     private fun createBarcode(schema: Schema,finish:Boolean=false){
+        println("schema text create"+ schema.toBarcodeText())
         val barcode = Barcode(
             text = schema.toBarcodeText(),
             formattedText = schema.toFormattedText(),

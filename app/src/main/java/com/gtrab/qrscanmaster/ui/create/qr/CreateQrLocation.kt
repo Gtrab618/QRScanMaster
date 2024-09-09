@@ -1,22 +1,49 @@
 package com.gtrab.qrscanmaster.ui.create.qr
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.gtrab.qrscanmaster.R
+import androidx.core.widget.addTextChangedListener
+import com.gtrab.qrscanmaster.databinding.FragmentCreateQrLocationBinding
+import com.gtrab.qrscanmaster.extension.isNotBlank
+import com.gtrab.qrscanmaster.extension.textString
+import com.gtrab.qrscanmaster.model.schema.Geo
+import com.gtrab.qrscanmaster.model.schema.Schema
+import com.gtrab.qrscanmaster.ui.create.CreateQrBase
 
 
-class CreateQrLocation : Fragment() {
+class CreateQrLocation : CreateQrBase() {
+
+    private lateinit var binding: FragmentCreateQrLocationBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_qr_location, container, false)
+        binding=FragmentCreateQrLocationBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        handleTextChanged()
+    }
+
+    override fun getBarcodeSchema(): Schema {
+        return Geo(latitude = binding.txtLatitude.textString, longitude = binding.txtLongitude.textString, altitude = null)
+    }
+
+    private fun handleTextChanged(){
+        binding.txtLatitude.addTextChangedListener { toggleCreateBarcodeButton() }
+        binding.txtLongitude.addTextChangedListener { toggleCreateBarcodeButton() }
+    }
+
+    private fun toggleCreateBarcodeButton() {
+        parentFragmen.isCreateBarcodeButtonEnabled=binding.txtLatitude.isNotBlank() && binding.txtLongitude.isNotBlank()
+
+    }
 
 }

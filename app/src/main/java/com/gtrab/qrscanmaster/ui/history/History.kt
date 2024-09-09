@@ -23,6 +23,7 @@ import com.gtrab.qrscanmaster.util.addTo
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -33,7 +34,7 @@ private const val ARG_PARAM2 = "param2"
 private const val PAGE_SIZE = 20
 
 class History : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
-
+    private var job: Job? = null
     private lateinit var btnDeleteAll: ImageButton
     private lateinit var btnShowFavorite: ImageButton
     private lateinit var comm: Communicator
@@ -80,7 +81,7 @@ class History : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
 
             }
         )
-        lifecycleScope.launch {
+        job=lifecycleScope.launch {
             try {
 
                 pager.flow
@@ -141,6 +142,7 @@ class History : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        job?.cancel()
         disposable.clear()
     }
 }

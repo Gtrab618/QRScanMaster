@@ -13,6 +13,7 @@ import com.gtrab.qrscanmaster.R
 import com.gtrab.qrscanmaster.databinding.FragmentCreateOptionsBinding
 import com.gtrab.qrscanmaster.ui.create.qr.CreateQrCodeApp
 import com.gtrab.qrscanmaster.ui.create.qr.CreateQrEmail
+import com.gtrab.qrscanmaster.ui.create.qr.CreateQrLocation
 import com.gtrab.qrscanmaster.ui.create.qr.CreateQrSms
 import com.gtrab.qrscanmaster.ui.create.qr.CreateQrUrl
 import com.gtrab.qrscanmaster.ui.create.qr.CreateQrVcard
@@ -79,6 +80,13 @@ class CreateOptions : Fragment() {
             parentFragmentManager
                 .beginTransaction()
                 .replace(R.id.createContainer,CreateQrVcard())
+                .commit()
+        }
+
+        binding.btnGeoCrea.setOnClickListener {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.createContainer,CreateQrLocation())
                 .commit()
         }
     }

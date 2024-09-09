@@ -77,6 +77,7 @@ class ParsedBarcode (barcode:Barcode){
 
     private fun parseGeo(){
         val geo = Geo.parse(text)
+        println("parseao de text geo "+ text)
         geoUri=geo?.uri
     }
 
