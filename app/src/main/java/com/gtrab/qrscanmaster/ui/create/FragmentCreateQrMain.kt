@@ -67,6 +67,7 @@ class FragmentCreateQrMain : Fragment(), AppAdapter.Listener {
         }
         comm= context as Communicator
         initHandleButton()
+        binding.btnConfirm.isEnabled=false
     }
 
     override fun onAppClicked(packageName: String) {

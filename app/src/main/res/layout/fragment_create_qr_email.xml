@@ -17,7 +17,7 @@
             android:background="@drawable/edit_text_border"
             android:ems="10"
             android:hint="Email"
-            android:inputType="text"
+            android:inputType="textEmailAddress"
             android:maxLength="50" />
 
         <EditText

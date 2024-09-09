@@ -15,6 +15,8 @@ import com.gtrab.qrscanmaster.ui.create.qr.CreateQrCodeApp
 import com.gtrab.qrscanmaster.ui.create.qr.CreateQrEmail
 import com.gtrab.qrscanmaster.ui.create.qr.CreateQrSms
 import com.gtrab.qrscanmaster.ui.create.qr.CreateQrUrl
+import com.gtrab.qrscanmaster.ui.create.qr.CreateQrVcard
+import com.gtrab.qrscanmaster.ui.create.qr.CreateQrWifi
 import com.hbb20.CountryCodePicker
 
 
@@ -65,6 +67,18 @@ class CreateOptions : Fragment() {
             parentFragmentManager
                 .beginTransaction()
                 .replace(R.id.createContainer,CreateQrUrl())
+                .commit()
+        }
+        binding.btnWifiCrea.setOnClickListener {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.createContainer,CreateQrWifi())
+                .commit()
+        }
+        binding.btnVcardCrea.setOnClickListener {
+            parentFragmentManager
+                .beginTransaction()
+                .replace(R.id.createContainer,CreateQrVcard())
                 .commit()
         }
     }
