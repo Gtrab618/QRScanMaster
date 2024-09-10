@@ -1,7 +1,6 @@
 package com.gtrab.qrscanmaster.model.schema
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import com.google.zxing.client.result.VCardResultParser
 import com.gtrab.qrscanmaster.extension.joinToStringNotNullOrBlankWithLineSeparator
 import com.gtrab.qrscanmaster.extension.startsWithIgnoreCase
 import ezvcard.Ezvcard

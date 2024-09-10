@@ -348,23 +348,7 @@ class InfoQr : Fragment() {
         snackBar(1)
     }
 
-    private fun snackBar(stringId: Int) {
-        //01 completar con los string para que sea multilenguaje
-        Snackbar.make(requireView(), "Copied to clipboard! \uD83D\uDCCB", Snackbar.LENGTH_LONG)
-            .show()
 
-        //personalizado
-        /*val snackbar = Snackbar.make(requireView(), "Replace with your own action",
-            Snackbar.LENGTH_LONG).setAction("Action", null)
-        snackbar.setActionTextColor(Color.BLUE)
-        val snackbarView = snackbar.view
-        snackbarView.setBackgroundColor(Color.LTGRAY)
-        val textView =
-            snackbarView.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
-        textView.setTextColor(Color.BLUE)
-        textView.textSize = 28f
-        snackbar.show()*/
-    }
 
     //save png or svg
     private fun checkPermissionStorage() {
@@ -441,12 +425,13 @@ class InfoQr : Fragment() {
         startActivityIfExists(intent)
     }
 
+    //guardar en png o svg
     private fun saveFunComplement(saveFun: Completable) {
         //01 revisar como mostrar el guardado sobre la pantalla
         saveFun.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { showBarcodeSaved() },
+                { snackBar(1) },
                 {error->
                     FirebaseCrashlytics.getInstance().recordException(error)
 
@@ -480,7 +465,7 @@ class InfoQr : Fragment() {
     private fun showEditBarcodeNameDialog() {
         val builder = AlertDialog.Builder(requireContext())
         //01 al poner diferentes idiomas
-        builder.setTitle("Edit Barcode Name")
+        builder.setTitle(R.string.infoqr_dlg_edit_title)
 
         // Configura el campo de entrada
         val input = EditText(requireContext())
@@ -488,13 +473,13 @@ class InfoQr : Fragment() {
         builder.setView(input)
 
         // Configura los botones del diálogo
-        builder.setPositiveButton("Save") { dialog, _ ->
+        builder.setPositiveButton(R.string.infoqr_dlg_edit_save) { dialog, _ ->
             val newBarcodeName = input.text.toString()
             // Haz algo con el nuevo nombre del código de barras
             onNameConfirmed(newBarcodeName)
             dialog.dismiss()
         }
-        builder.setNegativeButton("Cancel") { dialog, _ ->
+        builder.setNegativeButton(R.string.infoqr_cancel) { dialog, _ ->
             dialog.cancel()
         }
 
@@ -504,18 +489,18 @@ class InfoQr : Fragment() {
     private fun deleteBarcode() {
         val builder = AlertDialog.Builder(requireContext())
         //01 al poner diferentes idiomas
-        builder.setTitle("Eliminar")
+        builder.setTitle(R.string.infoqr_dlg_title)
 
 
         // Configura los botones del diálogo
-        builder.setPositiveButton("Confirmar") { dialog, _ ->
+        builder.setPositiveButton(R.string.infoqr_dlg_confirm) { dialog, _ ->
             // eliminar
 
             param1?.id?.let {
                 barcodeDatabase.delete(it).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread()).subscribe(
                         {
-                            Toast.makeText(requireContext(), "eliminar", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(),R.string.infoqr_delete , Toast.LENGTH_SHORT).show()
                             requireActivity().supportFragmentManager.popBackStack()
                         },{error->
                             FirebaseCrashlytics.getInstance().recordException(error)
@@ -526,7 +511,7 @@ class InfoQr : Fragment() {
             }
 
         }
-        builder.setNegativeButton("Cancelar") { dialog, _ ->
+        builder.setNegativeButton(R.string.infoqr_cancel) { dialog, _ ->
             dialog.cancel()
         }
 
@@ -557,7 +542,7 @@ class InfoQr : Fragment() {
         try {
             startActivityIfExists(Intent.ACTION_VIEW,url)
         }catch (e:Exception){
-            Toast.makeText(requireContext(), "url no valida", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), R.string.infoqr_url_invalid, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -677,7 +662,7 @@ class InfoQr : Fragment() {
         if(intent.resolveActivity(requireContext().packageManager)!=null){
             startActivity(intent)
         }else{
-            Toast.makeText(requireContext(), "01 app no encontrada", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), R.string.infoqr_app_notfound, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -685,14 +670,13 @@ class InfoQr : Fragment() {
         startActivityIfExists(Intent.ACTION_VIEW,barcodeParsed?.appMarketUrl.orEmpty())
     }
 
-    //muestra de mensajes
-    private fun showBarcodeSaved() {
+
+    private fun snackBar(stringId: Int) {
         //01 completar con los string para que sea multilenguaje
-        Snackbar.make(requireView(), "qr Guardado! \uD83D\uDCCB", Snackbar.LENGTH_LONG)
+        Snackbar.make(requireView(), "Copied to clipboard! \uD83D\uDCCB", Snackbar.LENGTH_LONG)
             .show()
 
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         disposable.clear()

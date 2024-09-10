@@ -3,7 +3,6 @@ package com.gtrab.qrscanmaster
 import android.os.Build
 import android.os.Bundle
 import android.Manifest
-import android.util.Log
 import android.view.MenuItem
 import android.widget.Toast
 import android.window.OnBackInvokedDispatcher

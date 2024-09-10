@@ -121,7 +121,7 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
                                             } else {
                                                 Toast.makeText(
                                                     requireContext(),
-                                                    "Qr no encontrado",
+                                                    R.string.home_notfound_qr,
                                                     Toast.LENGTH_SHORT
                                                 ).show()
                                             }
@@ -129,23 +129,30 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
                                         }.addOnFailureListener {
                                             Toast.makeText(
                                                 requireContext(),
-                                                "Error  94 escaner qr home",
+                                                R.string.home_notfound_qr,
                                                 Toast.LENGTH_SHORT
                                             ).show()
                                         }
 
                                 } catch (e: IOException) {
-                                    e.printStackTrace()
+                                    //error leer qr personalizado api google
+                                    FirebaseCrashlytics.getInstance().recordException(e)
+                                    FirebaseCrashlytics.getInstance().log("home 140: ${e.message}")
+
+
                                 }
                             }
                         }
 
                     } catch (e: IOException) {
-                        e.printStackTrace()
+                        FirebaseCrashlytics.getInstance().recordException(e)
+                        FirebaseCrashlytics.getInstance().log("fragmentCreateQrMain save: ${e.message}")
+
+
                         // Manejar cualquier error de E/S
                         Toast.makeText(
                             requireActivity(),
-                            "Error al cargar la imagen",
+                            R.string.home_error_uri,
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -153,34 +160,11 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
 
             } else {
                 // El usuario canceló o hubo un error
-                Toast.makeText(requireActivity(), "Imagen no seleccionada", Toast.LENGTH_SHORT)
+                Toast.makeText(requireActivity(), R.string.home_notselect_qr, Toast.LENGTH_SHORT)
                     .show()
             }
 
-            /*
-            sacar el nombre de la imagen mediante la uri
-            if (result.resultCode == AppCompatActivity.RESULT_OK) {
-            val data: Intent? = result.data
-            val uri: Uri? = data?.data
-            // Aquí puedes usar el URI para acceder a la información de la imagen
-            // Por ejemplo, si quieres obtener el nombre del archivo:
-            val displayName: String? = uri?.let { uri ->
-                requireActivity().contentResolver.query(uri, null, null, null, null)?.use { cursor ->
-                    val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-                    cursor.moveToFirst()
-                    cursor.getString(nameIndex)
-                }
-            }
-            displayName?.let {
-                Toast.makeText(requireActivity(), "Imagen seleccionada: $it", Toast.LENGTH_SHORT).show()
-            } ?: run {
-                Toast.makeText(requireActivity(), "No se pudo obtener el nombre de la imagen", Toast.LENGTH_SHORT).show()
-            }
-        } else {
-            // El usuario canceló o hubo un error
-            Toast.makeText(requireActivity(), "Galería cancelada", Toast.LENGTH_SHORT).show()
-        }
-             */
+
         }
 
     override fun onCreateView(
@@ -250,15 +234,7 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
             decodeCallback = DecodeCallback(::handleScannedBarcode)
 
         }
-        //averiguar que hace esto
 
-        // sirve para decodificar directamente el codigo qr
-        /*codeScanner.decodeCallback = DecodeCallback {
-            activity?.runOnUiThread {
-                Toast.makeText(activity, it.text, Toast.LENGTH_LONG).show()
-            }
-        }*/
-        //aberiguar que hace esto
         scannerView.setOnClickListener {
             codeScanner.startPreview()
         }

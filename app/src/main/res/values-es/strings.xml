@@ -73,6 +73,22 @@
     <string name="create_qr_location_latitude">Latitud</string>
     <string name="create_qr_location_longitude">Longitud</string>
 
+    <!-- toast message-->
+    <string name="home_notfound_qr">Qr not found</string>
+    <string name="home_error_uri">Image not recovered</string>
+    <string name="home_notselect_qr">Image not selected</string>
+    <string name="infoqr_app_notfound">app not found</string>
+    <string name="infoqr_url_invalid">Invalid url</string>
+    <string name="infoqr_cancel">Cancelar</string>
+    <string name="infoqr_delete">Eliminado</string>
+
+    <!-- Dialog message-->
+    <string name="infoqr_dlg_title">Eliminar</string>
+    <string name="infoqr_dlg_confirm">Confirmar</string>
+
+    <string name="infoqr_dlg_edit_title">Editar nombre</string>
+    <string name="infoqr_dlg_edit_save">Guardar</string>
+
     <!-- setting view-->
 
     <!-- general -->

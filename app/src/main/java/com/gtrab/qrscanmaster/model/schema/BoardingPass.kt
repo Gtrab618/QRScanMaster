@@ -1,6 +1,5 @@
 package com.gtrab.qrscanmaster.model.schema
 
-import android.widget.Toast
 import com.gtrab.qrscanmaster.extension.joinToStringNotNullOrBlankWithLineSeparator
 import com.gtrab.qrscanmaster.extension.startsWithIgnoreCase
 import com.gtrab.qrscanmaster.extension.unsafeLazy
@@ -32,11 +31,9 @@ class BoardingPass(
                     return null
                 }
                 if (text.startsWithIgnoreCase(PREFIX).not()){
-                    println("comprobacion 2")
                     return null
                 }
                 if(text[22] != 'E'){
-                    println("comprobacion 3")
                     return null
                 }
 

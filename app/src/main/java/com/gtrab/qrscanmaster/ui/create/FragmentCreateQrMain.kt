@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.zxing.BarcodeFormat
 import com.gtrab.qrscanmaster.R
@@ -89,7 +88,6 @@ class FragmentCreateQrMain : Fragment(), AppAdapter.Listener {
     }
 
     private fun createBarcode(schema: Schema,finish:Boolean=false){
-        println("schema text create"+ schema.toBarcodeText())
         val barcode = Barcode(
             text = schema.toBarcodeText(),
             formattedText = schema.toFormattedText(),

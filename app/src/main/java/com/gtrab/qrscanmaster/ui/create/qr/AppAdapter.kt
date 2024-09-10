@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.RecyclerView
 import com.gtrab.qrscanmaster.databinding.ItemAppBinding

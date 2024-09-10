@@ -3,7 +3,7 @@ import android.content.Context
 import android.hardware.camera2.CameraAccessException
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
-
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 
 
 object  ScannerCameraHelper {
@@ -23,7 +23,8 @@ object  ScannerCameraHelper {
                 }
             }
         } catch (e: CameraAccessException) {
-            e.printStackTrace()
+            FirebaseCrashlytics.getInstance().recordException(e)
+            FirebaseCrashlytics.getInstance().log("scannerCameraHelper 27: ${e.message}")
         }
         return null
     }
