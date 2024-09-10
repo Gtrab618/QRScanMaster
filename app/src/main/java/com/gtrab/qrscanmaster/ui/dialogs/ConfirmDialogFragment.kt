@@ -35,10 +35,10 @@ class ConfirmDialogFragment: DialogFragment() {
             .setMessage(message)
             .setIcon(R.drawable.edit_name)
             .setCancelable(false)
-            .setPositiveButton("Sí") { _, _ ->
+            .setPositiveButton(R.string.infoqr_dlg_yes) { _, _ ->
                banderaBool?.onDialogResult(true)
             }
-            .setNegativeButton("No") { _, _ ->
+            .setNegativeButton(R.string.infoqr_dlg_not) { _, _ ->
                 banderaBool?.onDialogResult(false)
             }
             .create()

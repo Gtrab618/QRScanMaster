@@ -90,6 +90,13 @@
     <string name="infoqr_dlg_edit_title">Edit name</string>
     <string name="infoqr_dlg_edit_save">Save</string>
 
+    <string name="infoqr_dlg_yes">Yes</string>
+    <string name="infoqr_dlg_not">No</string>
+
+    <string name="infoqr_dlg_yes">Yes</string>
+    <string name="infoqr_dlg_nt">No</string>
+
+
     <!-- setting view-->
 
     <!-- general -->
