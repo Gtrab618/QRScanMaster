@@ -83,10 +83,11 @@ class InfoQr : Fragment() {
     private lateinit var btnSendEmail:Button
     private lateinit var btnConnectWifi:Button
 
-
     private var barcodeParsed: ParsedBarcode? = null
     private lateinit var imageQr: ImageView
     private lateinit var btnQrSaveImage: Button
+    private lateinit var btnShareImg:Button
+    private lateinit var btnCopyAll:Button
 
     //request Permission storage
     private lateinit var drawerView: View
@@ -165,6 +166,8 @@ class InfoQr : Fragment() {
         txtDate= view.findViewById(R.id.txtDate)
         btnCopyPassWifi = view.findViewById(R.id.btnCopyPassWifi)
         btnQrSaveImage = view.findViewById(R.id.btnSaveQr)
+        btnShareImg=view.findViewById(R.id.btnShare)
+        btnCopyAll=view.findViewById(R.id.btnCopyAll)
         btnPlayStore= view.findViewById(R.id.btnPlayStore)
         btnSendSms=view.findViewById(R.id.btnSendSms)
         btnLookLocation= view.findViewById(R.id.btnLookLocation)
@@ -282,6 +285,15 @@ class InfoQr : Fragment() {
 
         btnQrSaveImage.setOnClickListener {
             checkPermissionStorage()
+        }
+
+        btnShareImg.setOnClickListener {
+            shareBarcodeAsImage()
+        }
+
+        btnCopyAll.setOnClickListener {
+            copyToClipboard(barcodeParsed?.text ?:"")
+            snackBar(1)
         }
 
         btnPlayStore.setOnClickListener {
@@ -402,6 +414,31 @@ class InfoQr : Fragment() {
             }
 
         }
+    }
+
+    private fun shareBarcodeAsImage(){
+        val imageUri=try {
+            val image= param1?.let { barcodeImageGenerator.generateBitmap(it,200,200,1) }
+            if(image !=null && barcodeParsed != null){
+                barcodeImageSaved.saveImageToCache(requireContext(),image, barcodeParsed!!)
+            }else{
+                return
+            }
+
+
+        }catch (e:Exception){
+            FirebaseCrashlytics.getInstance().log("Error 417 infoqr")
+            FirebaseCrashlytics.getInstance().recordException(e)
+            return
+        }
+
+        val intent=Intent(Intent.ACTION_SEND).apply {
+            type = "image/png"
+            putExtra(Intent.EXTRA_STREAM,imageUri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+
+        startActivityIfExists(intent)
     }
 
     private fun saveFunComplement(saveFun: Completable) {
