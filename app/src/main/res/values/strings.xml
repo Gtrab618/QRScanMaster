@@ -93,9 +93,8 @@
     <string name="infoqr_dlg_yes">Yes</string>
     <string name="infoqr_dlg_not">No</string>
 
-    <string name="infoqr_dlg_yes">Yes</string>
-    <string name="infoqr_dlg_nt">No</string>
-
+    <string name="hs_dlg_title">Clear History</string>
+    <string name="hs_dlg_message">Do you want to delete all history?</string>
 
     <!-- setting view-->
 

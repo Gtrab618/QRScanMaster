@@ -92,6 +92,9 @@
     <string name="infoqr_dlg_yes">Si</string>
     <string name="infoqr_dlg_not">No</string>
 
+    <string name="hs_dlg_title">Borrar Historial</string>
+    <string name="hs_dlg_message">¿Quieres borrar todo el historial?</string>
+
     <!-- setting view-->
 
     <!-- general -->

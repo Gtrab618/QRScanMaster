@@ -105,15 +105,26 @@ class History : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
         }
 
         btnShowFavorite.setOnClickListener {
-            showFavoriteBool = !showFavoriteBool
-            loadHistory()
+            switchFavorite()
         }
     }
 
+    private fun switchFavorite(){
+        showFavoriteBool = !showFavoriteBool
+        if (showFavoriteBool){
+            btnShowFavorite.setImageResource(R.drawable.favorite_history_on)
+        }else{
+            btnShowFavorite.setImageResource(R.drawable.favorite_history_off)
+        }
+        loadHistory()
+    }
     private fun showDeleteConfirmtaionDialog() {
+        val title = getString(R.string.hs_dlg_title)
+        val message = getString(R.string.hs_dlg_message)
+
         val dialog = ConfirmDialogFragment.newInstance(
-            "Borrar Historial",
-            "¿Quieres borrar todo el historial?"
+            title,
+            message
         )
         dialog.show(childFragmentManager, "")
     }
