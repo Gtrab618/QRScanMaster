@@ -102,6 +102,11 @@
 
 
     <string name="main_dlg_message_denied">Permisos->No permitidos-> Cámara-> Permitir</string>
+
+    <string name="infoqr_dlg_img_title">Acceso a Archivos Multimedia</string>
+    <string name="infoqr_dlg_img_message">Se necesita acceso a archivos multimedia para guardar fotos.</string>
+
+    <string name="infoqr_dlg_img_message_denied">Permisos->No permitidos-> Archivos y contenido multimedia-> Permitir</string>
     <!-- setting view-->
 
     <!-- general -->

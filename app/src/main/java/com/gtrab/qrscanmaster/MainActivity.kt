@@ -17,7 +17,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.replace
 import com.gtrab.qrscanmaster.comunication.Communicator
 import com.gtrab.qrscanmaster.model.Barcode
 import com.gtrab.qrscanmaster.ui.home.Home
@@ -25,13 +24,9 @@ import com.gtrab.qrscanmaster.ui.infoqr.InfoQr
 import com.gtrab.qrscanmaster.ui.history.History
 import com.gtrab.qrscanmaster.util.PermissionRequester
 import com.gtrab.qrscanmaster.util.openAppSettings
-import com.gtrab.qrscanmaster.util.showSnackbar
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
-import com.gtrab.qrscanmaster.ui.about.About
 import com.gtrab.qrscanmaster.ui.config.ConfigMain
 import com.gtrab.qrscanmaster.ui.create.FragmentCreateQrMain
-import com.gtrab.qrscanmaster.ui.dialogs.ConfirmDialogFragment
 import com.gtrab.qrscanmaster.ui.dialogs.PermissionDialogFragment
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
@@ -116,8 +111,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onDialogResult(result: Boolean) {
-        println("result dialog")
-        println(isAppOpenedForSettings)
         if (result){
 
             if(!denied){
@@ -250,8 +243,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             if (savedInstance == null) {
 
                 supportFragmentManager.beginTransaction()
-                    .add(R.id.fragment_container, Home(), "home")
-                    .addToBackStack("home") // Añade el fragmento a la pila de retroceso
+                    .add(R.id.fragment_container, Home(), null)
                     .commit()
             }
             toggle.syncState()

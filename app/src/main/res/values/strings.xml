@@ -101,6 +101,12 @@
     <string name="main_dlg_ok">OK</string>
 
     <string name="main_dlg_message_denied">Permissions->Not Allowed-> Camera-> Allow</string>
+
+    <string name="infoqr_dlg_img_title">Media Access Required</string>
+    <string name="infoqr_dlg_img_message">Access to media files is needed to save photos.</string>
+    <string name="infoqr_dlg_img_message_denied">Permissions -> Not allowed -> Files and media -> Allow</string>
+
+
     <!-- setting view-->
 
     <!-- general -->

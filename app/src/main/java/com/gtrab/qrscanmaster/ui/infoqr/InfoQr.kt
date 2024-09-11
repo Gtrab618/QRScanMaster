@@ -30,7 +30,6 @@ import com.gtrab.qrscanmaster.model.Barcode
 import com.gtrab.qrscanmaster.model.ParsedBarcode
 import com.gtrab.qrscanmaster.util.ParmissionRequestFragment
 import com.gtrab.qrscanmaster.util.addTo
-import com.gtrab.qrscanmaster.util.showSnackbar
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
@@ -41,6 +40,8 @@ import com.gtrab.qrscanmaster.R
 import com.gtrab.qrscanmaster.dependencies.settings
 import com.gtrab.qrscanmaster.dependencies.wifiConnector
 import com.gtrab.qrscanmaster.model.schema.BarcodeSchema
+import com.gtrab.qrscanmaster.ui.dialogs.ConfirmDialogFragment
+import com.gtrab.qrscanmaster.util.openAppSettings
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -51,14 +52,8 @@ import java.util.Locale
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [InfoQr.newInstance] factory method to
- * create an instance of this fragment.
- */
-class InfoQr : Fragment() {
+class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
     // TODO: Rename and change types of parameters
     private var param1: Barcode? = null
 
@@ -88,28 +83,18 @@ class InfoQr : Fragment() {
     private lateinit var btnQrSaveImage: Button
     private lateinit var btnShareImg:Button
     private lateinit var btnCopyAll:Button
+    private var denied=false
 
     //request Permission storage
     private lateinit var drawerView: View
     private val disposable = CompositeDisposable()
     private val coarsePermission =
         ParmissionRequestFragment(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, onRational = {
-            drawerView.showSnackbar(
-                "Requere acceso para guardar",
-                Snackbar.LENGTH_INDEFINITE,
-                "Ok"
-            ) {
-                checkPermissionStorage()
-            }
+
+            showPermissionDialog(R.string.infoqr_dlg_img_title,R.string.infoqr_dlg_img_message)
         }, onDenied = {
-
-            drawerView.showSnackbar(
-                "Redireccion a configuracion proximo",
-                Snackbar.LENGTH_INDEFINITE,
-                "Ok"
-            ) {
-
-            }
+            denied=true
+            showPermissionDialog(R.string.infoqr_dlg_img_title,R.string.infoqr_dlg_img_message_denied)
         })
     private val clipboardManager by unsafeLazy {
         requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -400,6 +385,30 @@ class InfoQr : Fragment() {
         }
     }
 
+    private fun showPermissionDialog(intTitle: Int, intMessage:Int){
+        val title= getString(intTitle)
+        val message= getString(intMessage)
+
+        val dialog= ConfirmDialogFragment.newInstance(
+            title,
+            message
+        )
+        dialog.show(childFragmentManager,"")
+    }
+
+    override fun onDialogResult(result: Boolean) {
+
+        if (result){
+            if (!denied){
+                checkPermissionStorage()
+            }else{
+                requireContext().openAppSettings()
+            }
+
+        }
+
+    }
+
     private fun shareBarcodeAsImage(){
         val imageUri=try {
             val image= param1?.let { barcodeImageGenerator.generateBitmap(it,200,200,1) }
@@ -454,9 +463,10 @@ class InfoQr : Fragment() {
                     barcodeParsed?.isFavorite = temBarcode.isFavorite
                     showBarcodeIsFavorite(temBarcode.isFavorite)
                 }, {error->
-                        FirebaseCrashlytics.getInstance().recordException(error)
 
+                        FirebaseCrashlytics.getInstance().recordException(error)
                         FirebaseCrashlytics.getInstance().log("Infor qr 435: ${error.message}")
+
                 }
             ).addTo(disposable)
         }
