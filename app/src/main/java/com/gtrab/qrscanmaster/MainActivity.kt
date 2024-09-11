@@ -31,27 +31,25 @@ import com.google.android.material.snackbar.Snackbar
 import com.gtrab.qrscanmaster.ui.about.About
 import com.gtrab.qrscanmaster.ui.config.ConfigMain
 import com.gtrab.qrscanmaster.ui.create.FragmentCreateQrMain
+import com.gtrab.qrscanmaster.ui.dialogs.ConfirmDialogFragment
+import com.gtrab.qrscanmaster.ui.dialogs.PermissionDialogFragment
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
-    Communicator {
+    Communicator,PermissionDialogFragment.PermissionDialogListener {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
     private var savedInstance: Bundle? = null
     private var isAppOpenedForSettings = false
+    private var denied=false
     private lateinit var navigationView:NavigationView
     //request permission camera
     private val coarsePermission =
         PermissionRequester(this, Manifest.permission.CAMERA, onRational = {
-            drawerLayout.showSnackbar("acceso requerido", Snackbar.LENGTH_INDEFINITE, "Ok") {
-                checkPermissionCamera()
-            }
+            showPermissionDialog(R.string.main_dlg_title,R.string.main_dlg_message)
 
         }, onDenied = {
-            drawerLayout.showSnackbar("acceso requerido", Snackbar.LENGTH_INDEFINITE, "Ok") {
-                openAppSettings()
-                isAppOpenedForSettings = true
-            }
-
+            denied=true
+            showPermissionDialog(R.string.main_dlg_title,R.string.main_dlg_message_denied)
         })
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,6 +103,34 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
+    private fun showPermissionDialog(intTitle: Int, intMessage:Int){
+
+        val title = getString(intTitle)
+        val message = getString(intMessage)
+
+        val dialog = PermissionDialogFragment.newInstance(
+            title,
+            message
+        )
+        dialog.show(supportFragmentManager, "")
+    }
+
+    override fun onDialogResult(result: Boolean) {
+        println("result dialog")
+        println(isAppOpenedForSettings)
+        if (result){
+
+            if(!denied){
+                checkPermissionCamera()
+            }else{
+
+                openAppSettings()
+                isAppOpenedForSettings = true
+            }
+
+        }
+
+    }
 
     private fun btnRegresar() {
 

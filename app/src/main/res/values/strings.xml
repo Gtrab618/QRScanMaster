@@ -96,6 +96,11 @@
     <string name="hs_dlg_title">Clear History</string>
     <string name="hs_dlg_message">Do you want to delete all history?</string>
 
+    <string name="main_dlg_title">Camera Permission Required</string>
+    <string name="main_dlg_message">Camera access is needed to scan barcodes.</string>
+    <string name="main_dlg_ok">OK</string>
+
+    <string name="main_dlg_message_denied">Permissions->Not Allowed-> Camera-> Allow</string>
     <!-- setting view-->
 
     <!-- general -->
