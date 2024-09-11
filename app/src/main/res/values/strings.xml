@@ -44,6 +44,9 @@
     <string name="info_btn_email">Send email</string>
     <string name="info_btn_wifi_connect">Connect Network</string>
 
+    <string name="info_snck_copy_all">Copied to clipboard! 📋</string>
+    <string name="info_snck_pass">Password copied 📋</string>
+    <string name="info_snck_saved">Image saved</string>
     <!-- create qr view-->
 
     <string name="create_btn_app">App</string>

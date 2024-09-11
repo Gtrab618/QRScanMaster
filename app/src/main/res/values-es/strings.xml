@@ -82,6 +82,9 @@
     <string name="infoqr_cancel">Cancelar</string>
     <string name="infoqr_delete">Eliminado</string>
 
+    <string name="info_snck_copy_all">Copiado a portapapeles! 📋</string>
+    <string name="info_snck_pass">Contraseña copiada 📋</string>
+    <string name="info_snck_saved">Imagen guardada</string>
     <!-- Dialog message-->
     <string name="infoqr_dlg_title">Eliminar</string>
     <string name="infoqr_dlg_confirm">Confirmar</string>

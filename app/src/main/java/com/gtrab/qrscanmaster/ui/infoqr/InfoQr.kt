@@ -278,7 +278,7 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
 
         btnCopyAll.setOnClickListener {
             copyToClipboard(barcodeParsed?.text ?:"")
-            snackBar(1)
+            snackBar(R.string.info_snck_copy_all)
         }
 
         btnPlayStore.setOnClickListener {
@@ -324,13 +324,12 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
 
     private fun copyNetworkPasswordToClipboard() {
         copyToClipboard(barcodeParsed?.networkPassword.orEmpty())
-        snackBar(1)
+        snackBar(R.string.info_snck_pass)
     }
 
     private fun copyToClipboard(text: String) {
         val clipData = ClipData.newPlainText("", text)
         clipboardManager.setPrimaryClip(clipData)
-        snackBar(1)
     }
 
 
@@ -440,7 +439,7 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
         saveFun.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { snackBar(1) },
+                { snackBar(R.string.info_snck_saved) },
                 {error->
                     FirebaseCrashlytics.getInstance().recordException(error)
 
@@ -683,7 +682,7 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
 
     private fun snackBar(stringId: Int) {
         //01 completar con los string para que sea multilenguaje
-        Snackbar.make(requireView(), "Copied to clipboard! \uD83D\uDCCB", Snackbar.LENGTH_LONG)
+        Snackbar.make(requireView(), getString(stringId), Snackbar.LENGTH_LONG)
             .show()
 
     }

@@ -283,7 +283,10 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
                 }
                 resetZoom()
             } catch (e: IOException) {
-                Toast.makeText(requireContext(), "Error Camara cod=0", Toast.LENGTH_SHORT).show()
+
+                FirebaseCrashlytics.getInstance().recordException(e)
+
+                FirebaseCrashlytics.getInstance().log("camara front o back 298: ${e.message}")
             }
 
         }
