@@ -4,8 +4,10 @@ import android.content.ContentValues
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.hardware.camera2.CameraCharacteristics
+import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
+import android.os.ext.SdkExtensions
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -50,7 +52,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import java.io.IOException
 
 class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
-
+    private val CHOOSE_FILE_REQUEST_CODE = 12
     private val vibrationPattern = arrayOf<Long>(0, 350).toLongArray()
     private lateinit var comm: Communicator
     private val disposable = CompositeDisposable()
@@ -79,8 +81,6 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
                 //selecciono la uri para procesar la imagen
                 val selectedImageUri = result.data?.data
                 //let si no esta vacio
-
-
                 selectedImageUri?.let { uri ->
                     try {
                         //leo un stream del archivo
@@ -239,10 +239,19 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
                     scaleY(1f)
                 }
             }
-            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            intent.resolveActivity(requireActivity().packageManager)?.also {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && SdkExtensions.getExtensionVersion(Build.VERSION_CODES.R) >= 2) {
+                galeryQrResult.launch(
+                    Intent(MediaStore.ACTION_PICK_IMAGES)
+                        .apply {
+                            type = "image/*"
+                        }
+                )
+            } else {
+                val intent = Intent(Intent.ACTION_PICK)
+                intent.type = "image/*"
                 galeryQrResult.launch(intent)
             }
+
 
         }
         btnCameraFront.setOnClickListener {
@@ -435,7 +444,7 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
 
 
         when {
-            settings.confirmScansManually ->  showScanConfirmationDialog(barcode)
+            settings.confirmScansManually -> showScanConfirmationDialog(barcode)
             settings.saveScanBarcodeToHistory -> saveScannedBarcodeScreen(barcode)
             else -> comm.passInfoQr(barcode)
         }
@@ -457,7 +466,7 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
     private fun showScanConfirmationDialog(barcode: Barcode) {
         temBarcodeManual = barcode
         //01 para la version ingles añadir lo local
-        val dialog = ConfirmDialogFragment.newInstance("Scanner","¿Ver este qr? ${barcode.schema}")
+        val dialog = ConfirmDialogFragment.newInstance("Scanner", "¿Ver este qr? ${barcode.schema}")
         dialog.show(childFragmentManager, "")
 
     }
@@ -468,9 +477,9 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
                 saveScannedBarcodeScreen(temBarcodeManual)
 
             } else {
-               requireActivity().runOnUiThread {
-                   codeScanner.startPreview()
-               }
+                requireActivity().runOnUiThread {
+                    codeScanner.startPreview()
+                }
             }
         } catch (e: Exception) {
 
@@ -500,7 +509,7 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
                          bandera--
                      }*/
                 },
-                {error ->
+                { error ->
                     FirebaseCrashlytics.getInstance().recordException(error)
                     FirebaseCrashlytics.getInstance().log("Home 543: ${error.message}")
                 }

@@ -88,6 +88,7 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
     //request Permission storage
     private lateinit var drawerView: View
     private val disposable = CompositeDisposable()
+    //MANAGE_EXTERNAL_STORAGE para guardar en android 13 14
     private val coarsePermission =
         ParmissionRequestFragment(this, Manifest.permission.WRITE_EXTERNAL_STORAGE, onRational = {
 
