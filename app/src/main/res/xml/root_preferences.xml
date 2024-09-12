@@ -23,12 +23,16 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Historial">
+    <PreferenceCategory app:title="@string/setting_history_title">
 
         <androidx.preference.SwitchPreferenceCompat
             app:defaultValue="true"
             app:key="saveCreateBarcode"
-            app:summary="guardar qr crados"
-            app:title="guardar los qr que creaste" />
+            app:title="@string/setting_save_qr_create" />
+
+        <androidx.preference.SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="saveScanBarcode"
+            app:title="@string/setting_save_qr_scan" />
     </PreferenceCategory>
 </PreferenceScreen>

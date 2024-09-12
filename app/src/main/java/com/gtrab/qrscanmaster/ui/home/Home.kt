@@ -173,22 +173,8 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
     ): View? {
         // Inflate the layout for this fragment
         val viewHome = inflater.inflate(R.layout.fragment_home, container, false)
-
-        //importante inicialziar el comunicator
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        // al hacer esto lo inicializo con el main por eso llama al main
-        //requireActivity() al usar eso asumo que el que contiene el fragemento contiene la interfaz
         comm = context as Communicator
-        //btn=viewHome.findViewById(R.id.button2)
-        /* val txt= viewHome.findViewById<EditText>(R.id.editTextText)
-         val enterBtn=viewHome.findViewById<Button>(R.id.button)
-         enterBtn.setOnClickListener{
-             comm.passInfoQr(txt.text.toString())
-         }*/
 
-        /*   btn.setOnClickListener{
-               IntentIntegrator.forSupportFragment(this@Home).initiateScan()
-           }*/
         return viewHome
     }
 
@@ -449,11 +435,9 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
 
 
         when {
-            settings.confirmScansManually -> {
-                showScanConfirmationDialog(barcode)
-            }
-
-            else -> saveScannedBarcodeScreen(barcode)
+            settings.confirmScansManually ->  showScanConfirmationDialog(barcode)
+            settings.saveScanBarcodeToHistory -> saveScannedBarcodeScreen(barcode)
+            else -> comm.passInfoQr(barcode)
         }
 
     }

@@ -121,9 +121,9 @@
     <string name="setting_clipboard">Copy to clipboard</string>
     <string name="setting_confirmed_title">Confirmed qr scan</string>
     <string name="setting_confirmed">The qr is accept o reject</string>
-    <!-- next -->
-    <string name="setting_next_title">Next</string>
 
-    <string name="setting_double_title">Save double</string>
-    <string name="setting_double">Permited saved double</string>
+    <string name="setting_history_title">History</string>
+    <string name="setting_save_qr_create">Save created barcode</string>
+    <string name="setting_save_qr_scan">Save scanned barcode</string>
+
 </resources>

@@ -31,6 +31,9 @@ class Settings(private val context: Context) {
     var saveCreatedBarcodesToHistory:Boolean get() = get(Key.SAVE_CREATED_BARCODES_TO_HISTORY,true)
         set(value)= set(Key.SAVE_CREATED_BARCODES_TO_HISTORY,value)
 
+    var saveScanBarcodeToHistory:Boolean get()= get(Key.SAVE_SCANNED_BARCODES_TO_HISTORY,true)
+        set(value) =set(Key.SAVE_SCANNED_BARCODES_TO_HISTORY,value)
+
     private fun get(key: Key, default: Boolean = false): Boolean {
         return sharedPreferences.getBoolean(key.name, default)
     }

@@ -50,7 +50,7 @@ class BarcodeHistoryAdapter (private val onBarcodeClicked: (Barcode)->Unit): Pag
 
         private fun showText(barcode: Barcode){
             //01 revisar historial si muestre t0d0 el qr formateado o solo una parte
-            binding.txtQrText.text=barcode.formattedText
+            binding.txtQrText.text=barcode.name ?: barcode.formattedText
         }
 
         private fun showDate(barcode: Barcode){
@@ -74,7 +74,6 @@ class BarcodeHistoryAdapter (private val onBarcodeClicked: (Barcode)->Unit): Pag
         }
 
         private fun showFormat(barcode: Barcode){
-            //01 revisar y ver si se cambia por el nombre
             binding.txtTypeQr.text=barcode.format.toString()
         }
     }

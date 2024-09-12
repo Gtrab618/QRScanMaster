@@ -121,9 +121,8 @@
     <string name="setting_clipboard">Copiar al portapapeles</string>
     <string name="setting_confirmed_title">Confirmacion manual</string>
     <string name="setting_confirmed">El qr es aceptado o no</string>
-    <!-- next -->
-    <string name="setting_next_title">Proximamente</string>
 
-    <string name="setting_double_title">Guardar duplicados</string>
-    <string name="setting_double">Permite guardar qr duplicados</string>
+    <string name="setting_history_title">Historial</string>
+    <string name="setting_save_qr_create">Guardar qr creado</string>
+    <string name="setting_save_qr_scan">Guardar qr escaneado</string>
 </resources>
