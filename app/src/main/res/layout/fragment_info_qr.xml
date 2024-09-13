@@ -230,6 +230,7 @@
                 android:drawablePadding="15dp"
                 android:text="@string/info_btn_wifi_pass"
                 android:textAlignment="textStart"
+                android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="18sp" />
 
@@ -243,6 +244,7 @@
                 android:text="@string/info_btn_url"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
+                android:textAllCaps="false"
                 android:textSize="18sp" />
 
             <Button
@@ -255,6 +257,7 @@
                 android:text="@string/info_btn_store"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
+                android:textAllCaps="false"
                 android:textSize="18sp" />
 
             <Button
@@ -267,6 +270,7 @@
                 android:text="@string/info_btn_sms"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
+                android:textAllCaps="false"
                 android:textSize="18sp" />
 
             <Button
@@ -279,6 +283,7 @@
                 android:text="@string/info_btn_location"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
+                android:textAllCaps="false"
                 android:textSize="18sp" />
 
             <Button
@@ -291,6 +296,7 @@
                 android:text="@string/info_btn_flight"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
+                android:textAllCaps="false"
                 android:textSize="18sp" />
 
             <Button
@@ -303,6 +309,7 @@
                 android:text="@string/info_btn_contact"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
+                android:textAllCaps="false"
                 android:textSize="18sp" />
 
             <Button
@@ -327,6 +334,7 @@
                 android:text="@string/info_btn_wifi_connect"
                 android:textAlignment="textStart"
                 android:textColor="@color/black"
+                android:textAllCaps="false"
                 android:textSize="18sp" />
 
         </LinearLayout>

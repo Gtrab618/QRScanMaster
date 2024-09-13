@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.text.InputFilter
@@ -41,6 +42,7 @@ import com.gtrab.qrscanmaster.dependencies.settings
 import com.gtrab.qrscanmaster.dependencies.wifiConnector
 import com.gtrab.qrscanmaster.model.schema.BarcodeSchema
 import com.gtrab.qrscanmaster.ui.dialogs.ConfirmDialogFragment
+import com.gtrab.qrscanmaster.util.MessageToast
 import com.gtrab.qrscanmaster.util.openAppSettings
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Completable
@@ -97,6 +99,8 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
             denied=true
             showPermissionDialog(R.string.infoqr_dlg_img_title,R.string.infoqr_dlg_img_message_denied)
         })
+
+
     private val clipboardManager by unsafeLazy {
         requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     }
@@ -279,7 +283,8 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
 
         btnCopyAll.setOnClickListener {
             copyToClipboard(barcodeParsed?.text ?:"")
-            snackBar(R.string.info_snck_copy_all)
+            MessageToast.showToastPersonalize(requireContext(),R.string.info_snck_copy_all)
+
         }
 
         btnPlayStore.setOnClickListener {
@@ -325,7 +330,8 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
 
     private fun copyNetworkPasswordToClipboard() {
         copyToClipboard(barcodeParsed?.networkPassword.orEmpty())
-        snackBar(R.string.info_snck_pass)
+        MessageToast.showToastPersonalize(requireContext(),R.string.info_snck_pass)
+
     }
 
     private fun copyToClipboard(text: String) {
@@ -337,54 +343,60 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
 
     //save png or svg
     private fun checkPermissionStorage() {
-        coarsePermission.runWithPermission {
+       if(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q){
+           coarsePermission.runWithPermission {
+               saveImg()
+           }
 
-            val bottomSheetDialog = BottomSheetDialog(requireContext())
-            val bottomSheetView = layoutInflater.inflate(R.layout.bottom_save_qr_options, null)
-            bottomSheetDialog.setContentView(bottomSheetView)
-            bottomSheetDialog.show()
-            val btnOptionSavePng: Button = bottomSheetView.findViewById(R.id.btnPngFormatQr)
-            val btnOptionSaveSvg: Button = bottomSheetView.findViewById(R.id.btnSvgFormatQr)
+       }else{
+           saveImg()
+       }
+    }
 
-            if (param1 != null) {
+    private fun saveImg(){
+        val bottomSheetDialog = BottomSheetDialog(requireContext())
+        val bottomSheetView = layoutInflater.inflate(R.layout.bottom_save_qr_options, null)
+        bottomSheetDialog.setContentView(bottomSheetView)
+        bottomSheetDialog.show()
+        val btnOptionSavePng: Button = bottomSheetView.findViewById(R.id.btnPngFormatQr)
+        val btnOptionSaveSvg: Button = bottomSheetView.findViewById(R.id.btnSvgFormatQr)
 
-                btnOptionSavePng.setOnClickListener {
-                    //falta almacenar el resultado sino no funciona el complete
-                    val saveFun = barcodeImageGenerator.generateBitmapAsync(param1!!, 640, 640, 2)
-                        .flatMapCompletable {
-                            barcodeImageSaved.savePngImageToPublicDirectory(
-                                requireContext(),
-                                it,
-                                param1!!
-                            )
-                        }
-                    //01 revisar si esta forma esta bien
-                    bottomSheetDialog.dismiss()
-                    saveFunComplement(saveFun)
+        if (param1 != null) {
 
-                }
-
-                btnOptionSaveSvg.setOnClickListener {
-                    val saveFun = barcodeImageGenerator
-                        .generateSvgAsync(param1!!, 640, 640, 2)
-                        .flatMapCompletable {
-                            barcodeImageSaved.saveSvgImageToPublicDirectory(
-                                requireContext(),
-                                it,
-                                param1!!
-                            )
-                        }
-                    //01 revisar si esta forma esta bien
-                    bottomSheetDialog.dismiss()
-                    saveFunComplement(saveFun)
-                }
-
+            btnOptionSavePng.setOnClickListener {
+                //falta almacenar el resultado sino no funciona el complete
+                val saveFun = barcodeImageGenerator.generateBitmapAsync(param1!!, 640, 640, 2)
+                    .flatMapCompletable {
+                        barcodeImageSaved.savePngImageToPublicDirectory(
+                            requireContext(),
+                            it,
+                            param1!!
+                        )
+                    }
+                //01 revisar si esta forma esta bien
+                bottomSheetDialog.dismiss()
+                saveFunComplement(saveFun)
 
             }
 
+            btnOptionSaveSvg.setOnClickListener {
+                val saveFun = barcodeImageGenerator
+                    .generateSvgAsync(param1!!, 640, 640, 2)
+                    .flatMapCompletable {
+                        barcodeImageSaved.saveSvgImageToPublicDirectory(
+                            requireContext(),
+                            it,
+                            param1!!
+                        )
+                    }
+                //01 revisar si esta forma esta bien
+                bottomSheetDialog.dismiss()
+                saveFunComplement(saveFun)
+            }
+
+
         }
     }
-
     private fun showPermissionDialog(intTitle: Int, intMessage:Int){
         val title= getString(intTitle)
         val message= getString(intMessage)
@@ -440,7 +452,9 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
         saveFun.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { snackBar(R.string.info_snck_saved) },
+                {
+                    MessageToast.showToastPersonalize(requireContext(),R.string.info_snck_saved)
+                },
                 {error->
                     FirebaseCrashlytics.getInstance().recordException(error)
 
@@ -510,7 +524,9 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
                 barcodeDatabase.delete(it).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread()).subscribe(
                         {
-                            Toast.makeText(requireContext(),R.string.infoqr_delete , Toast.LENGTH_SHORT).show()
+
+                            MessageToast.showToastPersonalize(requireContext(),R.string.infoqr_delete)
+
                             requireActivity().supportFragmentManager.popBackStack()
                         },{error->
                             FirebaseCrashlytics.getInstance().recordException(error)
@@ -552,7 +568,7 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
         try {
             startActivityIfExists(Intent.ACTION_VIEW,url)
         }catch (e:Exception){
-            Toast.makeText(requireContext(), R.string.infoqr_url_invalid, Toast.LENGTH_SHORT).show()
+             MessageToast.showToastPersonalize(requireContext(),R.string.infoqr_url_invalid)
         }
     }
 
@@ -672,7 +688,7 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
         if(intent.resolveActivity(requireContext().packageManager)!=null){
             startActivity(intent)
         }else{
-            Toast.makeText(requireContext(), R.string.infoqr_app_notfound, Toast.LENGTH_SHORT).show()
+             MessageToast.showToastPersonalize(requireContext(),R.string.infoqr_app_notfound)
         }
     }
 
@@ -680,13 +696,6 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
         startActivityIfExists(Intent.ACTION_VIEW,barcodeParsed?.appMarketUrl.orEmpty())
     }
 
-
-    private fun snackBar(stringId: Int) {
-        //01 completar con los string para que sea multilenguaje
-        Snackbar.make(requireView(), getString(stringId), Snackbar.LENGTH_LONG)
-            .show()
-
-    }
     override fun onDestroyView() {
         super.onDestroyView()
         disposable.clear()

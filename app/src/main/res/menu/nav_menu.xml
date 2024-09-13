@@ -13,7 +13,7 @@
             android:title="@string/main_menu_scanner" />
         <item
             android:id="@+id/nav_history"
-            android:icon="@drawable/history"
+            android:icon="@drawable/nav_history"
             android:title="@string/main_menu_history" />
         <item
             android:id="@+id/nav_config"

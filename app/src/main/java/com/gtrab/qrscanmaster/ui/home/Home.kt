@@ -43,6 +43,7 @@ import com.gtrab.qrscanmaster.extension.vibrator
 import com.gtrab.qrscanmaster.model.Barcode
 import com.gtrab.qrscanmaster.ui.dialogs.ConfirmDialogFragment
 import com.gtrab.qrscanmaster.usecase.BarcodeParse
+import com.gtrab.qrscanmaster.util.MessageToast
 import com.gtrab.qrscanmaster.util.addTo
 import com.gtrab.qrscanmaster.util.decodeQRCode
 import com.gtrab.qrscanmaster.util.getFormatString
@@ -119,19 +120,12 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
                                                 )
                                                 handleScannedBarcode(resultQr)
                                             } else {
-                                                Toast.makeText(
-                                                    requireContext(),
-                                                    R.string.home_notfound_qr,
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
+
+                                                MessageToast.showToastPersonalize(requireContext(),R.string.home_notfound_qr)
                                             }
 
                                         }.addOnFailureListener {
-                                            Toast.makeText(
-                                                requireContext(),
-                                                R.string.home_notfound_qr,
-                                                Toast.LENGTH_SHORT
-                                            ).show()
+                                            MessageToast.showToastPersonalize(requireContext(),R.string.home_notfound_qr)
                                         }
 
                                 } catch (e: IOException) {
@@ -147,21 +141,18 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
                     } catch (e: IOException) {
                         FirebaseCrashlytics.getInstance().recordException(e)
                         FirebaseCrashlytics.getInstance().log("fragmentCreateQrMain save: ${e.message}")
-
-
                         // Manejar cualquier error de E/S
-                        Toast.makeText(
-                            requireActivity(),
-                            R.string.home_error_uri,
-                            Toast.LENGTH_SHORT
-                        ).show()
+
+                        MessageToast.showToastPersonalize(requireContext(),R.string.home_error_uri)
+
                     }
                 }
 
             } else {
                 // El usuario canceló o hubo un error
-                Toast.makeText(requireActivity(), R.string.home_notselect_qr, Toast.LENGTH_SHORT)
-                    .show()
+
+                MessageToast.showToastPersonalize(requireContext(),R.string.home_notselect_qr)
+
             }
 
 

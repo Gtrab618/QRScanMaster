@@ -14,6 +14,6 @@ fun BarcodeSchema.toImageId(): Int{
         BarcodeSchema.VCARD -> R.drawable.hs_vcard
         BarcodeSchema.EMAIL ->R.drawable.hs_email
         //arreglar el de otro
-        else -> R.drawable.history
+        else -> R.drawable.hs_other
     }
 }

@@ -34,7 +34,7 @@
     <string name="info_share_img">Share</string>
     <string name="info_copy_data">Copy</string>
     <!-- btn info view options-->
-    <string name="info_btn_wifi_pass">Copy pass</string>
+    <string name="info_btn_wifi_pass">Copy password</string>
     <string name="info_btn_url">Open url</string>
     <string name="info_btn_store">Go store</string>
     <string name="info_btn_sms">Send Sms</string>
