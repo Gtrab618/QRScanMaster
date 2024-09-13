@@ -25,17 +25,6 @@
             android:title="About" />
 
 
-        <item android:title="">
-            <menu>
-                <item
-                    android:id="@+id/nav_logout"
-                    android:icon="@drawable/nav_logout"
-                    android:title="Logout" />
-
-
-            </menu>
-        </item>
-
 
     </group>
 
