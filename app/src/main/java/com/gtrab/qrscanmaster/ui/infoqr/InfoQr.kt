@@ -21,7 +21,6 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.core.view.isVisible
 import com.gtrab.qrscanmaster.dependencies.barcodeDatabase
 import com.gtrab.qrscanmaster.dependencies.barcodeImageGenerator
@@ -35,7 +34,6 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.MobileAds
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.gtrab.qrscanmaster.R
 import com.gtrab.qrscanmaster.dependencies.settings
@@ -60,8 +58,7 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
     private var param1: Barcode? = null
 
     private val dateFormatter= SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.ENGLISH)
-    // 01 revisar esto para inicializar solo cuando doy click en descargar atravez de lazy
-    //private lateinit var drawerLayout: DrawerLayout
+
     private lateinit var adView:AdView
     private lateinit var btnEditName: ImageButton
     private lateinit var btnFavorito: ImageButton
@@ -145,7 +142,6 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
         super.onViewCreated(view, savedInstanceState)
         MobileAds.initialize(requireContext()){}
         adView= view.findViewById(R.id.adView)
-        //02 completar la carga es decir que carge el name si el barcode ya a sido guardado no solo al editar
         btnEditName = view.findViewById(R.id.btnEditName)
         btnDelete = view.findViewById(R.id.btnDelete)
         btnFavorito = view.findViewById(R.id.btnFavorite)
@@ -238,7 +234,6 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
     }
 
     private fun showBarcodeContent(){
-        //01 revisar en el futuro al momento de crear
         txtContent.text=barcodeParsed?.formattedText
     }
 
@@ -268,7 +263,7 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
         btnSendEmail.isVisible=barcodeParsed?.email.isNullOrBlank().not()
         btnCopyPassWifi.isVisible=barcodeParsed?.networkPassword.isNullOrBlank().not()
         btnConnectWifi.isVisible=barcodeParsed?.schema==BarcodeSchema.WIFI
-        //01 revisar si  se le integra con whassap enviar whatasspp
+
     }
 
     private fun handleButtonsClicked() {
@@ -373,7 +368,7 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
                             param1!!
                         )
                     }
-                //01 revisar si esta forma esta bien
+
                 bottomSheetDialog.dismiss()
                 saveFunComplement(saveFun)
 
@@ -389,7 +384,7 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
                             param1!!
                         )
                     }
-                //01 revisar si esta forma esta bien
+
                 bottomSheetDialog.dismiss()
                 saveFunComplement(saveFun)
             }
@@ -448,7 +443,7 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
 
     //guardar en png o svg
     private fun saveFunComplement(saveFun: Completable) {
-        //01 revisar como mostrar el guardado sobre la pantalla
+
         saveFun.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
@@ -488,7 +483,7 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
 
     private fun showEditBarcodeNameDialog() {
         val builder = AlertDialog.Builder(requireContext())
-        //01 al poner diferentes idiomas
+
         builder.setTitle(R.string.infoqr_dlg_edit_title)
 
         // Configura el campo de entrada
@@ -512,7 +507,7 @@ class InfoQr : Fragment(), ConfirmDialogFragment.ConfirmDialogListener{
 
     private fun deleteBarcode() {
         val builder = AlertDialog.Builder(requireContext())
-        //01 al poner diferentes idiomas
+
         builder.setTitle(R.string.infoqr_dlg_title)
 
 

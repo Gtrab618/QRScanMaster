@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QR Scan Master</string>
+    <string name="open_nav">Abrir Menu</string>
+    <string name="close_nav">Fechar Gaveta de Navegação</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Mensagens</string>
+    <string name="sync_header">Sincronizar</string>
+
+    <!-- main menu -->
+    <string name="main_menu_create">Criar Qr</string>
+    <string name="main_menu_scanner">Escanear</string>
+    <string name="main_menu_history">Histórico</string>
+    <string name="main_menu_settings">Configurações</string>
+    <string name="main_menu_title">Menu</string>
+    <string name="main_menu_about">Sobre</string>
+    <!-- Title views -->
+    <string name="view_create">Criar Qr</string>
+    <string name="view_data">Informação</string>
+    <string name="view_history">Histórico</string>
+    <string name="view_settings">Configurações</string>
+    <!-- btn info view block -->
+    <string name="info_save_img">Salvar qr</string>
+    <string name="info_share_img">Compartilhar</string>
+    <string name="info_copy_data">Copiar</string>
+    <!-- btn info view options -->
+    <string name="info_btn_wifi_pass">Copiar senha</string>
+    <string name="info_btn_url">Abrir Url</string>
+    <string name="info_btn_store">Ver na Play Store</string>
+    <string name="info_btn_sms">Enviar sms</string>
+    <string name="info_btn_location">Ver localização</string>
+    <string name="info_btn_flight">Ver status do voo</string>
+    <string name="info_btn_contact">Adicionar contato</string>
+    <string name="info_btn_email">Enviar Email</string>
+    <string name="info_btn_wifi_connect">Conectar à rede</string>
+
+    <!-- create qr view -->
+    <string name="create_btn_app">App</string>
+    <string name="create_btn_email">Email</string>
+    <string name="create_btn_sms">Sms</string>
+    <string name="create_btn_url">Url</string>
+    <string name="create_btn_wifi">Wifi</string>
+    <string name="create_btn_vcard">Vcard</string>
+    <string name="create_btn_location">Localização</string>
+
+    <!-- create qr view interface -->
+    <string name="create_qr_email_prin">Gmail</string>
+    <string name="create_qr_email_subject">Assunto</string>
+    <string name="create_qr_email_message">Mensagem</string>
+
+    <string name="create_qr_sms_prin">Sms</string>
+    <string name="create_qr_sms_phone">Número de Telefone</string>
+
+    <string name="create_qr_wifi_prin">Wifi</string>
+    <string name="create_qr_wifi_encryp">Criptografia</string>
+    <string name="create_qr_wifi_name">Nome da Rede</string>
+    <string name="create_qr_wifi_pass">Senha</string>
+    <string name="create_qr_wifi_hidden">Oculta</string>
+
+    <string name="create_qr_vcard_first">Nome</string>
+    <string name="create_qr_vcard_last">Sobrenome</string>
+
+    <string name="create_qr_location_latitude">Latitude</string>
+    <string name="create_qr_location_longitude">Longitude</string>
+    <!-- about view-->
+    <string name="about_update">Próxima atualização</string>
+    <string name="about_items">Temas</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_tell">Diga-me</string>
+    <string name="about_credit_ani">Créditos a LottieFiles, Anahita Salimi</string>
+    <string name="about_copyright">Direitos autorais %1$s, feito por Gtrab618</string>
+
+    <!-- toast message -->
+    <string name="home_notfound_qr">Qr não encontrado</string>
+    <string name="home_error_uri">Imagem não recuperada</string>
+    <string name="home_notselect_qr">Imagem não selecionada</string>
+    <string name="home_scan_manual_title">Leitor</string>
+    <string name="home_scan_manual_message">Veja este código QR?</string>
+    <string name="infoqr_app_notfound">App não encontrado</string>
+    <string name="infoqr_url_invalid">Url inválida</string>
+    <string name="infoqr_cancel">Cancelar</string>
+    <string name="infoqr_delete">Excluído</string>
+
+    <string name="info_snck_copy_all">Copiado para a área de transferência! 📋</string>
+    <string name="info_snck_pass">Senha copiada 📋</string>
+    <string name="info_snck_saved">Imagem salva</string>
+    <!-- Dialog message -->
+    <string name="infoqr_dlg_title">Excluir</string>
+    <string name="infoqr_dlg_confirm">Confirmar</string>
+
+    <string name="infoqr_dlg_edit_title">Editar nome</string>
+    <string name="infoqr_dlg_edit_save">Salvar</string>
+
+    <string name="infoqr_dlg_yes">Sim</string>
+    <string name="infoqr_dlg_not">Não</string>
+
+    <string name="hs_dlg_title">Limpar Histórico</string>
+    <string name="hs_dlg_message">Você quer apagar todo o histórico?</string>
+
+
+    <string name="main_dlg_title">Acesso à Câmera</string>
+    <string name="main_dlg_message">É necessário acesso à câmera para escanear códigos.</string>
+    <string name="main_dlg_ok">Ok</string>
+
+
+    <string name="main_dlg_message_denied">Permissões->Não permitido-> Câmera-> Permitir</string>
+
+    <string name="infoqr_dlg_img_title">Acesso a Arquivos de Mídia</string>
+    <string name="infoqr_dlg_img_message">É necessário acesso a arquivos de mídia para salvar fotos.</string>
+
+    <string name="infoqr_dlg_img_message_denied">Permissões->Não permitido-> Arquivos e conteúdo multimídia-> Permitir</string>
+    <!-- setting view -->
+
+    <!-- general -->
+    <string name="setting_general_title">Geral</string>
+
+    <string name="setting_vibration_title">Vibração</string>
+    <string name="setting_vibration">Vibrar ao escanear</string>
+    <string name="setting_clipboard_title">Área de transferência</string>
+    <string name="setting_clipboard">Copiar para a área de transferência</string>
+    <string name="setting_confirmed_title">Confirmação manual</string>
+    <string name="setting_confirmed">O qr é aceito ou não</string>
+
+    <string name="setting_history_title">Histórico</string>
+    <string name="setting_save_qr_create">Salvar qr criado</string>
+    <string name="setting_save_qr_scan">Salvar qr escaneado</string>
+</resources>

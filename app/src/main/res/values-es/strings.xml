@@ -3,27 +3,18 @@
     <string name="app_name">QR Scan Master</string>
     <string name="open_nav">Abrir Menu</string>
     <string name="close_nav">Close Navigation Drawer</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
     <string name="sync_header">Sync</string>
 
-    <!-- Messages Preferences -->
-    <string name="signature_title">Your signature</string>
-    <string name="reply_title">Default reply action</string>
-
-    <!-- Sync Preferences -->
-    <string name="sync_title">Sync email periodically</string>
-    <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
-    <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <!-- main menu -->
     <string name="main_menu_create">Crear Qr</string>
     <string name="main_menu_scanner">Escanear</string>
     <string name="main_menu_history">Historial</string>
     <string name="main_menu_settings">Configuraciones</string>
+    <string name="main_menu_title">Menu</string>
+    <string name="main_menu_about">Acerca de</string>
     <!-- Title views -->
     <string name="view_create">Crear Qr</string>
     <string name="view_data">Información</string>
@@ -72,13 +63,22 @@
 
     <string name="create_qr_location_latitude">Latitud</string>
     <string name="create_qr_location_longitude">Longitud</string>
+    <!-- about view-->
+    <string name="about_update">Próxima actualización</string>
+    <string name="about_items">Temas Personalizados</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_tell">Opina</string>
+    <string name="about_credit_ani">Creditos a lootieFiles Anahita Salimi</string>
+    <string name="about_copyright">Copyright %1$s, hecho por Gtrab618</string>
 
     <!-- toast message-->
-    <string name="home_notfound_qr">Qr not found</string>
-    <string name="home_error_uri">Image not recovered</string>
-    <string name="home_notselect_qr">Image not selected</string>
-    <string name="infoqr_app_notfound">app not found</string>
-    <string name="infoqr_url_invalid">Invalid url</string>
+    <string name="home_notfound_qr">Qr no encontrado</string>
+    <string name="home_error_uri">Image no recuperada</string>
+    <string name="home_notselect_qr">Imagen no seleccionada</string>
+    <string name="home_scan_manual_title">Escáner</string>
+    <string name="home_scan_manual_message">¿Ver este código QR?</string>
+    <string name="infoqr_app_notfound">App no encontrada</string>
+    <string name="infoqr_url_invalid">Url invalida</string>
     <string name="infoqr_cancel">Cancelar</string>
     <string name="infoqr_delete">Eliminado</string>
 

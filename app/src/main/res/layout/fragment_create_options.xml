@@ -102,12 +102,21 @@
 
                 <Button
                     android:id="@+id/btnGeoCrea"
-                    android:layout_width="155dp"
+                    android:layout_width="0dp"
                     android:layout_height="75dp"
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="25dp"
+                    android:layout_weight="1"
                     android:drawableTop="@drawable/hs_location"
                     android:text="@string/create_btn_location" />
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_height="wrap_content" />
 
             </TableRow>
 

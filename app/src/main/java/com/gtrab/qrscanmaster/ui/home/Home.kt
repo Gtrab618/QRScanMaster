@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory
 import android.hardware.camera2.CameraCharacteristics
 import android.os.Build
 import android.os.Bundle
-import android.os.VibrationEffect
 import android.os.ext.SdkExtensions
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
@@ -15,7 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.SeekBar
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatSeekBar
@@ -38,11 +36,9 @@ import com.gtrab.qrscanmaster.usecase.saveIfNotPresent
 import com.google.zxing.Result
 import com.gtrab.qrscanmaster.dependencies.settings
 import com.gtrab.qrscanmaster.extension.plusVibrator.vibrateOnce
-import com.gtrab.qrscanmaster.extension.unsafeLazy
 import com.gtrab.qrscanmaster.extension.vibrator
 import com.gtrab.qrscanmaster.model.Barcode
 import com.gtrab.qrscanmaster.ui.dialogs.ConfirmDialogFragment
-import com.gtrab.qrscanmaster.usecase.BarcodeParse
 import com.gtrab.qrscanmaster.util.MessageToast
 import com.gtrab.qrscanmaster.util.addTo
 import com.gtrab.qrscanmaster.util.decodeQRCode
@@ -53,20 +49,19 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import java.io.IOException
 
 class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
-    private val CHOOSE_FILE_REQUEST_CODE = 12
+
     private val vibrationPattern = arrayOf<Long>(0, 350).toLongArray()
     private lateinit var comm: Communicator
     private val disposable = CompositeDisposable()
     private lateinit var temBarcodeManual: Barcode
     private lateinit var codeScanner: CodeScanner
     private lateinit var scannerView: CodeScannerView
-    private lateinit var btnGalery: ImageButton
+    private lateinit var btnGallery: ImageButton
     private lateinit var btnCameraFront: ImageButton
     private lateinit var btnFlash: ImageButton
     private lateinit var btnZoomIncrease: ImageButton
     private lateinit var btnZoomDecrease: ImageButton
     private lateinit var skbZoom: AppCompatSeekBar
-    private var lastResult: Barcode? = null
     private var maxZoom: Float = 0f
     private var typeCamera = 1
     private var maxZoomFront = 0f
@@ -173,7 +168,7 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         scannerView = view.findViewById<CodeScannerView>(R.id.scanner_view)
-        btnGalery = view.findViewById(R.id.btnGalery)
+        btnGallery = view.findViewById(R.id.btnGalery)
         btnCameraFront = view.findViewById(R.id.btnCameraFront)
         btnFlash = view.findViewById(R.id.btnFlash)
         btnZoomIncrease = view.findViewById(R.id.btnZoomIn)
@@ -218,7 +213,7 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
     }
 
     private fun initBtnCameraFlashGalery() {
-        btnGalery.setOnClickListener {
+        btnGallery.setOnClickListener {
             it.animate().apply {
                 duration = 1000
                 scaleX(1.5f)  // Cambia el tamaño horizontalmente
@@ -230,6 +225,7 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
                     scaleY(1f)
                 }
             }
+            // 01 revisar para que sirve la segunda condicion
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R && SdkExtensions.getExtensionVersion(Build.VERSION_CODES.R) >= 2) {
                 galeryQrResult.launch(
                     Intent(MediaStore.ACTION_PICK_IMAGES)
@@ -457,7 +453,7 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
     private fun showScanConfirmationDialog(barcode: Barcode) {
         temBarcodeManual = barcode
         //01 para la version ingles añadir lo local
-        val dialog = ConfirmDialogFragment.newInstance("Scanner", "¿Ver este qr? ${barcode.schema}")
+        val dialog = ConfirmDialogFragment.newInstance(getString(R.string.home_scan_manual_title), "¿Ver este qr? ${barcode.schema}")
         dialog.show(childFragmentManager, "")
 
     }
@@ -489,16 +485,9 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { id ->
-                    //01 revisar para que es lastResult
-                    lastResult = barcode
-                    //revisar esto 02
+
                     comm.passInfoQr(barcode)
-                    //realizar pruebas de carga recicleview
-                    /* if(bandera>0){ 03
-                         barcode.text=bandera.toString()
-                         saveScannedBarcodeScreen(barcode)
-                         bandera--
-                     }*/
+
                 },
                 { error ->
                     FirebaseCrashlytics.getInstance().recordException(error)

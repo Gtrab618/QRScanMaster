@@ -49,7 +49,7 @@ class BarcodeHistoryAdapter (private val onBarcodeClicked: (Barcode)->Unit): Pag
         }
 
         private fun showText(barcode: Barcode){
-            //01 revisar historial si muestre t0d0 el qr formateado o solo una parte
+
             binding.txtQrText.text=barcode.name ?: barcode.formattedText
         }
 
@@ -57,7 +57,6 @@ class BarcodeHistoryAdapter (private val onBarcodeClicked: (Barcode)->Unit): Pag
             binding.txtDateHisto.text=dateFormatter.format(barcode.date)
         }
 
-        //01 ver si añado otro atributo a item con onombre o  sobreescribo el nombre por el schema viceversa
         private fun showName(barcode: Barcode){
             binding.txtName.isVisible=true
             binding.txtName.text=barcode.schema.name

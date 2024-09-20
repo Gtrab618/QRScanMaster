@@ -32,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+
     </RelativeLayout>
 
     <com.google.android.material.navigation.NavigationView
@@ -41,9 +42,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/nav_header"
-        app:menu="@menu/nav_menu"
         app:itemIconTint="#333333"
-        app:itemTextColor="#333333"/>
+        app:itemTextColor="#333333"
+        app:menu="@menu/nav_menu" />
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

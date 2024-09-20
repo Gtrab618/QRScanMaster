@@ -14,8 +14,8 @@ android {
         applicationId = "com.gtrab.qrscanmaster"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 3
+        versionName = "1.2"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -37,6 +37,7 @@ android {
     }
     buildFeatures{
         viewBinding= true
+        buildConfig = true
     }
 
 }
@@ -67,4 +68,5 @@ dependencies {
     implementation(libs.ez.vcard)
     implementation(libs.androidx.preference.ktx)
     implementation (libs.ccp)
+    implementation(libs.lottie)
 }

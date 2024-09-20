@@ -3,20 +3,26 @@ package com.gtrab.qrscanmaster
 import android.os.Build
 import android.os.Bundle
 import android.Manifest
+import android.content.res.Configuration
 import android.view.MenuItem
+import android.view.View
+import android.view.Window
 import android.widget.Toast
 import android.window.OnBackInvokedDispatcher
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.replace
 import com.gtrab.qrscanmaster.comunication.Communicator
 import com.gtrab.qrscanmaster.model.Barcode
 import com.gtrab.qrscanmaster.ui.home.Home
@@ -25,31 +31,35 @@ import com.gtrab.qrscanmaster.ui.history.History
 import com.gtrab.qrscanmaster.util.PermissionRequester
 import com.gtrab.qrscanmaster.util.openAppSettings
 import com.google.android.material.navigation.NavigationView
+import com.gtrab.qrscanmaster.ui.about.About
 import com.gtrab.qrscanmaster.ui.config.ConfigMain
 import com.gtrab.qrscanmaster.ui.create.FragmentCreateQrMain
 import com.gtrab.qrscanmaster.ui.dialogs.PermissionDialogFragment
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
-    Communicator,PermissionDialogFragment.PermissionDialogListener {
+    Communicator, PermissionDialogFragment.PermissionDialogListener {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var toggle: ActionBarDrawerToggle
     private var savedInstance: Bundle? = null
     private var isAppOpenedForSettings = false
-    private var denied=false
-    private lateinit var navigationView:NavigationView
+    private var denied = false
+    private lateinit var navigationView: NavigationView
+
     //request permission camera
     private val coarsePermission =
         PermissionRequester(this, Manifest.permission.CAMERA, onRational = {
-            showPermissionDialog(R.string.main_dlg_title,R.string.main_dlg_message)
+            showPermissionDialog(R.string.main_dlg_title, R.string.main_dlg_message)
 
         }, onDenied = {
-            denied=true
-            showPermissionDialog(R.string.main_dlg_title,R.string.main_dlg_message_denied)
+            denied = true
+            showPermissionDialog(R.string.main_dlg_title, R.string.main_dlg_message_denied)
         })
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        //para dar una mejor vista exiente el layout sobre al systembar y arriba lo que permite un fondo transparente para un ascpeto visual mejor
+        //enableEdgeToEdge()
         setContentView(R.layout.activity_main)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.drawer_layout)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -65,11 +75,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         //acciones para los botones
         navigationView.setNavigationItemSelectedListener(this)
 
-        ViewCompat.setOnApplyWindowInsetsListener(navigationView) { view, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            view.setPadding(systemBars.left, 0, 0, 0)
-            insets
-        }
+
+
 
         toggle = ActionBarDrawerToggle(
             this,
@@ -98,7 +105,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     }
 
-    private fun showPermissionDialog(intTitle: Int, intMessage:Int){
+    private fun showPermissionDialog(intTitle: Int, intMessage: Int) {
 
         val title = getString(intTitle)
         val message = getString(intMessage)
@@ -111,11 +118,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onDialogResult(result: Boolean) {
-        if (result){
+        if (result) {
 
-            if(!denied){
+            if (!denied) {
                 checkPermissionCamera()
-            }else{
+            } else {
 
                 openAppSettings()
                 isAppOpenedForSettings = true
@@ -176,9 +183,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
+        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         when (p0.itemId) {
             R.id.nav_create -> {
-                supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, FragmentCreateQrMain())
                     .commit()
@@ -199,7 +207,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
 
             R.id.nav_history -> {
-                supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, History()).commit()
                 true // Retorna true para indicar que se ha manejado el evento de clic
@@ -213,12 +221,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 true // Retorna true para indicar que se ha manejado el evento de clic
             }
 
-            R.id.nav_logout -> {
-
-                Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show()
-
-                true // Retorna true para indicar que se ha manejado el evento de clic
+            R.id.nav_about ->{
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, About())
+                    .commit()
             }
+
             // Agrega más casos según sea necesario para otros elementos del menú
             else -> false // Retorna false para indicar que el evento de clic no ha sido manejado
 
