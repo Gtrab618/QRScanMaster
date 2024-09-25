@@ -110,6 +110,12 @@
     <string name="infoqr_dlg_img_message">Se necesita acceso a archivos multimedia para guardar fotos.</string>
 
     <string name="infoqr_dlg_img_message_denied">Permisos->No permitidos-> Archivos y contenido multimedia-> Permitir</string>
+    <!-- save png -->
+    <string name="savePhoto">Guardar</string>
+
+
+
+
     <!-- setting view-->
 
     <!-- general -->

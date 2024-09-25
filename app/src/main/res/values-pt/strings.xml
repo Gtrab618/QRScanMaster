@@ -110,6 +110,12 @@
     <string name="infoqr_dlg_img_message">É necessário acesso a arquivos de mídia para salvar fotos.</string>
 
     <string name="infoqr_dlg_img_message_denied">Permissões->Não permitido-> Arquivos e conteúdo multimídia-> Permitir</string>
+    <!-- save png -->
+    <string name="savePhoto">Salvar</string>
+
+
+
+
     <!-- setting view -->
 
     <!-- general -->
