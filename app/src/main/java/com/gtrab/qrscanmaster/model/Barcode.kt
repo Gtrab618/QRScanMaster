@@ -12,7 +12,7 @@ import java.io.Serializable
 //@TypeConverters(BarcodeDatabaseTypeConverter::class)
 data class Barcode(
     //regresar a tipo val despues de las pruebas de carga 03
-    @PrimaryKey(autoGenerate = true) val id:Long=0,
+    @PrimaryKey(autoGenerate = true) var id:Long=0,
     var name: String?=null,
     var text: String,
     val formattedText:String,

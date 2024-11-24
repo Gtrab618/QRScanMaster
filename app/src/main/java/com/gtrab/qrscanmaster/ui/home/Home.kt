@@ -174,11 +174,12 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
         btnZoomIncrease = view.findViewById(R.id.btnZoomIn)
         btnZoomDecrease = view.findViewById(R.id.btnZoomOut)
         skbZoom = view.findViewById(R.id.skbZoom)
+        initScanner()
         initBtnCameraFlashGalery()
         initZoomSeekBar()
         initBtnZoom()
         handleZoomChanged()
-        initScanner()
+
     }
 
     override fun onResume() {
@@ -276,6 +277,7 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
 
         btnFlash.setOnClickListener {
             codeScanner.isFlashEnabled = codeScanner.isFlashEnabled.not()
+            println("print flash :" +codeScanner.isFlashEnabled)
             // mejorar animated1
             it.animate().apply {
                 duration = 980
@@ -287,6 +289,7 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
                     btnFlash.setImageResource(R.drawable.flash_off)
                 }
             }
+
 
         }
 
@@ -485,7 +488,7 @@ class Home : Fragment(), ConfirmDialogFragment.ConfirmDialogListener {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 { id ->
-
+                    barcode.id=id
                     comm.passInfoQr(barcode)
 
                 },
