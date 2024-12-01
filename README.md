@@ -7,22 +7,25 @@ This app is available on the Google Play Store:
 This application was developed in Kotlin and is designed for reading, managing, and persistently storing QR codes. It combines a robust design with modern technologies to deliver an efficient and reliable experience.
 
 ## 🚀 Key Features
-**QR Code Scanning:** Quickly and accurately scans QR codes.
-**Persistent Storage:** Manages a SQLite database using Room, ensuring data remains available even after the app is closed.
+-  **QR Code Scanning:** Quickly and accurately scans QR codes.
+-  **Persistent Storage:** Manages a SQLite database using Room, ensuring data remains available even after the app is closed.
 Modular Design: Implements design patterns like Singleton and Communicator for clean, maintainable code.
-**Fragment-Based Architecture:** Uses Fragments to enable seamless navigation and a modular user interface adaptable to different devices.
+-  **Fragment-Based Architecture:** Uses Fragments to enable seamless navigation and a modular user interface adaptable to different devices.
+ 
 **Firebase Integration:**
-**Firebase Crashlytics:** Real-time error monitoring to improve app stability.
-**AdMob:** Built-in monetization through personalized ads.
+
+-  **Firebase Crashlytics:** Real-time error monitoring to improve app stability.
+-  **AdMob:** Built-in monetization through personalized ads.
 **🛠️ Technologies Used**
-**Language:** Kotlin
-**Database:** Room (SQLite)
-**Architecture:** Modular with design patterns like Singleton and Communicator
-**Cloud Services:** Firebase (Crashlytics and AdMob)
-**User Interface:** Fragment-based navigation for an efficient and scalable UI
+-  **Language:** Kotlin
+-  **Database:** Room (SQLite)
+-  **Architecture:** Modular with design patterns like Singleton and Communicator
+-  **Cloud Services:** Firebase (Crashlytics and AdMob)
+-  **User Interface:** Fragment-based navigation for an efficient and scalable UI
+
 **📖 Usage**
 This application is ideal for users looking to manage QR codes conveniently, whether for storing information, keeping a scan history, or commercial purposes.
 
 **📂 Future Improvements**
-Enhanced user interface for a more intuitive experience.
-Additional features like data export and compatibility with other code types.
+-  Enhanced user interface for a more intuitive experience.
+-  Additional features like data export and compatibility with other code types.
