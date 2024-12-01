@@ -16,7 +16,9 @@ Modular Design: Implements design patterns like Singleton and Communicator for c
 
 -  **Firebase Crashlytics:** Real-time error monitoring to improve app stability.
 -  **AdMob:** Built-in monetization through personalized ads.
+
 **🛠️ Technologies Used**
+
 -  **Language:** Kotlin
 -  **Database:** Room (SQLite)
 -  **Architecture:** Modular with design patterns like Singleton and Communicator
