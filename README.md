@@ -9,7 +9,7 @@ This application was developed in Kotlin and is designed for reading, managing, 
 ## 🚀 Key Features
 -  **QR Code Scanning:** Quickly and accurately scans QR codes.
 -  **Persistent Storage:** Manages a SQLite database using Room, ensuring data remains available even after the app is closed.
-Modular Design: Implements design patterns like Singleton and Communicator for clean, maintainable code.
+-  Modular Design: Implements design patterns like Singleton and Communicator for clean, maintainable code.
 -  **Fragment-Based Architecture:** Uses Fragments to enable seamless navigation and a modular user interface adaptable to different devices.
  
 **Firebase Integration:**
