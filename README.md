@@ -43,4 +43,4 @@ This app is available on the Google Play Store:
 *   **Target SDK:** 34 (Android 14)
 
 ---
-*Desarrollado con ❤️ por [Tu Usuario/Nombre]*
+*Desarrollado con ❤️ por gtrab618
